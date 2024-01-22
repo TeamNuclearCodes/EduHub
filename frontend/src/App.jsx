@@ -4,11 +4,13 @@ import { Outlet } from 'react-router-dom'
 
 function App() {
   return (
-    <div>
+    <>
       <Navbar />
-        <Outlet />
+        <div className='flex justify-center bg-slate-200'>
+          <Outlet />
+        </div>
       <Footer />
-    </div>
+    </>
   )
 }
 
