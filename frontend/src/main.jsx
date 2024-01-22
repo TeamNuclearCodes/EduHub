@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Forum from './pages/Forum.jsx'
-import Question from './components/Question.jsx'
+import {Forum, Question, Home} from './pages'
 
 const router = createBrowserRouter([
   {
     path:'/',
     element: <App />,
     children: [
+      {
+        path:'/',
+        element: <Home />
+      },
       {
         path:'forum',
         element: <Forum/>
