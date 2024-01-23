@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element: <Ask/>
       },
       {
-        path:'ask/:slug',
+        path:'question/:slug',
         element: <Question/>
       },
       {

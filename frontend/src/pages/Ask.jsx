@@ -1,12 +1,27 @@
 import { useState } from "react"
 import {ProtectedRoute} from "../components"
+import {useNavigate} from 'react-router-dom'
+import getAuth from "../utils/getAuth"
 
 const Ask = () => {
-  const [question,setQuestion] = useState({user:"",question:""})
+  const [question,setQuestion] = useState({question:""})
+  const user = getAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(question)
+    await fetch('http://localhost:5000/api/questions/new',{
+      method:'POST',
+      headers:{
+        "Content-Type":'application/json',
+      },
+      body: JSON.stringify({
+        question: question.question,
+        author: user._id
+      })
+    }).then(res => res.json()).then(data => {
+      navigate(`/question/${data.id}`)
+    })
   }
 
   return (

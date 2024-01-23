@@ -1,7 +1,8 @@
 import {Navigate, useLocation} from "react-router-dom"
+import getAuth from "../utils/getAuth";
 
 const ProtectedRoute = ({children}) => {
-    const user = localStorage.getItem('auth')
+    const user = getAuth
     let location = useLocation();
 
     if(!user) {

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
-    _id:  Schema.Types.ObjectId,
+    id:  Schema.Types.ObjectId,
     comment: {type: String},
     author: {
         type: Schema.Types.ObjectId,
@@ -13,7 +13,7 @@ const commentSchema = new Schema({
 
 
 const questionSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    id: Schema.Types.ObjectId,
     question: {type: String},
     author: {
         type: Schema.Types.ObjectId,
