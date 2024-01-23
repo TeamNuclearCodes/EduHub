@@ -1,13 +1,32 @@
 import { ProtectedRoute } from "../components"
 import {useParams} from 'react-router-dom'
 import { useEffect, useState } from "react"
+import getAuth from "../utils/getAuth"
 
 const Question = () => {
   const [question,setQuestion] = useState({question:'',comments:[],author:[]})
+  const [comment,setComment] = useState({comment:''})
   const {slug} = useParams()
+  const auth = getAuth()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    fetch(`http://localhost:5000/api/questions/${slug}`,{
+      method:'PATCH',
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        comment:comment,
+        author: auth._id
+      })
+    }).then(res => res.json()).then(data => {
+      console.log(data)
+    })
+  }
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/questions/${slug}`)
+    fetch(`http://localhost:5000/api/qguestions/${slug}`)
     .then(res => res.json())
     .then(data => setQuestion({
       question: data.question,

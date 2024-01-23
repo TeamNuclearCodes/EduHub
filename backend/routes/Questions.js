@@ -18,7 +18,6 @@ router.get('/',async (req,res) => {
 
 router.post('/new',async (req,res) => {
     const reqBody = req.body
-    console.log(reqBody)
     try {
         await connectToDB()
         const question = new Question({
@@ -27,7 +26,6 @@ router.post('/new',async (req,res) => {
             comments: []
         })
         await question.save()
-        console.log(question)
         res.json({"id":question._id})
     } catch (err) {
         console.log(err)
@@ -49,5 +47,25 @@ router.get('/:id',async (req,res) => {
     }
 })
 
+router.patch('/:id', async (req,res) => {
+    const id = req.params.id
+    try {
+        await connectToDB()
+        const question = await Question.findById(id)
+        question.comments.push({
+            comment: res.body.comment,
+            author: new ObjectId(res.body.author)
+        })
+        await question.save()
+        question = await Question.findById(id).populate(['author',{
+            path: 'comments',
+            populate: 'author'
+        }])
+        res.send(JSON.stringify(question)).status(200)
+
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 export default router
