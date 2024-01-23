@@ -21,7 +21,7 @@ const Question = () => {
         author: auth._id
       })
     }).then(res => res.json()).then(data => {
-      console.log(data)
+      setQuestion({...question,comments:data.comments})
     })
   }
 
