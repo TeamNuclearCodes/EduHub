@@ -1,4 +1,5 @@
 import express from "express";
+import connectToDB from "./utils/connectToDB.js";
 
 const app = express()
 
