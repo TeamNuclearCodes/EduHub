@@ -5,8 +5,15 @@ import User from '../models/User.js'
 const router = express.Router()
 
 router.post('/login',(req,res) => {
-    const username = req.body.username
+    try {
+        const username = req.body.username
+        connectToDB()
+        const user = new User({username: username})
+        user.save()
+        res.json(user).status(200)
+    } catch (err) {
+        console.log(err)
+    }
 })
-
 
 export default router
