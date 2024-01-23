@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import {Forum, Question, Home} from './pages'
+import {Ask, Question, Home} from './pages'
 
 const router = createBrowserRouter([
   {
@@ -15,11 +15,11 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path:'forum',
-        element: <Forum/>
+        path:'ask',
+        element: <Ask/>
       },
       {
-        path:'forum/:slug',
+        path:'ask/:slug',
         element: <Question/>
       }
     ]

@@ -1,5 +1,5 @@
-import Forum from "./Forum";
+import Ask from "./Ask";
 import Question from "./Question";
 import Home from "./Home";
 
-export {Forum, Question, Home}
+export {Ask, Question, Home}

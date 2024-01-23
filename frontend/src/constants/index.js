@@ -4,8 +4,8 @@ const navbarLinks = [
         link: "/"
     },
     {
-        title:"Forum",
-        link: "/forum"
+        title:"Ask",
+        link: "/ask"
     }
 ]
 
