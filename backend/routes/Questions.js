@@ -25,7 +25,7 @@ router.post('/new',(req,res) => {
             comments: []
         })
         question.save()
-        
+        res.json({"id":question.id})
     } catch (err) {
         console.log(err)
     }
