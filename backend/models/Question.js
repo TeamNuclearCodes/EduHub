@@ -1,19 +1,27 @@
-import { Schema, Model, models } from "mongoose";
-import User from "./User";
+import mongoose from "mongoose";
+import User from "./User.js";
+
+const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
-    id: Schema.Types.ObjectId,
-    comment: String,
-    author: User
+    _id:  Schema.Types.ObjectId,
+    comment: {type: String},
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 
 const questionSchema = new Schema({
-    id: Schema.Types.ObjectId,
-    question: String,
-    comments: commentSchema,
-    author: User
+    _id: Schema.Types.ObjectId,
+    question: {type: String},
+    author: {
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    },
+    comments: [commentSchema]
 })
 
-const Question = models.Question || Model("Question", questionSchema)
+const Question = mongoose.model("Question", questionSchema)
 export default Question

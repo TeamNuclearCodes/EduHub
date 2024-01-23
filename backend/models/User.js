@@ -1,8 +1,8 @@
-import {Model, Schema, models} from 'mongoose'
+import mongoose from 'mongoose'
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: String
 })
 
-const User = models.User || Model("User",userSchema)
+const User = mongoose.model("User",userSchema)
 export default User

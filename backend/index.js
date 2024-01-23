@@ -1,5 +1,5 @@
 import express from "express";
-import connectToDB from "./utils/connectToDB.js";
+import questionsRouter from './routes/Questions.js'
 
 const app = express()
 
