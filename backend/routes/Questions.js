@@ -36,7 +36,10 @@ router.get('/:id',async (req,res) => {
     const id = req.params.id
     try {
         await connectToDB()
-        const question = await Question.findById(id).populate('author')
+        const question = await Question.findById(id).populate('author').populate({
+            path: 'comments.author',
+            model: 'User'
+        })
         if (question) {
             res.send(JSON.stringify(question)).status(200)
         } else {
@@ -51,17 +54,19 @@ router.patch('/:id', async (req,res) => {
     const id = req.params.id
     try {
         await connectToDB()
-        const question = await Question.findById(id)
+        let question = await Question.findById(id)
         question.comments.push({
-            comment: res.body.comment,
-            author: new ObjectId(res.body.author)
+            comment: req.body.comment,
+            author: new ObjectId(req.body.author)
         })
         await question.save()
-        question = await Question.findById(id).populate(['author',{
-            path: 'comments',
-            populate: 'author'
-        }])
-        res.send(JSON.stringify(question)).status(200)
+        await Question.findOne({_id:id}).populate('author').populate({
+            path: 'comments.author',
+            model: 'User'
+        })
+        .then(question => {
+            res.send(JSON.stringify(question))
+        })
 
     } catch (err) {
         console.log(err)
