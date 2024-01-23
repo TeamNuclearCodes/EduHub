@@ -4,10 +4,10 @@ import Question from '../models/Question.js'
 
 const router = express.Router()
 
-router.get('/',(req,res) => {
+router.get('/',async (req,res) => {
     try{
         connectToDB()
-        Question.find({}).then((questions) => {
+        await Question.find({}).then((questions) => {
             res.json(questions).status(200)
         })
     } catch (err) {
@@ -25,7 +25,7 @@ router.post('/new',(req,res) => {
             comments: []
         })
         question.save()
-
+        
     } catch (err) {
         console.log(err)
     }

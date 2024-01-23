@@ -4,13 +4,22 @@ import User from '../models/User.js'
 
 const router = express.Router()
 
-router.post('/login',(req,res) => {
+router.post('/login',async (req,res) => {
     try {
         const username = req.body.username
-        connectToDB()
-        const user = new User({username: username})
-        user.save()
-        res.json(user).status(200)
+        if (username){
+            connectToDB()
+            let user = await User.findOne({username:username})
+            if (!user) {
+                user = new User({username: username})
+                user.save()
+            }
+            res.send(JSON.stringify(user)).status(200)
+
+        } else {
+            res.json({error: 'Invalid username'}).status(401)
+        }
+ 
     } catch (err) {
         console.log(err)
     }
