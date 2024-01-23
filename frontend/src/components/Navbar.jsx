@@ -1,7 +1,15 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { navbarLinks } from "../constants"
+import getAuth from '../utils/getAuth'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const isAuthenticated = getAuth()
+  const logOut = () => {
+    localStorage.removeItem('auth')
+    navigate('/')
+  }
+
   return (
     <div className="bg-black justify-center flex">
       <div className='container text-white p-4 flex justify-between'>
@@ -17,7 +25,15 @@ const Navbar = () => {
         </div>
         {/* lmao */}
         <div>
-          {/* place for sign in button etc :) */}
+          {isAuthenticated ? (
+            <>
+            <button onClick={logOut}>LogOut</button>
+            </>
+          ) : (
+            <>
+            <button onClick={() => navigate('/login')}>LogIn</button>
+            </>
+          )}
         </div>
       </div>
     </div>
