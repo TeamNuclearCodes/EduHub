@@ -1,8 +1,10 @@
-import React from 'react'
+import { ProtectedRoute } from "../components"
 
 const Question = () => {
   return (
-    <div>Question</div>
+    <ProtectedRoute>
+      Question
+    </ProtectedRoute>
   )
 }
 

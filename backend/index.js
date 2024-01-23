@@ -1,6 +1,7 @@
 import express from "express";
 import questionsRouter from './routes/Questions.js'
 import authRouter from './routes/Auth.js'
+import cors from 'cors';
 
 const app = express()
 
@@ -9,6 +10,7 @@ app.get('/',(req,res) => {
 })
 
 app.use(express.json())
+app.use(cors())
 app.use('/api/auth',authRouter)
 app.use('/api/questions',questionsRouter)
 

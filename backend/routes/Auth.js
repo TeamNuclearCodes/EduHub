@@ -8,7 +8,7 @@ router.post('/login',async (req,res) => {
     try {
         const username = req.body.username
         if (username){
-            connectToDB()
+            await connectToDB()
             let user = await User.findOne({username:username})
             if (!user) {
                 user = new User({username: username})
