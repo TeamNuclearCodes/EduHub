@@ -14,7 +14,7 @@ router.post('/login',async (req,res) => {
                 user = new User({username: username})
                 user.save()
             }
-            res.send(JSON.stringify(user)).status(200)
+            res.json(user).status(200)
 
         } else {
             res.json({error: 'Invalid username'}).status(401)

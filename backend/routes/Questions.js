@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/',async (req,res) => {
     try{
         await connectToDB()
-        await Question.find({}).then((questions) => {
+        await Question.find({}).sort({'_id': -1}).populate('author').then((questions) => {
             res.json(questions).status(200)
         })
     } catch (err) {
@@ -41,7 +41,7 @@ router.get('/:id',async (req,res) => {
             model: 'User'
         })
         if (question) {
-            res.send(JSON.stringify(question)).status(200)
+            res.json(question).status(200)
         } else {
             res.json({"error":"Question not found"}).status(404)
         }
@@ -65,7 +65,7 @@ router.patch('/:id', async (req,res) => {
             model: 'User'
         })
         .then(question => {
-            res.send(JSON.stringify(question))
+            res.json(question)
         })
 
     } catch (err) {
