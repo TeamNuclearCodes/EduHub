@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/',async (req,res) => {
     try{
         await connectToDB()
-        await Question.find({}).sort({'_id': -1}).populate('author').then((questions) => {
+        await Question.find({}).limit(10).sort({'_id': -1}).populate('author').then((questions) => {
             res.json(questions).status(200)
         })
     } catch (err) {
