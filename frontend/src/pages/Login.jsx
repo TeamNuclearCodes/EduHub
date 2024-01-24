@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { apiBase } from '../constants';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -7,7 +8,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await fetch('http://localhost:5000/api/auth/login',{
+    await fetch(`${apiBase}/api/auth/login`,{
       method:'POST',
       headers:{
         "content-Type":"application/json"

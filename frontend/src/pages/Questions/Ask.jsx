@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import {ProtectedRoute, Button, HrtLn, Question} from "../../components"
 import {useNavigate} from 'react-router-dom'
 import getAuth from "../../utils/getAuth"
+import { apiBase } from "../../constants"
 
 const Ask = () => {
   const [question,setQuestion] = useState({question:""})
@@ -11,7 +12,7 @@ const Ask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await fetch('http://localhost:5000/api/questions/new',{
+    await fetch(`${apiBase}/api/questions/new`,{
       method:'POST',
       headers:{
         "Content-Type":'application/json',
@@ -26,7 +27,7 @@ const Ask = () => {
   }
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/questions').then(res => res.json()).then(
+    fetch(`${apiBase}/api/questions`).then(res => res.json()).then(
       data => setQuestions(data)
     )
   },[])

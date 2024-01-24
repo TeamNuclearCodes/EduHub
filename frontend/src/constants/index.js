@@ -9,5 +9,7 @@ const navbarLinks = [
     }
 ]
 
+const apiBase = import.meta.env.VITE_API_URL
 
-export {navbarLinks}
+
+export {navbarLinks,apiBase}
