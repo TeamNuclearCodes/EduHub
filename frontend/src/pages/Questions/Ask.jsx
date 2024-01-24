@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import {ProtectedRoute, Button, HrtLn} from "../../components"
+import {ProtectedRoute, Button, HrtLn, Question} from "../../components"
 import {useNavigate} from 'react-router-dom'
 import getAuth from "../../utils/getAuth"
 
@@ -44,6 +44,12 @@ const Ask = () => {
           <Button type="submit" text="Submit" variant="black"/>
         </form>
         <HrtLn/>
+        <div className="p-2 flex flex-col gap-2">
+          <h4 className="text-[20px] underline underline-offset-8 pb-2">Recent Questions</h4>
+          {questions.map((question) => (
+            <Question question={question}/>
+          ))}
+        </div>
       </div>
     </ProtectedRoute>
   )
