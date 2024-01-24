@@ -1,14 +1,14 @@
-import { CommentCard, ProtectedRoute } from "../components"
+import { CommentCard, ProtectedRoute, Button, HrtLn } from "../../components"
 import {useParams} from 'react-router-dom'
 import { useEffect, useState } from "react"
-import getAuth from "../utils/getAuth"
+import getAuth from "../../utils/getAuth"
 
 const Question = () => {
   const [question,setQuestion] = useState({question:'',comments:[],author:[]})
   const [comment,setComment] = useState({comment:''})
   const {slug} = useParams()
   const auth = getAuth()
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault()
     fetch(`http://localhost:5000/api/questions/${slug}`,{
@@ -41,21 +41,23 @@ const Question = () => {
       <div className="container p-4">
           <div className="bg-gray-300 p-2 rounded-md w-full flex gap-3 flex-col">
             <h3 className="text-xl">Question</h3>
-            <hr className="border border-black"/>
-            <p className="text-xl">{question.question}</p>
-            <hr className="border border-black"/>
-            <span className="text-sm">Asked by : {question?.author?.username}</span>
+            <HrtLn/>
+            <p className="text-xl whitespace-pre-wrap">{question.question}</p>
+            <HrtLn/>
+            <span className="text-sm">Asked by : <span className="font-[700]">{question?.author?.username}</span></span>
           </div>
           <form className="flex py-4 flex-col gap-3" onSubmit={handleSubmit}>
             <h4 className="text-md">Add a comment</h4>
-            <textarea className="form__input w-full h-40" onChange={(e) => setComment({...comment,comment:e.target.value})} value={comment.comment}/>
-            <button type="submit">Add comment</button>
+            <textarea placeholder="Type your comment here..." required className="form__input w-full h-40 whitespace-pre-wrap" onChange={(e) => setComment({...comment,comment:e.target.value})} value={comment.comment}/>
+            <Button type="submit" text="Add comment" variant="black" extraClasses="max-sm:w-full"/>
           </form>
-          <hr className="border border-black mb-2"/>
+          <HrtLn/>
           <div className="py-4 px-2 flex flex-col gap-2 bg-slate-100">
-            {question?.comments?.map((comment) => (
+            {question.comments.length != 0 ? question.comments.map((comment) => (
               <CommentCard key={comment.comment} comment={comment} />
-            ))}
+            )) : (
+              <h5 className="text-md">No comments yet</h5>
+            )}
           </div>
       </div>
     </ProtectedRoute>

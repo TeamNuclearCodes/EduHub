@@ -1,7 +1,7 @@
 import { useState } from "react"
-import {ProtectedRoute} from "../components"
+import {ProtectedRoute, Button} from "../../components"
 import {useNavigate} from 'react-router-dom'
-import getAuth from "../utils/getAuth"
+import getAuth from "../../utils/getAuth"
 
 const Ask = () => {
   const [question,setQuestion] = useState({question:""})
@@ -34,7 +34,7 @@ const Ask = () => {
               value={question.question}
               onChange={(e) => setQuestion({...question,question: e.target.value})}
             />
-            <button type="submit">Submit</button>
+            <Button type="submit" text="Submit" variant="black"/>
           </form>
 
       </div>
