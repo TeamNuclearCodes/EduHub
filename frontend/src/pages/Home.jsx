@@ -6,6 +6,8 @@ import ToDoList from "../components/ToDoList";
 const Home = () => {
   return (
     <div>
+      {/* <Graph/>
+      <GetGraphData/> */}
       <ToDoList />
     </div>
   );

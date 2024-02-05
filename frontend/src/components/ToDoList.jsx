@@ -10,15 +10,24 @@ const ToDoList = () => {
     deadline: "",
     complete: false,
   });
-
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
   const handleChange = (event) => {
     setNewTask({ ...newTask, [event.target.name]: event.target.value });
   };
 
   const addTask = (event) => {
     event.preventDefault();
-    setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
-    setNewTask({ taskName: "", taskDesc: "", deadline: "", complete: false });
+    const dueDate = new Date(newTask.deadline);
+    let diffInDays = Math.floor((dueDate - currentDate) / (24 * 60 * 60 * 1000))
+    if (diffInDays > 0) {
+      setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
+      setNewTask({ taskName: "", taskDesc: "", deadline: "", complete: false });
+    }
+  };
+
+  const deleteTask = (taskKey) => {
+    setTodoList(todoList.filter((task) => task.key !== taskKey));
   };
 
   return (
@@ -45,7 +54,7 @@ const ToDoList = () => {
         <label>
           Deadline:
           <input
-            type="text"
+            type="date"
             name="deadline"
             value={newTask.deadline}
             onChange={handleChange}
@@ -54,7 +63,11 @@ const ToDoList = () => {
         <button type="submit">Add Task</button>
       </form>
       {todoList.map((task) => {
-        return <Task key={task.key} task={task} />;
+        return (
+          <div className="bg-white mb-15">
+            <Task key={task.key} task={task} onDelete={deleteTask} />
+          </div>
+        );
       })}
     </div>
   );

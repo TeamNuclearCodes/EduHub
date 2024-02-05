@@ -6,8 +6,6 @@ import { Line } from "react-chartjs-2";
 const Graph = () => {
   const studentData = {
     labels: [
-      "Jan 24",
-      "Feb 24",
       "Mar 23",
       "Apr 23",
       "May 23",
@@ -18,6 +16,8 @@ const Graph = () => {
       "Oct 23",
       "Nov 23",
       "Dec 23",
+      "Jan 24",
+      "Feb 24",
     ],
     datasets: [
       {
