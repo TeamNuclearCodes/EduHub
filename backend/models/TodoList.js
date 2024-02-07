@@ -15,8 +15,13 @@ const todoListSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    deadline: Date(),
-    completed: Boolean
+    deadline: {
+        type: Date
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const TodoList = mongoose.model("TodoList", todoListSchema)

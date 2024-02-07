@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Task from "./Task";
 import { v4 as uuidv4 } from "uuid";
+import { apiBase } from "../constants";
+import getAuth from "../utils/getAuth";
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
+  const [error,setError] = useState(null)
   const [newTask, setNewTask] = useState({
     taskName: "",
     taskDesc: "",
@@ -16,13 +19,31 @@ const ToDoList = () => {
     setNewTask({ ...newTask, [event.target.name]: event.target.value });
   };
 
-  const addTask = (event) => {
+  const addTask = async (event) => {
     event.preventDefault();
     const dueDate = new Date(newTask.deadline);
     let diffInDays = Math.floor((dueDate - currentDate) / (24 * 60 * 60 * 1000))
     if (diffInDays > 0) {
+    if (error) {
+      setError(null)
+    }
+    await fetch(`${apiBase}/api/todo`,{
+      method:'POST',
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        author: getAuth(),
+        name: newTask.taskName,
+        desc: newTask.taskDesc,
+        date: newTask.deadline,
+      })
+    }).then(res => res.json()).then(data => console.log(data))
+
       setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
       setNewTask({ taskName: "", taskDesc: "", deadline: "", complete: false });
+    } else {
+      setError('Enter a valid date')
     }
   };
 
@@ -32,6 +53,11 @@ const ToDoList = () => {
 
   return (
     <div>
+      {error && (
+          <div className="bg-red-300 text-black">
+            {error}
+          </div>
+      )}
       <form onSubmit={addTask}>
         <label>
           Task Name:
@@ -61,14 +87,13 @@ const ToDoList = () => {
           />
         </label>
         <button type="submit">Add Task</button>
-      </form>
-      {todoList.map((task) => {
-        return (
-          <div className="bg-white mb-15">
-            <Task key={task.key} task={task} onDelete={deleteTask} />
+      </form >
+      {todoList.map((task) => (
+          <div key={task.key} className="bg-white mb-15">
+            <Task task={task} onDelete={deleteTask} />
           </div>
-        );
-      })}
+        )
+      )}
     </div>
   );
 };
