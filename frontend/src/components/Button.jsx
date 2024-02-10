@@ -1,7 +1,7 @@
 const Button = ({type,text,variant,extraClasses, handleClick}) => {
   const styles = {
-    black: "bg-black text-white hover:bg-[#777] hover:text-black",
-    white: "bg-white text-black hover:bg-black hover:text-white"
+    black: "bg-black text-white hover:bg-zinc-900 hover:text-white",
+    gradient: "transition-all duration-400 bg-gradient text-black hover:from-fuchsia-800 hover:to-purple-800 hover:text-white"
   }
 
   return (

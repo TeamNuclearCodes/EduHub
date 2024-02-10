@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="flex justify-center bg-slate-200">
+      <div className="flex justify-center">
         <Outlet />
       </div>
       <Footer />

@@ -1,7 +1,7 @@
 const navbarLinks = [
     {
-        title:"Home",
-        link: "/"
+        title:"Dashboard",
+        link: "/dashboard"
     },
     {
         title:"Ask",

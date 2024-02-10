@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import {Button} from '../../components'
 import Graph from "./Graph";
 
 const GetGraphData = () => {
   const [formData, setFormData] = useState({
     subject: "",
-    marks: 0,
-    maxMarks: 0,
+    marks: "",
+    maxMarks: "",
   });
 
   const months = [
@@ -47,6 +48,7 @@ const GetGraphData = () => {
         borderColor: "#cf1f1f",
       },
     ],
+    
   };
 
   const handleChange = (event) => {
@@ -62,37 +64,39 @@ const GetGraphData = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <Graph data={studentData} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          Subject:
+      <h5 className="text-md underline text-zinc-400 underline-offset-4">Add data</h5>
+      <form className="flex justify-around max-md:flex-col gap-2" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-2">
           <input
             type="text"
             name="subject"
+            placeholder="Subject"
+            className="inputdata"
             value={formData.subject}
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Marks Obtained:
           <input
-            type="number"
+            type="text"
             name="marks"
+            placeholder="Marks Obtained"
+            className="inputdata"
             value={formData.marks}
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Maximum Marks:
+        </div>
+        <div className="flex flex-col gap-2">
           <input
-            type="number"
+            type="text"
             name="maxMarks"
+            placeholder="Maximum Marks"
+            className="inputdata"
             value={formData.maxMarks}
             onChange={handleChange}
           />
-        </label>
-        <button type="submit">Submit</button>
+          <Button variant="gradient" text="Add data"/>
+        </div>
       </form>
     </div>
   );

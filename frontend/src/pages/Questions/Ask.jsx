@@ -5,7 +5,7 @@ import getAuth from "../../utils/getAuth"
 import { apiBase } from "../../constants"
 
 const Ask = () => {
-  const [question,setQuestion] = useState({question:""})
+  const [question,setQuestion] = useState({question:" "})
   const [questions,setQuestions] = useState([])
   const user = getAuth()
   const navigate = useNavigate()
@@ -38,11 +38,11 @@ const Ask = () => {
       <div className='container p-4'>
         <form className='flex flex-col justify-center items-center gap-3 pb-2' onSubmit={handleSubmit}>
           <h3 className='text-xl'>Ask a Question</h3>
-          <textarea required rows={10} placeholder='Wriet your question here' className='form__input'
+          <textarea rows={10} placeholder='Wriet your question here' className='form__input inputdata'
             value={question.question}
             onChange={(e) => setQuestion({...question,question: e.target.value})}
           />
-          <Button type="submit" text="Submit" variant="black"/>
+          <Button type="submit" text="Submit" variant="gradient"/>
         </form>
         <HrtLn/>
         <div className="p-2 flex flex-col gap-2">

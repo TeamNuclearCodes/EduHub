@@ -23,4 +23,15 @@ router.post('/', async (req,res) => {
     }
 })
 
+router.get('/', async(req,res) => {
+    try{
+        const user = JSON.parse(req.headers.authorization)
+        await connectToDB()
+        const tasks = await TodoList.find({author: new ObjectId(user._id)}).populate('author').sort({_id:-1})
+        return res.json(tasks)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 export default router

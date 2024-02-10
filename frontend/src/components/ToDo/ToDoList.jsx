@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Task from "./Task";
 import { v4 as uuidv4 } from "uuid";
-import { apiBase } from "../constants";
-import getAuth from "../utils/getAuth";
+import { apiBase } from "../../constants";
+import getAuth from "../../utils/getAuth";
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);

@@ -12,18 +12,18 @@ const Navbar = () => {
   }
 
   return (
-    <div className="bg-black justify-center flex">
-      <div className='container text-white p-4 flex justify-between'>
-        <div className="flex gap-3 align-middle items-center">
+    <div className="bg-gradient justify-center flex">
+      <div className='container text-white py-2 flex justify-between max-md:px-2'>
+        <div className="flex gap-3 align-middle items-center text-black">
               LOGO
           <div className='flex gap-3'>
             {navbarLinks.map((link) => (
               <NavLink to={link.link} key={link.link}
                 className={({isActive}) => {
                   if(isActive) {
-                    return 'underline text-gray-400 underline-offset-4 font-[600]'
+                    return 'underline text-gray-900 underline-offset-4 font-[600]'
                   } else {
-                    return 'text-white hover:text-gray-400'
+                    return 'text-zinc-800 hover:text-zinc-900 font-[500]'
                   }
               }}>
                 {link.title}
@@ -34,11 +34,11 @@ const Navbar = () => {
         <div>
           {isAuthenticated ? (
             <>
-              <Button variant="white" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-white"/>
+              <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"/>
             </>
           ) : (
             <>
-              <Button variant="white" handleClick={() => navigate('/login')} text="Login" extraClasses="border border-black hover:border hover:border-white"/>
+              <Button variant="black" handleClick={() => navigate('/login')} text="Login" extraClasses="border border-black hover:border hover:border-black"/>
             </>
           )}
         </div>

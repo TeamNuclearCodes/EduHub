@@ -2,6 +2,7 @@ import express from "express";
 import questionsRouter from './routes/Questions.js'
 import authRouter from './routes/Auth.js'
 import todoRouter from './routes/ToDo.js'
+import graphRouter from './routes/Graph.js'
 import cors from 'cors';
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(cors())
 app.use('/api/auth',authRouter)
 app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)
+app.use('/api/graph',graphRouter)
 
 
 app.listen(5000, () => {
