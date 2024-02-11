@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../../components";
 import Graph from "./Graph";
+import { MdOutlineLibraryAdd } from "react-icons/md";
 
 const GetGraphData = () => {
   const [formData, setFormData] = useState([]);
@@ -107,7 +108,7 @@ const GetGraphData = () => {
               onChange={handleChange}       
           />
         </label>
-          <Button variant="gradient" text="Add data" />
+          <Button variant="gradient" text="Add data" leftIcon={<MdOutlineLibraryAdd/>}/>
         </div>
       </form>
     </div>

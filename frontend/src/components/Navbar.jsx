@@ -2,9 +2,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom"
 import { navbarLinks } from "../constants"
 import getAuth from '../utils/getAuth'
 import { Button } from  '.'
+import { PiSignOutBold, PiSignInBold } from "react-icons/pi";
 
 const Navbar = () => {
   const navigate = useNavigate()
+
   const isAuthenticated = getAuth()
   const logOut = () => {
     localStorage.removeItem('auth')
@@ -37,11 +39,15 @@ const Navbar = () => {
         <div className="mt-2 mb-1">
           {isAuthenticated ? (
             <>
-              <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"/>
+              <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"
+                rightIcon={<PiSignOutBold/>}
+              />
             </>
           ) : (
             <>
-              <Button variant="black" handleClick={() => navigate('/login')} text="Login" extraClasses="border border-black hover:border hover:border-black"/>
+              <Button variant="black" handleClick={() => navigate('/login')} text="Login" extraClasses="border border-black hover:border hover:border-black"
+                leftIcon={<PiSignInBold/>}
+              />
             </>
           )}
         </div>
