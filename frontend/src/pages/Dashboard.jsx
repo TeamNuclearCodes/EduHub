@@ -6,6 +6,7 @@ import getAuth from "../utils/getAuth";
 import { useState, useEffect } from "react";
 import { apiBase } from "../constants";
 import { useNavigate } from 'react-router-dom'
+import { TbWindowMaximize } from "react-icons/tb";
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -72,7 +73,9 @@ const Dashboard = () => {
                     <>Loading...</>
                   )}
                 <div className="p-1">
-                  <Button text='Manage Todo List' variant='gradient' handleClick={() => navigate('/todo')}/>
+                  <Button text='Manage Todo List' variant='gradient' handleClick={() => navigate('/todo')}
+                    rightIcon={<TbWindowMaximize/>}
+                  />
                 </div>
               </div>
             </div>

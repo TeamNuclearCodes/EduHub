@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../constants";
 import { Button } from "../components";
+import { PiSignInBold } from "react-icons/pi";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Login = () => {
               value={user.username}
               onChange={(e) => setUser({ ...user, username: e.target.value })}
             />
-            <Button type="submit" text="Submit" variant="gradient" />
+            <Button type="submit" text="Submit" variant="gradient" leftIcon={<PiSignInBold/>}/>
           </form>
         </div>
       </div>
