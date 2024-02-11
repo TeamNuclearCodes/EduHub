@@ -21,11 +21,12 @@ const Navbar = () => {
               <NavLink to={link.link} key={link.link}
                 className={({isActive}) => {
                   if(isActive) {
-                    return 'underline text-gray-900 underline-offset-4 font-[600]'
+                    return 'bg-zinc-950 py-1 px-2 rounded-full font-[600] focus:rounded-full text-[#681faa]'
                   } else {
-                    return 'text-zinc-800 hover:text-zinc-900 font-[500]'
+                    return 'text-purple-200 hover:text-zinc-900 font-[500] py-1 px-2 rounded-full focus:rounded-full'
                   }
-              }}>
+              }}
+              >
                 {link.title}
               </NavLink>
             ))}

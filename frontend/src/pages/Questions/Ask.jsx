@@ -5,7 +5,7 @@ import getAuth from "../../utils/getAuth"
 import { apiBase } from "../../constants"
 
 const Ask = () => {
-  const [question,setQuestion] = useState({question:" "})
+  const [question,setQuestion] = useState({question:""})
   const [questions,setQuestions] = useState([])
   const user = getAuth()
   const navigate = useNavigate()

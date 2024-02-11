@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   return (
     <ProtectedRoute>
-      <div className="container mt-4">
+      <div className="container mt-4 px-2">
         <h2 className="text-4xl mb-2 bg-clip-text bg-gradient text-transparent w-2/12 max-xl:w-full font-[500]">Dashboard</h2>
         <HrtLn/>
         <div className="flex justify-between w-full py-6 gap-4 max-md:flex-col max-md:px-2">

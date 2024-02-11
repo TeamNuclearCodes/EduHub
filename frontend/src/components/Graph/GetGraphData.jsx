@@ -8,27 +8,14 @@ const GetGraphData = () => {
     subject: "",
     marks: "",
     maxMarks: "",
-    date: "",
+    date: null,
+    color:'#cf1f1f'
   });
+
   let todayDate = new Date();
   todayDate = `${todayDate.getDate()}-${
     todayDate.getMonth + 1
   }-${todayDate.getFullYear()}`;
-
-  // const dates = [
-  //   "Jan",
-  //   "Feb",
-  //   "Mar",
-  //   "Apr",
-  //   "May",
-  //   "Jun",
-  //   "Jul",
-  //   "Aug",
-  //   "Sep",
-  //   "Oct",
-  //   "Nov",
-  //   "Dec",
-  // ];
 
   const studentData = {
     labels: formData.map(data => data['date']),
@@ -109,7 +96,19 @@ const GetGraphData = () => {
             onChange={handleChange}
           />
         </div>
-        <Button variant="gradient" text="Add data" />
+        <div className="flex flex-col gap-2 item-center justify-center">
+        <label className="flex items-center gap-1 text-slate-500 text-sm">
+          Colour
+          <input 
+              type="color"
+              name="color"
+              className="bg-zinc-950 rounded-sm border-none outline-none"
+              value={newData.color}
+              onChange={handleChange}       
+          />
+        </label>
+          <Button variant="gradient" text="Add data" />
+        </div>
       </form>
     </div>
   );

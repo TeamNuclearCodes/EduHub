@@ -22,7 +22,44 @@ body {
 
 .inputdata {
   @apply mt-1 block w-full px-3 py-2 border border-black rounded-md text-sm shadow-sm placeholder-slate-400
-  focus:outline-none focus:border-fuchsia-800 focus:ring-1 focus:ring-fuchsia-800 disabled:bg-slate-50 disabled:text-slate-500 
+  focus:outline-none focus:border-fuchsia-800 focus:ring-1 focus:ring-fuchsia-800 focus:rounded-md disabled:bg-slate-50 disabled:text-slate-500 
   disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 
   focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+}
+
+[type="date"]::-webkit-calendar-picker-indicator {
+  @apply bg-slate-500 rounded-md
+}
+
+input[type="color"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  width: 3em;
+}
+
+*:focus{
+  border-radius: 0;
+  outline: none;
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch{
+  border: 0;
+  border-radius: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner{
+  border: 0;
+}
+
+::-moz-focus-inner{
+  padding: 0;
 }
