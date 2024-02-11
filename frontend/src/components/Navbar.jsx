@@ -12,13 +12,13 @@ const Navbar = () => {
   }
 
   return (
-    <div className="bg-gradient justify-center flex">
-      <div className='container text-white py-2 flex justify-between max-md:px-2 items-center'>
+    <div className="bg-gradient justify-center flex pb-1">
+      <div className='container text-white p-2 flex justify-between items-center'>
         <div className="flex gap-3 align-middle items-center text-black">
             <Link to="/">
               <img src="/logo.png" width="140px"/>
             </Link>
-          <div className='flex gap-1 items-center'>
+          <div className='flex gap-1 items-center mt-3'>
             {navbarLinks.map((link) => (
               <NavLink to={link.link} key={link.link}
                 className={({isActive}) => {
@@ -34,7 +34,7 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-        <div>
+        <div className="mt-2 mb-1">
           {isAuthenticated ? (
             <>
               <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"/>
