@@ -9,7 +9,22 @@ const navbarLinks = [
     }
 ]
 
+const footerItems = [
+    {
+        title:"About",
+        link:""
+    },
+    {
+        title:"Privacy Policy",
+        link:""
+    },
+    {
+        title:"Contact",
+        link:""
+    }
+]
+
 const apiBase = import.meta.env.VITE_API_URL
 
 
-export {navbarLinks,apiBase}
+export {navbarLinks,apiBase,footerItems}

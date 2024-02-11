@@ -38,7 +38,7 @@ const Ask = () => {
       <div className='container p-4'>
         <form className='flex flex-col justify-center items-center gap-3 pb-2' onSubmit={handleSubmit}>
           <h3 className='text-xl'>Ask a Question</h3>
-          <textarea rows={10} placeholder='Wriet your question here' className='form__input inputdata'
+          <textarea rows={10} placeholder='Wriet your question here' className='form__input inputdata bg-zinc-950'
             value={question.question}
             onChange={(e) => setQuestion({...question,question: e.target.value})}
           />

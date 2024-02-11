@@ -4,13 +4,15 @@ import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <div className="flex justify-center">
-        <Outlet />
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <Navbar />
+        <div className="flex justify-center">
+          <Outlet />
+        </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

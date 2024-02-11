@@ -15,7 +15,7 @@ const Navbar = () => {
     <div className="bg-gradient justify-center flex">
       <div className='container text-white py-2 flex justify-between max-md:px-2'>
         <div className="flex gap-3 align-middle items-center text-black">
-              LOGO
+              <img src="/logo.png" width="100px"/>
           <div className='flex gap-3'>
             {navbarLinks.map((link) => (
               <NavLink to={link.link} key={link.link}

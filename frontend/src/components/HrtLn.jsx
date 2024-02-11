@@ -1,7 +1,7 @@
 const HrtLn = () => {
   return (
     <>
-    <hr className="bg-gradient border-none h-[1px]"/>
+    <hr className="bg-gradient border-none h-[1px] w-full"/>
     </>
   )
 }

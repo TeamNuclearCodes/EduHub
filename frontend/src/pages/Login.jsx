@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { apiBase } from '../constants';
+import { Button } from '../components'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -24,14 +25,16 @@ const Login = () => {
   return (
     <div className='container p-4'>
       <div className='flex justify-center items-center'>
-        <form onSubmit={handleSubmit} className='flex justify-center items-center bg-gray-500 rounded-md p-4 w-8/12 max-xl:w-full flex-col gap-3'>
-          <h3 className='text-3xl max-md:text-xl'>Login | Signup</h3>
-          <input type="username" placeholder='Username' className='form__input'
+      <div className='w-4/12 max-md:w-full bg-gradient p-[1px] rounded-md'>
+        <form onSubmit={handleSubmit} className='flex justify-center items-center bg-zinc-950 rounded-md p-4 w-full flex-col gap-3'>
+          <h3 className='text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent'>Login | Signup</h3>
+          <input type="username" placeholder='Username' className='form__input inputdata bg-zinc-900'
             value={user.username}
             onChange={(e) => setUser({...user, username: e.target.value})}
           />
-          <button type='submit'>Submit</button>
+          <Button type='submit' text="Submit" variant="gradient"/>
         </form>
+      </div>
       </div>
     </div>
   )

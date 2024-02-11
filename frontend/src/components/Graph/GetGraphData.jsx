@@ -77,7 +77,7 @@ const GetGraphData = () => {
             type="text"
             name="subject"
             placeholder="Subject"
-            className="inputdata"
+            className="inputdata bg-zinc-950"
             value={newData.subject}
             onChange={handleChange}
           />
@@ -85,7 +85,7 @@ const GetGraphData = () => {
             type="text"
             name="marks"
             placeholder="Marks Obtained"
-            className="inputdata"
+            className="inputdata bg-zinc-950"
             value={newData.marks}
             onChange={handleChange}
           />
@@ -95,7 +95,7 @@ const GetGraphData = () => {
             type="text"
             name="maxMarks"
             placeholder="Maximum Marks"
-            className="inputdata"
+            className="inputdata bg-zinc-950"
             value={newData.maxMarks}
             onChange={handleChange}
           />
@@ -104,12 +104,12 @@ const GetGraphData = () => {
             name="date"
             placeholder="Date of Assessment"
             defaultValue={todayDate}
-            className="inputdata"
+            className="inputdata bg-zinc-950"
             value={newData.date}
             onChange={handleChange}
           />
-          <Button variant="gradient" text="Add data" />
         </div>
+        <Button variant="gradient" text="Add data" />
       </form>
     </div>
   );
