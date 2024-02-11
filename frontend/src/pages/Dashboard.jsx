@@ -14,18 +14,6 @@ const Dashboard = () => {
   const [questions,setQuestions] = useState(null)
 
   useEffect(() => {
-    const fetchTodo = async () => {
-      await fetch(`${apiBase}/api/todo`,{
-        method:'GET',
-        headers:{
-          authorization: JSON.stringify(getAuth())
-        }
-      }).then(res => res.json()).then(data => {
-        const tasks = data.slice(0,5)
-        console.log(tasks)
-        setTasks(tasks)
-      })
-    }
     const fetchLatestQuestion = async () => {
       await fetch(`${apiBase}/api/questions`,{
         method:'GET',
@@ -35,8 +23,20 @@ const Dashboard = () => {
         setQuestions(questions_)
       })
     }
-    fetchLatestQuestion()
+    const fetchTodo = async () => {
+        await fetch(`${apiBase}/api/todo`,{
+          method:'GET',
+          headers:{
+            authorization: JSON.stringify(getAuth())
+          }
+        }).then(res => res.json()).then(data => {
+          const tasks = data.slice(0,5)
+          console.log(tasks)
+          setTasks(tasks)
+        })
+    }
     fetchTodo()
+    fetchLatestQuestion()
   },[])
 
   return (
@@ -54,7 +54,7 @@ const Dashboard = () => {
                 <h3 className="text-[24px] bg-gradient bg-clip-text text-transparent font-[500] text-center">Recent Questions</h3>
                   {questions ? 
                     questions.map((question) => (
-                      <div>
+                      <div key={question._id}>
                         <Question question={question}/>
                       </div>
                     )) : (

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../constants";
 import { Button } from "../components";
 import { PiSignInBold } from "react-icons/pi";
+import getAuth from "../utils/getAuth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,9 +21,15 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("auth", JSON.stringify(data));
-        navigate("/dashboard");
+        navigate(0)
       });
   };
+
+  useEffect(() => {
+    if (getAuth()) {
+      navigate("/dashboard");
+    }
+  },[])
 
   return (
     <div className="container p-4">

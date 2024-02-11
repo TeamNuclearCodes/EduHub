@@ -6,6 +6,7 @@ import { PiSignOutBold, PiSignInBold } from "react-icons/pi";
 
 const Navbar = () => {
   const navigate = useNavigate()
+
   const isAuthenticated = getAuth()
   const logOut = () => {
     localStorage.removeItem('auth')
