@@ -10,7 +10,7 @@ const GetGraphData = () => {
     marks: "",
     maxMarks: "",
     date: null,
-    color:'#cf1f1f'
+    color: "#cf1f1f",
   });
 
   let todayDate = new Date();
@@ -18,18 +18,47 @@ const GetGraphData = () => {
     todayDate.getMonth + 1
   }-${todayDate.getFullYear()}`;
 
+  // const studentData = {
+  //   labels: formData.map(data => data['date']),
+  //   datasets: [
+  //     {
+  //       label: "Maths",
+  //       data: formData.map(data => data['subject'] === 'Maths' && data['marks']/data['maxMarks']),
+  //       borderColor: "#1f72de",
+  //     },
+  //     {
+  //       label: "Physics",
+  //       data: formData.map(data => data['subject'] === 'Physics' && data['marks']/data['maxMarks']),
+  //       borderColor: "#cf1f1f",
+  //     },
+  //   ],
+  // };
+
   const studentData = {
-    labels: formData.map(data => data['date']),
+    labels: [
+      "07-12-2023",
+      "15-12-2023",
+      "22-12-2023",
+      "05-01-2024",
+      "11-01-2024",
+      "20-01-2024",
+      "02-02-2024",
+    ],
     datasets: [
       {
-        label: "Maths",
-        data: formData.map(data => data['subject'] === 'Maths' && data['marks']/data['maxMarks']),
+        label: "LAC",
+        data: [75, 85, 90, 87, 95, 80, 90],
         borderColor: "#1f72de",
       },
       {
-        label: "Physics",
-        data: formData.map(data => data['subject'] === 'Physics' && data['marks']/data['maxMarks']),
+        label: "Engg Graphics",
+        data: [75, 70, 75, 70, 80, 90, 85],
         borderColor: "#cf1f1f",
+      },
+      {
+        label: "Chemistry",
+        data: [80, 73, 69, 76, 72, 83, 89],
+        borderColor: "#027011",
       },
     ],
   };
@@ -98,17 +127,21 @@ const GetGraphData = () => {
           />
         </div>
         <div className="flex flex-col gap-2 item-center justify-center">
-        <label className="flex items-center gap-1 text-slate-500 text-sm">
-          Colour
-          <input 
+          <label className="flex items-center gap-1 text-slate-500 text-sm">
+            Colour
+            <input
               type="color"
               name="color"
               className="bg-zinc-950 rounded-sm border-none outline-none"
               value={newData.color}
-              onChange={handleChange}       
+              onChange={handleChange}
+            />
+          </label>
+          <Button
+            variant="gradient"
+            text="Add data"
+            leftIcon={<MdOutlineLibraryAdd />}
           />
-        </label>
-          <Button variant="gradient" text="Add data" leftIcon={<MdOutlineLibraryAdd/>}/>
         </div>
       </form>
     </div>
