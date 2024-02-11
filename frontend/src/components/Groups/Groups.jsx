@@ -32,7 +32,6 @@ function Groups({ grps, handleSelect, selectedGrp }) {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       var user = auth.username;
-      console.log(createGrp, user);
       const res = await axios.post(createGrp, {
         grp: grpName,
         user: user,
@@ -45,11 +44,13 @@ function Groups({ grps, handleSelect, selectedGrp }) {
   };
 
   function addValueToList(value) {
-    let existingList = localStorage.getItem("activeGrps");
+    var auth = JSON.parse(localStorage.getItem("auth"));
+    let existingList = auth.chatgrps;
     console.log(existingList);
-    if (existingList) var updatedList = existingList + "," + value;
-    else var updatedList = value;
-    localStorage.setItem("activeGrps", updatedList);
+    existingList.push(value);
+    auth.chatgrps = existingList;
+    var updatedAuth = JSON.stringify(auth);
+    localStorage.setItem("auth", updatedAuth);
     window.location.reload();
   }
 

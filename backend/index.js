@@ -8,6 +8,7 @@ import grpRouter from './routes/Grps.js';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
+import mongoose from "mongoose";
 
 dotenv.config()
 
@@ -16,6 +17,16 @@ const app = express()
 app.get('/',(req,res) => {
     return res.status(200).send('MECLABS EDUPROJECT API')
 });
+
+mongoose
+  .connect(`${process.env.MONGO_URI}`)
+  .then(() => {
+    console.log("Connected to DB");
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+const db = mongoose.connection;
 
 app.use(express.json())
 app.use(cors())

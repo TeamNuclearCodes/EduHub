@@ -13,7 +13,7 @@ router.post("/create", async (req, res) => {
     const groupDB = await Grp.findOne({ group: grp });
     if (groupDB) return res.status(400).send("Group already exists");
     try {
-      const userDB = await User.findOne({ user: user });
+      const userDB = await User.findOne({ username: user });
       if (!userDB) {
         return res.status(404).send("User not found");
       }

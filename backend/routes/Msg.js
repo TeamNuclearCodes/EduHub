@@ -1,9 +1,11 @@
 import express from "express";
 import messageSchema from "../models/messageSchema.js";
+import connectToDB from "../utils/connectToDB.js";
 
 const router = express.Router();
 
 router.post("/addMsg", async (req, res) => {
+  await connectToDB();
   const { msg, grp, from } = req.body;
   const data = await messageSchema.create({
     message: { text: msg },
