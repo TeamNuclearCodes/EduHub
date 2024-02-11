@@ -4,6 +4,9 @@ import authRouter from './routes/Auth.js'
 import todoRouter from './routes/ToDo.js'
 import graphRouter from './routes/Graph.js'
 import cors from 'cors';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 
