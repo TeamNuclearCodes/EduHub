@@ -6,6 +6,10 @@ const navbarLinks = [
     {
         title:"Ask",
         link: "/ask"
+    },
+    {
+        title:"Chat",
+        link:"/chat"
     }
 ]
 

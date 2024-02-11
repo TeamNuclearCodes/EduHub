@@ -1,0 +1,33 @@
+.header{
+    height: 10%;
+    border-bottom: 3px solid black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.msgbox{
+    height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid black;
+    flex-direction: column;
+}
+.left{
+    position: relative;
+    right: -40%;
+}
+.right{
+    width: 100%;
+    position: relative;
+}
+.input{
+    height: calc(10% - 7px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid black;
+}
