@@ -3,13 +3,16 @@ import { navbarLinks } from "../constants"
 import getAuth from '../utils/getAuth'
 import { Button } from  '.'
 import { PiSignOutBold, PiSignInBold } from "react-icons/pi";
+import { UserAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const {auth,setAuth} = UserAuth()
 
-  const isAuthenticated = getAuth()
+  //const isAuthenticated = getAuth()
   const logOut = () => {
     localStorage.removeItem('auth')
+    setAuth(null)
     navigate('/')
   }
 
@@ -37,7 +40,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="mt-2 mb-1">
-          {isAuthenticated ? (
+          {auth ? (
             <>
               <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"
                 rightIcon={<PiSignOutBold/>}
