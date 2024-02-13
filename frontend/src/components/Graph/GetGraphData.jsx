@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../../components";
+import { Button } from "..";
 import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
@@ -18,47 +18,24 @@ const GetGraphData = () => {
     todayDate.getMonth + 1
   }-${todayDate.getFullYear()}`;
 
-  // const studentData = {
-  //   labels: formData.map(data => data['date']),
-  //   datasets: [
-  //     {
-  //       label: "Maths",
-  //       data: formData.map(data => data['subject'] === 'Maths' && data['marks']/data['maxMarks']),
-  //       borderColor: "#1f72de",
-  //     },
-  //     {
-  //       label: "Physics",
-  //       data: formData.map(data => data['subject'] === 'Physics' && data['marks']/data['maxMarks']),
-  //       borderColor: "#cf1f1f",
-  //     },
-  //   ],
-  // };
-
   const studentData = {
-    labels: [
-      "07-12-2023",
-      "15-12-2023",
-      "22-12-2023",
-      "05-01-2024",
-      "11-01-2024",
-      "20-01-2024",
-      "02-02-2024",
-    ],
+    labels: formData?.map((data) => data["date"]),
     datasets: [
       {
-        label: "LAC",
-        data: [75, 85, 90, 87, 95, 80, 90],
+        label: "Maths",
+        data: formData?.map(
+          (data) =>
+            data["subject"] === "Maths" && data["marks"] / data["maxMarks"]
+        ),
         borderColor: "#1f72de",
       },
       {
-        label: "Engg Graphics",
-        data: [75, 70, 75, 70, 80, 90, 85],
+        label: "Physics",
+        data: formData?.map(
+          (data) =>
+            data["subject"] === "Physics" && data["marks"] / data["maxMarks"]
+        ),
         borderColor: "#cf1f1f",
-      },
-      {
-        label: "Chemistry",
-        data: [80, 73, 69, 76, 72, 83, 89],
-        borderColor: "#027011",
       },
     ],
   };
@@ -76,7 +53,7 @@ const GetGraphData = () => {
       (newData["date"] = newData["date"].split("-").reverse().join("-"))
     );
     console.log(newData);
-    setFormData(formData.push(newData));
+    setFormData(formData?.push(newData));
   };
 
   return (

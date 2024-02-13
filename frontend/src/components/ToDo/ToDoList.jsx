@@ -6,15 +6,20 @@ import getAuth from "../../utils/getAuth";
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
-  const [error,setError] = useState(null)
+  const [error, setError] = useState(null);
   const [newTask, setNewTask] = useState({
     taskName: "",
     taskDesc: "",
     deadline: "",
     complete: false,
   });
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
+
+  const diffInDays = (endDate) => {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    return Math.floor((endDate - currentDate) / (24 * 60 * 60 * 1000));
+  };
+
   const handleChange = (event) => {
     setNewTask({ ...newTask, [event.target.name]: event.target.value });
   };
@@ -22,28 +27,29 @@ const ToDoList = () => {
   const addTask = async (event) => {
     event.preventDefault();
     const dueDate = new Date(newTask.deadline);
-    let diffInDays = Math.floor((dueDate - currentDate) / (24 * 60 * 60 * 1000))
-    if (diffInDays > 0) {
-    if (error) {
-      setError(null)
-    }
-    await fetch(`${apiBase}/api/todo`,{
-      method:'POST',
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        author: getAuth(),
-        name: newTask.taskName,
-        desc: newTask.taskDesc,
-        date: newTask.deadline,
+    if (diffInDays(dueDate) > 0) {
+      if (error) {
+        setError(null);
+      }
+      await fetch(`${apiBase}/api/todo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          author: getAuth(),
+          name: newTask.taskName,
+          desc: newTask.taskDesc,
+          date: newTask.deadline,
+        }),
       })
-    }).then(res => res.json()).then(data => console.log(data))
+        .then((res) => res.json())
+        .then((data) => console.log(data));
 
       setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
       setNewTask({ taskName: "", taskDesc: "", deadline: "", complete: false });
     } else {
-      setError('Enter a valid date')
+      setError("Enter a valid date");
     }
   };
 
@@ -53,11 +59,7 @@ const ToDoList = () => {
 
   return (
     <div>
-      {error && (
-          <div className="bg-red-300 text-black">
-            {error}
-          </div>
-      )}
+      {error && <div className="bg-red-300 text-black">{error}</div>}
       <form onSubmit={addTask}>
         <label>
           Task Name:
@@ -87,13 +89,12 @@ const ToDoList = () => {
           />
         </label>
         <button type="submit">Add Task</button>
-      </form >
+      </form>
       {todoList.map((task) => (
-          <div key={task.key} className="bg-white mb-15">
-            <Task task={task} onDelete={deleteTask} />
-          </div>
-        )
-      )}
+        <div key={task.key} className="bg-white mb-15">
+          <Task task={task} diffInDays={diffInDays} />
+        </div>
+      ))}
     </div>
   );
 };
