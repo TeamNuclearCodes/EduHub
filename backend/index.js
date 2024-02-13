@@ -18,15 +18,15 @@ app.get('/',(req,res) => {
     return res.status(200).send('MECLABS EDUPROJECT API')
 });
 
-mongoose
-  .connect(`${process.env.MONGO_URI}`)
-  .then(() => {
-    console.log("Connected to DB");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
-const db = mongoose.connection;
+// mongoose
+//   .connect(`${process.env.MONGO_URI}`)
+//   .then(() => {
+//     console.log("Connected to DB");
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
+// const db = mongoose.connection;
 
 app.use(express.json())
 app.use(cors())
