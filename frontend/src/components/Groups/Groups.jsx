@@ -18,9 +18,7 @@ function Groups({ grps, handleSelect, selectedGrp }) {
         grp: grpName,
         user: user,
       });
-      console.log(res);
       addValueToList(grpName);
-      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -36,7 +34,6 @@ function Groups({ grps, handleSelect, selectedGrp }) {
         grp: grpName,
         user: user,
       });
-      console.log(res);
       addValueToList(grpName);
     } catch (err) {
       console.log(err);
