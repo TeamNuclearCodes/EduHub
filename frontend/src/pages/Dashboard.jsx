@@ -7,11 +7,13 @@ import { useState, useEffect } from "react";
 import { apiBase } from "../constants";
 import { useNavigate } from 'react-router-dom'
 import { TbWindowMaximize } from "react-icons/tb";
+import { UserAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const navigate = useNavigate()
   const [tasks, setTasks] = useState(null)
   const [questions,setQuestions] = useState(null)
+  const {auth} = UserAuth()
 
   useEffect(() => {
     const fetchLatestQuestion = async () => {
@@ -24,10 +26,11 @@ const Dashboard = () => {
       })
     }
     const fetchTodo = async () => {
+        console.log(auth)
         await fetch(`${apiBase}/api/todo`,{
           method:'GET',
           headers:{
-            authorization: JSON.stringify(getAuth())
+            authorization: JSON.stringify(auth)
           }
         }).then(res => res.json()).then(data => {
           const tasks = data.slice(0,5)

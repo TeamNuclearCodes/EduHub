@@ -4,9 +4,11 @@ import { apiBase } from "../constants";
 import { Button } from "../components";
 import { PiSignInBold } from "react-icons/pi";
 import getAuth from "../utils/getAuth";
+import { UserAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const {auth, setAuth} = UserAuth()
   const [user, setUser] = useState({ username: "" });
 
   const handleSubmit = async (e) => {
@@ -21,12 +23,14 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("auth", JSON.stringify(data));
-        navigate(0)
+        setAuth(data)
+        console.log(auth)
+        navigate("/dashboard")
       });
   };
 
   useEffect(() => {
-    if (getAuth()) {
+    if (auth) {
       navigate("/dashboard");
     }
   },[])
