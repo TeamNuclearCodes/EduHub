@@ -26,9 +26,17 @@ router.post('/', async (req,res) => {
 router.get('/', async(req,res) => {
     try{
         const user = JSON.parse(req.headers.authorization)
-        console.log(user)
         await connectToDB()
-        const tasks = await TodoList.find({author: new ObjectId(user._id)}).populate('author').sort({_id:-1})
+        const currentDate = new Date().toLocaleDateString().split('/')
+        const dueDate = new Date(currentDate[2],currentDate[1],Number(currentDate[0])+3)
+
+        const tasks = await TodoList.find({
+            author: new ObjectId(user._id),
+            deadline: {
+                $gte: currentDate,
+                $lt: dueDate
+            }
+        }).populate('author')
         return res.json(tasks)
     } catch (e) {
         console.log(e)
