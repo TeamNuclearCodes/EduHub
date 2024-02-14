@@ -4,4 +4,10 @@ const diffInDays = (endDate) => {
     return Math.floor((endDate - currentDate) / (24 * 60 * 60 * 1000));
 };
 
-export {diffInDays}
+const genDeadline = (date) => {
+    console.log(date.substr(0,10).split('-')[1])
+    let deadline = date.substr(0, 10).split('-').reverse().join('-')
+    return deadline
+  }
+
+export {diffInDays,genDeadline}
