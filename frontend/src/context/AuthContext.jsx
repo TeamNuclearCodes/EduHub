@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
-    const [auth,setAuth] = useState("");
+    const [auth,setAuth] = useState(null);
     
     useEffect(() => {
         try {
@@ -13,7 +13,7 @@ export const AuthContextProvider = ({children}) => {
         } catch (error) {
             console.log(error)
         }
-    },[])
+    },[auth])
 
     return (
         <AuthContext.Provider value={{auth ,setAuth}}>

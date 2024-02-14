@@ -28,11 +28,10 @@ const Dashboard = () => {
     }
     const fetchTodo = async () => {
         console.log(auth)
-        JSON.parse(auth)
         await fetch(`${apiBase}/api/todo`,{
           method:'GET',
           headers:{
-            authorization: auth
+            authorization: JSON.stringify(auth)
           }
         }).then(res => res.json()).then(data => {
           const tasks = data.slice(0,5)
