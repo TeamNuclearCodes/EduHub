@@ -39,7 +39,7 @@ const Login = () => {
       <div className="flex justify-center items-center">
         <div className="w-4/12 max-md:w-full bg-gradient p-[1px] rounded-md">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             className="flex justify-center items-center bg-zinc-950 rounded-md p-4 w-full flex-col gap-3"
           >
             <h3 className="text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent">

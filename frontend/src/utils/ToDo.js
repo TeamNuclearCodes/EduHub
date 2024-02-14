@@ -5,7 +5,6 @@ const diffInDays = (endDate) => {
 };
 
 const genDeadline = (date) => {
-    console.log(date.substr(0,10).split('-')[1])
     let deadline = date.substr(0, 10).split('-').reverse().join('-')
     return deadline
   }

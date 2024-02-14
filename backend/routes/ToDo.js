@@ -43,4 +43,16 @@ router.get('/', async(req,res) => {
     }
 })
 
+router.get('/all', async(req,res) => {
+    try {
+        const user = JSON.parse(req.headers.authorization)
+        await connectToDB()
+        const tasks = await TodoList.find({author: new ObjectId(user._id)}).populate('author')
+        return res.json(tasks)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 export default router

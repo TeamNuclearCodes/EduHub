@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react"
 import { apiBase } from "../constants"
 import ToDoList from "../components/ToDo/ToDoList"
+import { UserAuth } from "../context/AuthContext"
 
 const ToDo = () => {
-  const [todo, setTodo] = useState(null)
+  const [todoList, setTodoList] = useState(null)
+  const {auth} = UserAuth()
 
   useEffect(() => {
-    // fetch(`${apiBase}/api/todo`,{
-    //   method:'GET',
-    //   headers: {
-    //     authorization: getUser()
-    //   }
-    // })
+    console.log(auth)
+    fetch(`${apiBase}/api/todo`,{
+      method:'GET',
+      headers: {
+        authorization: JSON.stringify(auth)
+      }
+    })
   },[])
 
   return (

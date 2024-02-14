@@ -22,12 +22,11 @@ const Dashboard = () => {
         method:'GET',
       }).then(res => res.json()).then(data => {
         const questions_ = data.slice(0,2)
-        console.log(questions_)
         setQuestions(questions_)
       })
     }
     const fetchTodo = async () => {
-        console.log(auth)
+        console.log(`auth ${auth._id}`)
         await fetch(`${apiBase}/api/todo`,{
           method:'GET',
           headers:{
