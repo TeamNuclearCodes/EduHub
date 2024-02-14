@@ -5,7 +5,7 @@ import { chat } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
 
 function Input({ currentGrp, user }) {
-  const socket = io(process.env.REACT_APP_HOST);
+  const socket = io(import.meta.env.VITE_CURRENT_URL);
   socket.on("connect", () => {
   });
   const [msg, setMsg] = useState("");

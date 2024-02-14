@@ -4,7 +4,7 @@ import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
 const GetGraphData = () => {
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState([{ subject: "Physics", marks: "90", maxMarks: "123", date: "24-02-2024", color: "#cf1f1f" },{ subject: "Physics", marks: "100", maxMarks: "223", date: "28-02-2024", color: "#cf1f1f" }]);
   const [newData, setNewData] = useState({
     subject: "",
     marks: "",
@@ -18,27 +18,29 @@ const GetGraphData = () => {
     todayDate.getMonth + 1
   }-${todayDate.getFullYear()}`;
 
-  const studentData = {
-    labels: formData?.map((data) => data["date"]),
-    datasets: [
-      {
-        label: "Maths",
-        data: formData?.map(
-          (data) =>
-            data["subject"] === "Maths" && data["marks"] / data["maxMarks"]
-        ),
-        borderColor: "#1f72de",
-      },
-      {
-        label: "Physics",
-        data: formData?.map(
-          (data) =>
-            data["subject"] === "Physics" && data["marks"] / data["maxMarks"]
-        ),
-        borderColor: "#cf1f1f",
-      },
-    ],
-  };
+  const genData = (formData) => {
+    return {
+      labels:  formData.map((data) => data["date"]) ,
+      datasets: [
+        {
+          label: "Maths",
+          data: formData.map(
+            (data) =>
+              data["subject"] === "Maths" && data["marks"] / data["maxMarks"]
+          ),
+          borderColor: "#1f72de",
+        },
+        {
+          label: "Physics",
+          data: formData?.map(
+            (data) =>
+              data["subject"] === "Physics" && data["marks"] / data["maxMarks"]
+          ),
+          borderColor: "#cf1f1f",
+        },
+      ],
+    };
+  }
 
   const handleChange = (event) => {
     setNewData({
@@ -52,13 +54,14 @@ const GetGraphData = () => {
     setNewData(
       (newData["date"] = newData["date"].split("-").reverse().join("-"))
     );
-    console.log(newData);
-    setFormData(formData?.push(newData));
+    const temp = formData
+    temp.push(newData)
+    setFormData(temp)
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <Graph data={studentData} />
+      <Graph data={genData(formData)} />
       <h5 className="text-md underline text-zinc-400 underline-offset-4">
         Add data
       </h5>

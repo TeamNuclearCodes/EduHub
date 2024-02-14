@@ -7,9 +7,9 @@ const ProtectedRoute = ({children}) => {
 
     if(!auth) {
         return <Navigate to="/login" state={{ from: location}} replace />
+    } else {
+        return children
     }
-    return children
-
 };
 
 export default ProtectedRoute;

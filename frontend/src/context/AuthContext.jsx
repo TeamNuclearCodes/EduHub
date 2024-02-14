@@ -3,11 +3,16 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
-    const [auth,setAuth] = useState(null);
+    const [auth,setAuth] = useState("");
     
     useEffect(() => {
-        const user = localStorage.getItem('auth')
-        if (auth) setUser(auth)
+        try {
+            const user = localStorage.getItem('auth')
+            if (user) setAuth(user)
+            console.log(auth);
+        } catch (error) {
+            console.log(error)
+        }
     },[])
 
     return (

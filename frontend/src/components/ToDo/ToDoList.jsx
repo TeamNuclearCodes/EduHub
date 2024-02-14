@@ -3,8 +3,11 @@ import Task from "./Task";
 import { v4 as uuidv4 } from "uuid";
 import { apiBase } from "../../constants";
 import getAuth from "../../utils/getAuth";
+import {UserAuth} from '../../context/AuthContext'
+import { diffInDays } from "../../utils/ToDo";
 
 const ToDoList = () => {
+  const {auth} = UserAuth()
   const [todoList, setTodoList] = useState([]);
   const [error, setError] = useState(null);
   const [newTask, setNewTask] = useState({
@@ -13,12 +16,6 @@ const ToDoList = () => {
     deadline: "",
     complete: false,
   });
-
-  const diffInDays = (endDate) => {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    return Math.floor((endDate - currentDate) / (24 * 60 * 60 * 1000));
-  };
 
   const handleChange = (event) => {
     setNewTask({ ...newTask, [event.target.name]: event.target.value });
@@ -37,7 +34,7 @@ const ToDoList = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          author: getAuth(),
+          author: auth,
           name: newTask.taskName,
           desc: newTask.taskDesc,
           date: newTask.deadline,
@@ -92,7 +89,7 @@ const ToDoList = () => {
       </form>
       {todoList.map((task) => (
         <div key={task.key} className="bg-white mb-15">
-          <Task task={task} diffInDays={diffInDays} />
+          <Task task={task} deadline={diffInDays(new Date(task?.deadline))}/>
         </div>
       ))}
     </div>

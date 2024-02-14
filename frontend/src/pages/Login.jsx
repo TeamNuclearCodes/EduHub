@@ -24,7 +24,6 @@ const Login = () => {
       .then((data) => {
         localStorage.setItem("auth", JSON.stringify(data));
         setAuth(data)
-        console.log(auth)
         navigate("/dashboard")
       });
   };

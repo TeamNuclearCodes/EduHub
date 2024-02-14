@@ -8,6 +8,7 @@ import { apiBase } from "../constants";
 import { useNavigate } from 'react-router-dom'
 import { TbWindowMaximize } from "react-icons/tb";
 import { UserAuth } from "../context/AuthContext";
+import { diffInDays } from "../utils/ToDo";
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -27,10 +28,11 @@ const Dashboard = () => {
     }
     const fetchTodo = async () => {
         console.log(auth)
+        JSON.parse(auth)
         await fetch(`${apiBase}/api/todo`,{
           method:'GET',
           headers:{
-            authorization: JSON.stringify(auth)
+            authorization: auth
           }
         }).then(res => res.json()).then(data => {
           const tasks = data.slice(0,5)
@@ -68,10 +70,10 @@ const Dashboard = () => {
             </div>
             <div className="max-md:w-full bg-gradient rounded-xl p-[1px] flex w-full">
               <div className="bg-zinc-900 rounded-xl p-2 flex flex-col gap-2 w-full">
-                <h3 className="text-[24px] bg-gradient bg-clip-text text-transparent font-[500] text-center">Recently Added Tasks</h3>
+                <h3 className="text-[24px] bg-gradient bg-clip-text text-transparent font-[500] text-center">Tasks Due Soon</h3>
                   {tasks ? 
                     tasks?.map((task) => (
-                      <Task key={task._id} task={task} />
+                      <Task key={task._id} task={task} deadline={diffInDays(new Date(task?.deadline))}/>
                     )
                   ) : (
                     <>Loading...</>

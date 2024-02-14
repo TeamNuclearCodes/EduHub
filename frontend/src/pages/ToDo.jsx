@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { apiBase } from "../constants"
+import ToDoList from "../components/ToDo/ToDoList"
 
 const ToDo = () => {
   const [todo, setTodo] = useState(null)
@@ -15,7 +16,7 @@ const ToDo = () => {
 
   return (
     <div>
-      comgin sooonnn
+      <ToDoList/>
     </div>
   )
 }
