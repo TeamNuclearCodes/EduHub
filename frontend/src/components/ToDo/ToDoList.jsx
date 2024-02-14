@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Task from "./Task";
 import { v4 as uuidv4 } from "uuid";
 import { apiBase } from "../../constants";
-import getAuth from "../../utils/getAuth";
 import {UserAuth} from '../../context/AuthContext'
 import { diffInDays } from "../../utils/ToDo";
+import { Button } from "../../components";
+import { MdOutlineLibraryAdd } from "react-icons/md";
+
 
 const ToDoList = () => {
   const {auth} = UserAuth()
@@ -55,43 +56,34 @@ const ToDoList = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col w-full">
       {error && <div className="bg-red-300 text-black">{error}</div>}
-      <form onSubmit={addTask}>
-        <label>
-          Task Name:
-          <input
+      <form className="flex justify-around w-full flex-col gap-2" onSubmit={addTask}>
+        <input
             type="text"
             name="taskName"
+            className="inputdata bg-zinc-950"
             value={newTask.taskName}
             onChange={handleChange}
+            placeholder="Task Name"
           />
-        </label>
-        <label>
-          Task Description:
           <input
             type="text"
             name="taskDesc"
+            className="inputdata bg-zinc-950"
             value={newTask.taskDesc}
             onChange={handleChange}
+            placeholder="Task Description"
           />
-        </label>
-        <label>
-          Deadline:
-          <input
-            type="date"
-            name="deadline"
-            value={newTask.deadline}
-            onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Add Task</button>
+        <input
+          type="date"
+          name="deadline"
+          className="inputdata bg-zinc-950"
+          value={newTask.deadline}
+          onChange={handleChange}
+        />
+        <Button type="submit" text="Add Task" variant="gradient" leftIcon={<MdOutlineLibraryAdd />}/>
       </form>
-      {todoList.map((task) => (
-        <div key={task.key} className="bg-white mb-15">
-          <Task task={task} deadline={diffInDays(new Date(task?.deadline))}/>
-        </div>
-      ))}
     </div>
   );
 };
