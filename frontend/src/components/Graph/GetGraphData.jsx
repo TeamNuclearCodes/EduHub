@@ -4,7 +4,7 @@ import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
 const GetGraphData = () => {
-  const [formData, setFormData] = useState([{ subject: "Physics", marks: "90", maxMarks: "123", date: "24-02-2024", color: "#cf1f1f" },{ subject: "Physics", marks: "100", maxMarks: "223", date: "28-02-2024", color: "#cf1f1f" }]);
+  const [formData, setFormData] = useState([]);
   const [newData, setNewData] = useState({
     subject: "",
     marks: "",
