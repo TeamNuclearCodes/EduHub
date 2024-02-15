@@ -54,5 +54,19 @@ router.get('/all', async(req,res) => {
     }
 })
 
-
+router.delete('/:id',async(req,res) => {
+    try {
+        console.log(req.body.user)
+        const user = req.body.user
+        const taskId = req.params.id
+        await connectToDB()
+        await TodoList.findOneAndDelete({
+            author: new ObjectId(user._id),
+            _id:new ObjectId(taskId)
+        })
+        return res.json({message:`Task with ID ${taskId} has been deleted`})
+    } catch (error) {
+        console.log(error)
+    }
+})
 export default router
