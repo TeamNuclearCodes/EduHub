@@ -5,6 +5,7 @@ import CommentCard from "./Question/CommentCard";
 import Button from "./Button";
 import HrtLn from "./HrtLn";
 import Question from "./Question/Question";
-import Task from './ToDo/Task'
+import Task from './ToDo/Task';
+import AlertCard from "./AlertCard";
 
-export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task}
+export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task, AlertCard}

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { apiBase } from "../../constants";
 import {UserAuth} from '../../context/AuthContext'
 import { diffInDays } from "../../utils/ToDo";
-import { Button } from "../../components";
+import { Button, AlertCard } from "../../components";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
 
@@ -25,7 +25,7 @@ const ToDoList = () => {
   const addTask = async (event) => {
     event.preventDefault();
     const dueDate = new Date(newTask.deadline);
-    if (diffInDays(dueDate) > 0) {
+    if (diffInDays(dueDate,true) > 0) {
       if (error) {
         setError(null);
       }
@@ -57,8 +57,8 @@ const ToDoList = () => {
 
   return (
     <div className="flex flex-col w-full">
-      {error && <div className="bg-red-300 text-black">{error}</div>}
       <form className="flex justify-around w-full flex-col gap-2" onSubmit={addTask}>
+      {error && <AlertCard text={error} type="error"/>}
         <input
             type="text"
             name="taskName"

@@ -1,7 +1,8 @@
-const diffInDays = (endDate) => {
+const diffInDays = (endDate, check) => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
     const remDays = Math.floor((endDate - currentDate) / (24 * 60 * 60 * 1000));
+    if (check) return remDays
     if(remDays <0 ){
       return 'Overdue'
     } else {
