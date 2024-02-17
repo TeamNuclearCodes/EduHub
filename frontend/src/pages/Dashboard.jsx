@@ -71,7 +71,7 @@ const Dashboard = () => {
                 <h3 className="text-[24px] bg-gradient bg-clip-text text-transparent font-[500] text-center">Tasks Due Soon</h3>
                   {tasks ? 
                     tasks?.map((task) => (
-                      <Task key={task._id} task={task} deadline={diffInDays(new Date(task?.deadline))}/>
+                      <Task key={task._id} task={task} deadline={diffInDays(new Date(task?.deadline))} deleteTask={deleteTask}/>
                     )
                   ) : (
                     <>Loading...</>

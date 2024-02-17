@@ -1,6 +1,6 @@
 import { genDeadline } from "../../utils/ToDo";
 
-const Task = ({task,deadline}) => {
+const Task = ({task,deadline,deleteTask}) => {
   const redBg = () => {
     return isNaN(deadline.substring(0,2).trim()) && !task.completed ? 'bg-[#d15252]' : 'bg-black'
   }
