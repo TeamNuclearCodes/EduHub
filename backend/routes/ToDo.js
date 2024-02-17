@@ -56,8 +56,7 @@ router.get('/all', async(req,res) => {
 
 router.delete('/:id',async(req,res) => {
     try {
-        console.log(req.body.user)
-        const user = req.body.user
+        const user = JSON.parse(req.headers.authorization)
         const taskId = req.params.id
         await connectToDB()
         await TodoList.findOneAndDelete({

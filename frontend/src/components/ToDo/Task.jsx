@@ -14,7 +14,12 @@ const Task = ({task,deadline,deleteTask}) => {
       </div>
       <div className="flex flex-col w-4/12 max-md:w-full text-right">
         <p className="text-sm">Deadline: {genDeadline(task?.deadline)}</p>
-        <p className="text-sm">{deadline}</p> 
+        <p className="text-sm">{deadline}</p>
+        {deleteTask && (
+          <div>
+            <button onClick={() => deleteTask(task._id)}>Delete</button>
+          </div>
+        )}
       </div>
     </div>
   </div>

@@ -51,10 +51,6 @@ const ToDoList = () => {
     }
   };
 
-  const deleteTask = (taskKey) => {
-    setTodoList(todoList.filter((task) => task.key !== taskKey));
-  };
-
   return (
     <div className="flex flex-col w-full">
       <form className="flex justify-around w-full flex-col gap-2" onSubmit={addTask}>

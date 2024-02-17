@@ -19,6 +19,15 @@ const ToDo = () => {
     }).then(res => res.json()).then(data => setTodoList(data))
   },[])
 
+  const deleteTask = (taskId) => {
+    fetch(`${apiBase}/api/todo/${taskId}`,{
+      method:'DELETE',
+      headers: {
+        authorization: JSON.stringify(auth)
+      }
+    }).then(res => res.json()).then(data => console.log(data))
+  };
+
   return (
     <ProtectedRoute>
       <div className="container mt-4 px-2">
@@ -31,7 +40,7 @@ const ToDo = () => {
           <div className="flex flex-col align-middle w-8/12 px-2">
             {todoList.map((task) => (
               <div className="flex w-full flex-col my-1">
-                <Task task={task} manage="true" deadline={diffInDays(new Date(task?.deadline))}/>
+                <Task task={task} manage="true" deadline={diffInDays(new Date(task?.deadline))} deleteTask={deleteTask}/>
               </div>
             ))}
           </div>
