@@ -9,24 +9,30 @@ const ToDo = () => {
   const [todoList, setTodoList] = useState([])
   const {auth} = UserAuth()
 
-  useEffect(() => {
-    console.log(auth)
+  const fetchTodos = async () => {
     fetch(`${apiBase}/api/todo/all`,{
       method:'GET',
       headers: {
         authorization: JSON.stringify(auth)
       }
     }).then(res => res.json()).then(data => setTodoList(data))
-  },[])
+  }
 
-  const deleteTask = (taskId) => {
-    fetch(`${apiBase}/api/todo/${taskId}`,{
+  const deleteTask = async (taskId) => {
+    await fetch(`${apiBase}/api/todo/${taskId}`,{
       method:'DELETE',
       headers: {
         authorization: JSON.stringify(auth)
       }
-    }).then(res => res.json()).then(data => console.log(data))
+    }).then(res => res.json()).then(data => {
+      console.log(data)
+      fetchTodos()
+    })
   };
+
+  useEffect(() => {
+    fetchTodos()
+  },[])
 
   return (
     <ProtectedRoute>

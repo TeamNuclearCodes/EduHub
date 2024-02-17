@@ -27,9 +27,11 @@ router.get('/', async(req,res) => {
     try{
         const user = JSON.parse(req.headers.authorization)
         await connectToDB()
-        const currentDate = new Date().toLocaleDateString().split('/')
-        const dueDate = new Date(currentDate[2],currentDate[1],Number(currentDate[0])+3)
-
+        const currentDate = new Date()
+        var dueDate = new Date()
+        dueDate.setDate(dueDate.getDate() + 3)
+        
+        console.log(currentDate,dueDate)
         const tasks = await TodoList.find({
             author: new ObjectId(user._id),
             deadline: {

@@ -6,7 +6,6 @@ import { diffInDays } from "../../utils/ToDo";
 import { Button, AlertCard } from "../../components";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
-
 const ToDoList = () => {
   const {auth} = UserAuth()
   const [todoList, setTodoList] = useState([]);
@@ -42,9 +41,10 @@ const ToDoList = () => {
         }),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
+          console.log(data)});
 
-      setTodoList([...todoList, { ...newTask, key: uuidv4() }]);
       setNewTask({ taskName: "", taskDesc: "", deadline: "", complete: false });
     } else {
       setError("Enter a valid date");
