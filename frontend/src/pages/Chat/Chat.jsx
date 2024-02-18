@@ -24,19 +24,21 @@ function Chat() {
     }
   }, []);
   return (
-    <div className="container">
-      <Groups
-        grps={chatgrps}
-        handleSelect={changeSelected}
-        selectedGrp={selectedGrp}
-        uaer={user}
-      ></Groups>
-      {selectedGrp === undefined ? (
-        <Welcome />
-      ) : (
-        <ChatSpace selectedGrp={selectedGrp} user={user} />
-      )}
-    </div>
+    <ProtectedRoute>
+      <div className="container">
+        <Groups
+          grps={chatgrps}
+          handleSelect={changeSelected}
+          selectedGrp={selectedGrp}
+          uaer={user}
+        ></Groups>
+        {selectedGrp === undefined ? (
+          <Welcome />
+        ) : (
+          <ChatSpace selectedGrp={selectedGrp} user={user} />
+        )}
+      </div>
+    </ProtectedRoute>
   );
 }
 

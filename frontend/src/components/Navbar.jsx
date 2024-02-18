@@ -9,10 +9,13 @@ const Navbar = () => {
   const navigate = useNavigate()
   const {auth,setAuth} = UserAuth()
 
-  //const isAuthenticated = getAuth()
   const logOut = () => {
     localStorage.removeItem('auth')
-    setAuth(null)
+    setAuth({
+      _id: "",
+      username: "",
+      chatgrps: [],
+  })
     navigate('/')
   }
 
@@ -40,7 +43,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="mt-2 mb-1">
-          {auth ? (
+          {auth._id ? (
             <>
               <Button variant="black" handleClick={logOut} text="Logout" extraClasses="border border-black hover:border hover:border-black"
                 rightIcon={<PiSignOutBold/>}

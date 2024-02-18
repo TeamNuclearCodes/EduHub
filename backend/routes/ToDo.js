@@ -7,13 +7,14 @@ const router = express.Router()
 
 router.post('/', async (req,res) => {
     try{
-        const {name, desc, date, author} = req.body;
+        const user = JSON.parse(req.headers.authorization)
+        const {taskDesc, taskName, deadline} = req.body;
         await connectToDB()
         const task = new TodoList({
-            taskDesc:desc,
-            taskName: name,
-            deadline: date,
-            author: new ObjectId(author._id)
+            taskDesc:taskDesc,
+            taskName: taskName,
+            deadline: deadline,
+            author: new ObjectId(user._id)
         })
         await task.save()
 
@@ -30,8 +31,7 @@ router.get('/', async(req,res) => {
         const currentDate = new Date()
         var dueDate = new Date()
         dueDate.setDate(dueDate.getDate() + 3)
-        
-        console.log(currentDate,dueDate)
+
         const tasks = await TodoList.find({
             author: new ObjectId(user._id),
             deadline: {
@@ -56,6 +56,22 @@ router.get('/all', async(req,res) => {
     }
 })
 
+router.patch('/:id',async(req,res) => {
+    try {
+        const user = JSON.parse(req.headers.authorization)
+        const taskId = req.params.id
+        const newTodo = req.body
+        await connectToDB()
+        await TodoList.findOneAndUpdate({
+            author: new ObjectId(user._id),
+            _id:new ObjectId(taskId)
+        },newTodo) 
+        return res.json({message:`Task with ID ${taskId} has been updated`}).status(200)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.delete('/:id',async(req,res) => {
     try {
         const user = JSON.parse(req.headers.authorization)
@@ -65,7 +81,7 @@ router.delete('/:id',async(req,res) => {
             author: new ObjectId(user._id),
             _id:new ObjectId(taskId)
         })
-        return res.json({message:`Task with ID ${taskId} has been deleted`})
+        return res.json({message:`Task with ID ${taskId} has been deleted`}).status(200)
     } catch (error) {
         console.log(error)
     }

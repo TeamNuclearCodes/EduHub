@@ -1,6 +1,9 @@
 import { genDeadline } from "../../utils/ToDo";
+import Button from "../Button";
+import { MdDelete } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
 
-const Task = ({task,deadline,deleteTask}) => {
+const Task = ({task,deadline,deleteTask,editTask}) => {
   const redBg = () => {
     return isNaN(deadline.substring(0,2).trim()) && !task.completed ? 'bg-[#d15252]' : 'bg-black'
   }
@@ -16,8 +19,9 @@ const Task = ({task,deadline,deleteTask}) => {
         <p className="text-sm">Deadline: {genDeadline(task?.deadline)}</p>
         <p className="text-sm">{deadline}</p>
         {deleteTask && (
-          <div>
-            <button onClick={() => deleteTask(task._id)}>Delete</button>
+          <div className="flex justify-end pt-[4px] gap-2">
+            <Button handleClick={() => deleteTask(task._id)} variant="delete" rightIcon={<MdDelete/>}/>
+            <Button handleClick={() => editTask(task)} variant="edit" rightIcon={<FiEdit/>}/>
           </div>
         )}
       </div>

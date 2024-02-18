@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (auth) {
+    if (auth._id) {
       navigate("/dashboard");
     }
   },[])

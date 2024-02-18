@@ -2,13 +2,14 @@ import React from "react";
 import GetGraphData from "../components/Graph/GetGraphData";
 import { Button, HrtLn, ProtectedRoute, Question } from "../components";
 import {Task} from "../components";
-import getAuth from "../utils/getAuth";
 import { useState, useEffect } from "react";
 import { apiBase } from "../constants";
 import { useNavigate } from 'react-router-dom'
 import { TbWindowMaximize } from "react-icons/tb";
 import { UserAuth } from "../context/AuthContext";
 import { diffInDays } from "../utils/ToDo";
+import { ColorRing } from 'react-loader-spinner'
+
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -62,7 +63,15 @@ const Dashboard = () => {
                         <Question question={question}/>
                       </div>
                     )) : (
-                    <>Loading...</>
+                      <ColorRing
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="color-ring-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="color-ring-wrapper"
+                      colors={['#5b21b6', '#681faa', '#761c9e', '#86198f']}
+                    />
                   )}
               </div>
             </div>
@@ -74,7 +83,15 @@ const Dashboard = () => {
                       <Task key={task._id} task={task} deadline={diffInDays(new Date(task?.deadline))}/>
                     )
                   ) : (
-                    <>Loading...</>
+                    <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="color-ring-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="color-ring-wrapper"
+                    colors={['#5b21b6', '#681faa', '#761c9e', '#86198f']}
+                  />
                   )}
                 <div className="p-1">
                   <Button text='Manage Todo List' variant='gradient' handleClick={() => navigate('/todo')}
