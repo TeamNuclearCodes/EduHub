@@ -1,6 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import { navbarLinks } from "../constants"
-import getAuth from '../utils/getAuth'
 import { Button } from  '.'
 import { PiSignOutBold, PiSignInBold } from "react-icons/pi";
 import { UserAuth } from "../context/AuthContext";
