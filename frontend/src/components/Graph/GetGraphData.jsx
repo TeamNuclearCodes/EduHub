@@ -20,27 +20,28 @@ const GetGraphData = () => {
 
   const genData = (formData) => {
     return {
-      labels:  formData.map((data) => data["date"]) ,
+      labels: formData.map((data) => data["date"]),
       datasets: [
         {
-          label: "Maths",
+          label: "LAC",
           data: formData.map(
             (data) =>
-              data["subject"] === "Maths" && data["marks"] / data["maxMarks"]
+              data["subject"] === "LAC" && data["marks"] / data["maxMarks"]
           ),
           borderColor: "#1f72de",
         },
         {
-          label: "Physics",
+          label: "Chemistry",
           data: formData?.map(
             (data) =>
-              data["subject"] === "Physics" && data["marks"] / data["maxMarks"]
+              data["subject"] === "Chemistry" &&
+              data["marks"] / data["maxMarks"]
           ),
           borderColor: "#cf1f1f",
         },
       ],
     };
-  }
+  };
 
   const handleChange = (event) => {
     setNewData({
@@ -54,9 +55,9 @@ const GetGraphData = () => {
     setNewData(
       (newData["date"] = newData["date"].split("-").reverse().join("-"))
     );
-    const temp = formData
-    temp.push(newData)
-    setFormData(temp)
+    const temp = formData;
+    temp.push(newData);
+    setFormData(temp);
   };
 
   return (
@@ -70,14 +71,20 @@ const GetGraphData = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-2">
-          <input
+          <select
             type="text"
             name="subject"
             placeholder="Subject"
             className="inputdata bg-zinc-950"
             value={newData.subject}
             onChange={handleChange}
-          />
+          >
+            <option value="LAC">LAC</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Graphics">Graphics</option>
+            <option value="BME">BME</option>
+            <option value="BCE">BCE</option>
+          </select>
           <input
             type="text"
             name="marks"
