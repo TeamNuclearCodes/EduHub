@@ -9,13 +9,10 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
 import connectToDB from "./utils/connectToDB.js";
+import http from 'http'
 dotenv.config()
 
 const app = express()
-
-app.get('/',(req,res) => {
-    return res.status(200).send('MECLABS EDUPROJECT API')
-});
 
 app.use(express.json())
 app.use(cors())
@@ -27,20 +24,17 @@ app.use('/api/group',grpRouter);
 app.use('/api/chat',msgRouter);
 
 
-const server = app.listen(5000, async () => {
-  await connectToDB()
-  console.log('App running at port 5000');
-})
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
     origin: "*",
-    credentials: true,
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket) => {
+  console.log('User connected')
   socket.on("join", (room) => socket.join(room));
   socket.on("send-message", (message, grp, sender) => {
     console.log(message);
@@ -49,3 +43,12 @@ io.on("connection", (socket) => {
       .emit("receive-message", { content: message, sender: sender });
   });
 });
+
+app.get('/',(req,res) => {
+  return res.status(200).send('MECLABS EDUPROJECT API')
+});
+
+server.listen(5000, async () => {
+  await connectToDB()
+  console.log('App running at port 5000');
+})
