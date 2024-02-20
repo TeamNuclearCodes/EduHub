@@ -3,6 +3,8 @@ import "./Input.css";
 import axios from "axios";
 import { chat } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
+import Button from "../Button";
+import { IoIosSend } from "react-icons/io";
 
 function Input({ currentGrp, user }) {
   const socket = io(import.meta.env.VITE_CURRENT_URL);
@@ -28,19 +30,18 @@ function Input({ currentGrp, user }) {
     console.log(msg);
   };
   return (
-    <div>
-      <form onSubmit={sendMsg}>
-        <input
-          type="text"
-          placeholder="Enter your msg"
-          value={msg}
-          onChange={(e) => {
-            setMsg(e.target.value);
-          }}
-        ></input>
-        <button type="submit">Send</button>
-      </form>
-    </div>
+    <form onSubmit={sendMsg} className="flex gap-2 px-4 py-2">
+      <input
+        type="text"
+        placeholder="Enter your msg"
+        className="inputdata bg-zinc-900"
+        value={msg}
+        onChange={(e) => {
+          setMsg(e.target.value);
+        }}
+      ></input>
+      <Button type="submit" text="Send" variant="gradient" rightIcon={<IoIosSend/>}/>
+    </form>
   );
 }
 

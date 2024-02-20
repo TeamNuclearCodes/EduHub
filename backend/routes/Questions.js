@@ -1,5 +1,4 @@
 import express from 'express'
-import connectToDB from '../utils/connectToDB.js'
 import Question from '../models/Question.js'
 import { ObjectId } from 'mongodb'
 
@@ -7,7 +6,6 @@ const router = express.Router()
 
 router.get('/',async (req,res) => {
     try{
-        await connectToDB()
         await Question.find({}).limit(10).sort({'_id': -1}).populate('author').then((questions) => {
             res.json(questions).status(200)
         })
@@ -19,7 +17,6 @@ router.get('/',async (req,res) => {
 router.post('/new',async (req,res) => {
     const reqBody = req.body
     try {
-        await connectToDB()
         const question = new Question({
             question: reqBody.question,
             author: new ObjectId(reqBody.author),
@@ -35,7 +32,6 @@ router.post('/new',async (req,res) => {
 router.get('/:id',async (req,res) => {
     const id = req.params.id
     try {
-        await connectToDB()
         const question = await Question.findById(id).populate('author').populate({
             path: 'comments.author',
             model: 'User'
@@ -53,7 +49,6 @@ router.get('/:id',async (req,res) => {
 router.patch('/:id', async (req,res) => {
     const id = req.params.id
     try {
-        await connectToDB()
         let question = await Question.findById(id)
         question.comments.push({
             comment: req.body.comment,

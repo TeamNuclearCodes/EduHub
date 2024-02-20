@@ -3,7 +3,9 @@ const Button = ({type,text,variant,extraClasses,handleClick,leftIcon, rightIcon}
     black: "bg-black text-white hover:bg-zinc-900 hover:text-white",
     gradient: "transition-all duration-400 bg-gradient text-black hover:from-fuchsia-800 hover:to-purple-800 hover:text-white",
     delete: "bg-red-800 hover:bg-red-900",
-    edit: "bg-blue-800 hover:bg-blue-900"
+    edit: "bg-blue-800 hover:bg-blue-900",
+    check: "bg-green-800 hover:bg-green-900",
+    chatbtn: "bg-purple-800 hover:bg-purple-900"
   }
 
   return (

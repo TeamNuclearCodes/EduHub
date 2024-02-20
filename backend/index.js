@@ -8,8 +8,7 @@ import grpRouter from './routes/Grps.js';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
-import mongoose from "mongoose";
-
+import connectToDB from "./utils/connectToDB.js";
 dotenv.config()
 
 const app = express()
@@ -18,16 +17,6 @@ app.get('/',(req,res) => {
     return res.status(200).send('MECLABS EDUPROJECT API')
 });
 
-// mongoose
-//   .connect(`${process.env.MONGO_URI}`)
-//   .then(() => {
-//     console.log("Connected to DB");
-//   })
-//   .catch((err) => {
-//     console.log(err.message);
-//   });
-// const db = mongoose.connection;
-
 app.use(express.json())
 app.use(cors())
 app.use('/api/auth',authRouter)
@@ -35,11 +24,12 @@ app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)
 app.use('/api/graph',graphRouter)
 app.use('/api/group',grpRouter);
-app.use('api/chat',msgRouter);
+app.use('/api/chat',msgRouter);
 
 
-const server = app.listen(5000, () => {
-    console.log('App running at port 5000');
+const server = app.listen(5000, async () => {
+  await connectToDB()
+  console.log('App running at port 5000');
 })
 
 const io = new Server(server, {

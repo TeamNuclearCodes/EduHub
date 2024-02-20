@@ -6,7 +6,7 @@ import { clctMsg } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
 
 export default function ChatSpace({ selectedGrp, user }) {
-  const socket = io(import.meta.env.VITE_CURRENT_URL);
+  const socket = io(import.meta.env.VITE_API_URL);
   socket.on("connect", () => {
     socket.on("receive-message", (message) => {
       console.log(message);
@@ -32,15 +32,24 @@ export default function ChatSpace({ selectedGrp, user }) {
   const extractMsg = (message, user) => {
     setMsg((prev) => [...prev, { sender: user, content: message }]);
   };
+
+  const msgUserType = (msg) => {
+    return msg.sender == user ? 'ml-auto text-right' : 'mr-auto text-left'
+  }
   return (
-    <div className="ChatSpace">
-      <div className="header">{selectedGrp}</div>
-      <div className="msgbox">
+    <div className="flex flex-col w-full bg-zinc-950 rounded-md h-[calc(100vh-19rem)] relative">
+      <div className="font-[600] text-xl bg-[#721da1] rounded-t-md px-4 py-2">{selectedGrp}</div>
+      <div className="flex flex-col w-full overflow-scroll px-4 py-2 gap-2 mb-20">
         {msg.map((msg, index) => (
-          <div key={index} className={msg.sender==user?"left":"right"}>{msg.content}</div>
+          <div key={index} className={`flex flex-col ${msgUserType(msg)} min-w-[100px] max-w-[350px]`}>
+            <div className="flex bg-zinc-950">
+              <p className={`text-[15px] font-[600] px-[5px] rounded-t-md bg-zinc-900 ${msgUserType(msg)}`}>{msg.sender}</p>
+            </div>
+            <p className={`text-[15px] px-2 py-1 bg-zinc-800 rounded-b-md ${msg.sender == user ? 'rounded-l-md' : 'rounded-r-md'}`}>{msg.content}</p>
+          </div>
         ))}
       </div>
-      <div className="input">
+      <div className="bottom-0 left-0 absolute w-full border-t-2 border-t-zinc-800">
         <Input currentGrp={selectedGrp} user={user} />
       </div>
     </div>

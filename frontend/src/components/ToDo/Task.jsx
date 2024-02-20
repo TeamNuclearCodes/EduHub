@@ -2,14 +2,16 @@ import { genDeadline } from "../../utils/ToDo";
 import Button from "../Button";
 import { MdDelete } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
+import { FaCheck } from "react-icons/fa6";
 
 const Task = ({task,deadline,deleteTask,editTask}) => {
-  const redBg = () => {
+  const statusBg = () => {
+    if (task.completed) return 'bg-green-400'
     return isNaN(deadline.substring(0,2).trim()) && !task.completed ? 'bg-[#d15252]' : 'bg-black'
   }
 
   return (
-  <div className={`p-[2px] w-full rounded-md ${redBg()}`}>
+  <div className={`p-[2px] w-full rounded-md ${statusBg()}`}>
     <div className={`flex bg-zinc-950 rounded-md p-2 max-md:flex-col bg-opacity-85`}>
       <div className="flex flex-col w-8/12 max-md:w-full">
         <h5 className="text-md font-[500] w-full">{task?.taskName}</h5>
@@ -20,6 +22,7 @@ const Task = ({task,deadline,deleteTask,editTask}) => {
         <p className="text-sm">{deadline}</p>
         {deleteTask && (
           <div className="flex justify-end pt-[4px] gap-2">
+            {!task.completed && <Button handleClick="" rightIcon={<FaCheck/>} variant="check"/>}
             <Button handleClick={() => deleteTask(task._id)} variant="delete" rightIcon={<MdDelete/>}/>
             <Button handleClick={() => editTask(task)} variant="edit" rightIcon={<FiEdit/>}/>
           </div>

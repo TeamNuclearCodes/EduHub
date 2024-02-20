@@ -41,10 +41,10 @@ router.post("/join", async (req, res) => {
     return res.status(400).send("Enter Groupname");
   } else {
     const groupDB = await Grp.findOne({ group: grp });
-    console.log(groupDB);
     if (!groupDB) return res.status(400).send("Group not found");
     try {
-      const userDB = await User.findOne({ user: user });
+      const userDB = await User.findOne({ username: user });
+      console.log(userDB)
       if (!userDB) {
         return res.status(404).send("User not found");
       }
@@ -54,6 +54,7 @@ router.post("/join", async (req, res) => {
       }
 
       userDB.chatgrps.push(grp);
+      console.log(userDB)
       await userDB.save();
 
       res.status(201).send(grp);

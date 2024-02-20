@@ -5,18 +5,19 @@ import "./Chat.css";
 import Groups from "../../components/Groups/Groups";
 import Welcome from "../../components/Welcome/Welcome";
 import ChatSpace from "../../components/ChatSpace/ChatSpace";
+import { UserAuth } from "../../context/AuthContext";
 
 function Chat() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(localStorage.getItem("currentUser"));
+  const [user, setUser] = useState('');
+  const {auth} = UserAuth()
   const [chatgrps, setChatgrps] = useState([]);
   const [selectedGrp, setSelectedGrps] = useState(undefined);
   const changeSelected = (grp) => {
     setSelectedGrps(grp);
   };
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!localStorage.getItem("auth")) {
+    if (!auth) {
       navigate("/login");
     } else {
       setUser(auth.username);
@@ -25,18 +26,22 @@ function Chat() {
   }, []);
   return (
     <ProtectedRoute>
-      <div className="container">
-        <Groups
-          grps={chatgrps}
-          handleSelect={changeSelected}
-          selectedGrp={selectedGrp}
-          uaer={user}
-        ></Groups>
-        {selectedGrp === undefined ? (
-          <Welcome />
-        ) : (
-          <ChatSpace selectedGrp={selectedGrp} user={user} />
-        )}
+      <div className="container mt-4 px-2">
+        <div className="flex justify-between w-full py-6 gap-4 max-md:flex-col max-md:px-2">
+          <Groups
+            grps={chatgrps}
+            handleSelect={changeSelected}
+            selectedGrp={selectedGrp}
+            uaer={user}
+          ></Groups>
+          <div className="flex w-9/12 justify-center">
+            {selectedGrp === undefined ? (
+              <Welcome />
+            ) : (
+              <ChatSpace selectedGrp={selectedGrp} user={user} />
+            )}
+          </div>
+        </div>
       </div>
     </ProtectedRoute>
   );

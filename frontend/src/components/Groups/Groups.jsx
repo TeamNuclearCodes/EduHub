@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import "./Group.css";
 import axios from "axios";
 import { createGrp, joinGroup } from "../../utils/APIRoutes";
+import Button from "../Button";
+import { UserAuth } from "../../context/AuthContext";
+import HrtLn from "../HrtLn";
+import { IoMdAdd } from "react-icons/io";
+import { MdAddToPhotos } from "react-icons/md";
 
 function Groups({ grps, handleSelect, selectedGrp }) {
-  const [grpName, setGrpName] = useState("");
+  const {auth,setAuth} = UserAuth()
+
+  const [grpName, setGrpName] = useState("")
 
   const setSelectGrp = (grp) => {
     handleSelect(grp);
@@ -13,10 +20,10 @@ function Groups({ grps, handleSelect, selectedGrp }) {
   const joinGrp = async (e) => {
     e.preventDefault();
     try {
-      var user = localStorage.getItem("currentUser");
+      console.log(joinGroup)
       const res = await axios.post(joinGroup, {
         grp: grpName,
-        user: user,
+        user: auth.username,
       });
       addValueToList(grpName);
     } catch (err) {
@@ -28,11 +35,9 @@ function Groups({ grps, handleSelect, selectedGrp }) {
     e.preventDefault();
     if (grpName === "") return;
     try {
-      const auth = JSON.parse(localStorage.getItem("auth"));
-      var user = auth.username;
       const res = await axios.post(createGrp, {
         grp: grpName,
-        user: user,
+        user: auth.username,
       });
       addValueToList(grpName);
     } catch (err) {
@@ -41,36 +46,41 @@ function Groups({ grps, handleSelect, selectedGrp }) {
   };
 
   function addValueToList(value) {
-    var auth = JSON.parse(localStorage.getItem("auth"));
     let existingList = auth.chatgrps;
-    console.log(existingList);
     existingList.push(value);
+    setAuth({...auth, chatgrps:existingList})
     auth.chatgrps = existingList;
-    var updatedAuth = JSON.stringify(auth);
-    localStorage.setItem("auth", updatedAuth);
-    window.location.reload();
+    localStorage.setItem("auth", JSON.stringify(auth));
+  }
+
+  const selectedClass = (grp) => {
+    return selectedGrp === grp ? "selected" : "bg-zinc-800"
   }
 
   return (
-    <div className="grps_container">
-      <div className="join_create">
+    <div className="flex bg-zinc-950 p-2 rounded-md flex-col text-center gap-2 w-3/12 h-[calc(100vh-19rem)]">
+      <div className="flex gap-2 max-xl:flex-col">
         <input
           type="text"
-          placeholder="enter grp name"
+          className="inputdata bg-zinc-900"
+          placeholder="Group Name"
           value={grpName}
           onChange={(e) => setGrpName(e.target.value)}
         ></input>
-        <button onClick={joinGrp}>Join</button>
-        <button onClick={createHandler}>Create</button>
+        <div className="flex gap-2">
+          <Button handleClick={joinGrp} text="Join" variant="chatbtn" leftIcon={<IoMdAdd/>}/>
+          <Button handleClick={createHandler} text="Create" variant="chatbtn" leftIcon={<MdAddToPhotos/>}/>
+        </div>
       </div>
+      <HrtLn />
       {grps.map((grp, index) => {
         return (
           <div
-            className={`grp ${selectedGrp === grp ? "selected" : ""}`}
+            className={`p-2 rounded-md hover:cursor-pointer ${selectedClass(grp)}`}
             key={index}
             onClick={() => setSelectGrp(grp)}
           >
-            {grp}
+            <p className="text-left font-[500]">{grp}</p>
           </div>
         );
       })}

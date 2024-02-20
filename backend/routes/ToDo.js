@@ -1,5 +1,4 @@
 import express from 'express'
-import connectToDB from '../utils/connectToDB.js'
 import TodoList from '../models/TodoList.js'
 import { ObjectId } from 'mongodb'
 
@@ -9,7 +8,6 @@ router.post('/', async (req,res) => {
     try{
         const user = JSON.parse(req.headers.authorization)
         const {taskDesc, taskName, deadline} = req.body;
-        await connectToDB()
         const task = new TodoList({
             taskDesc:taskDesc,
             taskName: taskName,
@@ -27,7 +25,6 @@ router.post('/', async (req,res) => {
 router.get('/', async(req,res) => {
     try{
         const user = JSON.parse(req.headers.authorization)
-        await connectToDB()
         const currentDate = new Date()
         var dueDate = new Date()
         dueDate.setDate(dueDate.getDate() + 3)
@@ -48,7 +45,6 @@ router.get('/', async(req,res) => {
 router.get('/all', async(req,res) => {
     try {
         const user = JSON.parse(req.headers.authorization)
-        await connectToDB()
         const tasks = await TodoList.find({author: new ObjectId(user._id)}).populate('author')
         return res.json(tasks)
     } catch (error) {
@@ -61,7 +57,6 @@ router.patch('/:id',async(req,res) => {
         const user = JSON.parse(req.headers.authorization)
         const taskId = req.params.id
         const newTodo = req.body
-        await connectToDB()
         await TodoList.findOneAndUpdate({
             author: new ObjectId(user._id),
             _id:new ObjectId(taskId)
@@ -76,7 +71,6 @@ router.delete('/:id',async(req,res) => {
     try {
         const user = JSON.parse(req.headers.authorization)
         const taskId = req.params.id
-        await connectToDB()
         await TodoList.findOneAndDelete({
             author: new ObjectId(user._id),
             _id:new ObjectId(taskId)

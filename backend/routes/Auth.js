@@ -1,5 +1,4 @@
 import express from 'express'
-import connectToDB from '../utils/connectToDB.js'
 import User from '../models/User.js'
 
 const router = express.Router()
@@ -8,7 +7,6 @@ router.post('/login',async (req,res) => {
     try {
         const username = req.body.username
         if (username){
-            await connectToDB()
             let user = await User.findOne({username:username})
             if (!user) {
                 user = new User({username: username})
