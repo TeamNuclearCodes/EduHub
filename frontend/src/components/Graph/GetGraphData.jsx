@@ -18,26 +18,68 @@ const GetGraphData = () => {
     todayDate.getMonth + 1
   }-${todayDate.getFullYear()}`;
 
+  // const genData = (formData) => {
+  //   return {
+  //     labels: formData.map((data) => data["date"]),
+  //     datasets: [
+  //       {
+  //         label: "LAC",
+  //         data: formData.map(
+  //           (data) =>
+  //             data["subject"] === "LAC" && data["marks"] / data["maxMarks"]
+  //         ),
+  //         borderColor: "#1f72de",
+  //       },
+  //       {
+  //         label: "Chemistry",
+  //         data: formData?.map(
+  //           (data) =>
+  //             data["subject"] === "Chemistry" &&
+  //             data["marks"] / data["maxMarks"]
+  //         ),
+  //         borderColor: "#cf1f1f",
+  //       },
+  //     ],
+  //   };
+  // };
+
   const genData = (formData) => {
     return {
-      labels: formData.map((data) => data["date"]),
+      labels: [
+        "05-12-2023",
+        "13-12-2023",
+        "22-12-2023",
+        "05-01-2024",
+        "17-01-2024",
+        "25-01-2024",
+        "02-02-2024",
+        "14-02-2024",
+      ],
       datasets: [
         {
           label: "LAC",
-          data: formData.map(
-            (data) =>
-              data["subject"] === "LAC" && data["marks"] / data["maxMarks"]
-          ),
+          data: [67, 73, 85, 76, 80, 90, 92, 87],
           borderColor: "#1f72de",
         },
         {
           label: "Chemistry",
-          data: formData?.map(
-            (data) =>
-              data["subject"] === "Chemistry" &&
-              data["marks"] / data["maxMarks"]
-          ),
+          data: [78, 74, 70, 66, 74, 78, 85, 82],
+          borderColor: "#069e16",
+        },
+        {
+          label: "BME",
+          data: [85, 89, 83, 84, 90, 93, 91, 88],
           borderColor: "#cf1f1f",
+        },
+        {
+          label: "BCE",
+          data: [75, 80, 81, 83, 85, 81, 76, 78],
+          borderColor: "#e0c424",
+        },
+        {
+          label: "Graphics",
+          data: [60, 73, 65, 78, 85, 87, 80, 73],
+          borderColor: "#b51abd",
         },
       ],
     };
