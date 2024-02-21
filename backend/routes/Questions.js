@@ -14,6 +14,17 @@ router.get('/',async (req,res) => {
     }
 })
 
+router.get('/user', async(req,res) => {
+    try {
+        const _id = req.headers.authorization
+        await Question.find({author: new ObjectId(_id)}).sort({'_id': -1}).populate('author').then((questions) => {
+            res.json(questions).status(200)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.post('/new',async (req,res) => {
     const reqBody = req.body
     try {
