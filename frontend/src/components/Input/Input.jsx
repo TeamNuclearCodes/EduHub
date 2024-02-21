@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import Button from "../Button";
 import { IoIosSend } from "react-icons/io";
 
-function Input({ currentGrp, user }) {
+function Input({ currentGrp, user}) {
   const socket = io(import.meta.env.VITE_API_URL);
   const [msg, setMsg] = useState("");
   const sendMsg = async (e) => {
