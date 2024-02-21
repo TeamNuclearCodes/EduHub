@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import "./ChatSpace.css";
 import Input from "../Input/Input";
 import axios from "axios";
@@ -6,15 +6,23 @@ import { clctMsg } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
 
 export default function ChatSpace({ selectedGrp, user }) {
+  const chatBoxRef = useRef(null)
+
+  const scrollDown = () => {
+    chatBoxRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   const socket = io(import.meta.env.VITE_API_URL);
   socket.on("connect", () => {
     socket.on("receive-message", (message) => {
       console.log(message);
       extractMsg(message.content, message.sender);
+      scrollDown()
     });
   });
 
   const [msg, setMsg] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,9 +36,13 @@ export default function ChatSpace({ selectedGrp, user }) {
       }
     };
     fetchData();
+    setTimeout(() => {
+      scrollDown();
+    },[300])
   }, [selectedGrp]);
   const extractMsg = (message, user) => {
     setMsg((prev) => [...prev, { sender: user, content: message }]);
+    scrollDown()
   };
 
   const msgUserType = (msg) => {
@@ -48,9 +60,11 @@ export default function ChatSpace({ selectedGrp, user }) {
             <p className={`text-[15px] px-2 py-1 bg-zinc-800 rounded-b-md ${msg.sender == user ? 'rounded-l-md' : 'rounded-r-md'}`}>{msg.content}</p>
           </div>
         ))}
+          <div className="mb-[50px]"/>
+          <div ref={chatBoxRef}/>
       </div>
       <div className="bottom-0 left-0 absolute w-full border-t-2 border-t-zinc-800">
-        <Input currentGrp={selectedGrp} user={user} />
+        <Input currentGrp={selectedGrp} user={user}/>
       </div>
     </div>
   );
