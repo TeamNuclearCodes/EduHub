@@ -7,17 +7,18 @@ import Button from "../Button";
 import { IoIosSend } from "react-icons/io";
 
 function Input({ currentGrp, user }) {
-  const socket = io(import.meta.env.VITE_CURRENT_URL);
-  socket.on("connect", () => {
-  });
+  const socket = io(import.meta.env.VITE_API_URL);
   const [msg, setMsg] = useState("");
   const sendMsg = async (e) => {
     e.preventDefault();
     if (msg === "") return;
     setMsg("");
     try {
-      socket
-        .emit("send-message",msg, currentGrp, user);
+      console.log(msg);
+      socket.on("connect", () => {
+        console.log("sender connected");
+      });
+      socket.emit("send-message", msg, currentGrp, user);
       const res = await axios.post(chat, {
         grp: currentGrp,
         msg: msg,
@@ -40,7 +41,12 @@ function Input({ currentGrp, user }) {
           setMsg(e.target.value);
         }}
       ></input>
-      <Button type="submit" text="Send" variant="gradient" rightIcon={<IoIosSend/>}/>
+      <Button
+        type="submit"
+        text="Send"
+        variant="gradient"
+        rightIcon={<IoIosSend />}
+      />
     </form>
   );
 }
