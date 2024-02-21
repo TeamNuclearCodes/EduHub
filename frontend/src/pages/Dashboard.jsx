@@ -70,7 +70,7 @@ const Dashboard = () => {
                       ariaLabel="color-ring-loading"
                       wrapperStyle={{}}
                       wrapperClass="color-ring-wrapper"
-                      colors={['#5b21b6', '#681faa', '#761c9e', '#86198f']}
+                      colors={['#5b21b6', '#681faa', '#721da1','#761c9e', '#86198f']}
                     />
                   )}
               </div>
@@ -90,7 +90,7 @@ const Dashboard = () => {
                     ariaLabel="color-ring-loading"
                     wrapperStyle={{}}
                     wrapperClass="color-ring-wrapper"
-                    colors={['#5b21b6', '#681faa', '#761c9e', '#86198f']}
+                    colors={['#5b21b6', '#681faa', '#721da1','#761c9e', '#86198f']}
                   />
                   )}
                 <div className="p-1">

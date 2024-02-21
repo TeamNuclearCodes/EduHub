@@ -3,6 +3,7 @@ import {ProtectedRoute, Button, HrtLn, Question} from "../../components"
 import {useNavigate} from 'react-router-dom'
 import getAuth from "../../utils/getAuth"
 import { apiBase } from "../../constants"
+import { MdOutlineLibraryAdd } from "react-icons/md";
 
 const Ask = () => {
   const [question,setQuestion] = useState({question:""})
@@ -36,13 +37,14 @@ const Ask = () => {
   return (
     <ProtectedRoute>
       <div className='container p-4'>
-        <form className='flex flex-col justify-center items-center gap-3 pb-2' onSubmit={handleSubmit}>
-          <h3 className='text-xl'>Ask a Question</h3>
+        <form className='flex flex-col justify-center gap-2 pb-2' onSubmit={handleSubmit}>
+        <h2 className="text-4xl mb-2 bg-clip-text bg-gradient text-transparent max-xl:w-full font-[500] w-3/12">Ask a Question</h2>
+        <HrtLn/>
           <textarea rows={10} placeholder='Wriet your question here' className='form__input inputdata bg-zinc-950'
             value={question.question}
             onChange={(e) => setQuestion({...question,question: e.target.value})}
           />
-          <Button type="submit" text="Submit" variant="gradient"/>
+          <Button type="submit" text="Submit Question" variant="gradient" leftIcon={<MdOutlineLibraryAdd/>}/>
         </form>
         <HrtLn/>
         <div className="p-2 flex flex-col gap-2">

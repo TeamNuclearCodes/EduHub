@@ -31,6 +31,7 @@ router.get('/', async(req,res) => {
 
         const tasks = await TodoList.find({
             author: new ObjectId(user._id),
+            completed:false,
             deadline: {
                 $gte: currentDate,
                 $lt: dueDate
