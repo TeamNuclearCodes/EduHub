@@ -10,7 +10,6 @@ import { UserAuth } from "../context/AuthContext";
 import { diffInDays } from "../utils/ToDo";
 import { ColorRing } from 'react-loader-spinner'
 
-
 const Dashboard = () => {
   const navigate = useNavigate()
   const [tasks, setTasks] = useState(null)
@@ -54,6 +53,8 @@ const Dashboard = () => {
             <GetGraphData />
           </div>
           <div className="w-4/12 flex flex-col max-md:w-full gap-2">
+          <Button text='Manage Your Profile' variant='gradient' handleClick={() => navigate('/profile')}
+                    rightIcon={<TbWindowMaximize/>}/>
             <div className="bg-gradient rounded-xl p-[1px] flex w-full">
               <div className="bg-zinc-900 rounded-xl p-2 flex flex-col gap-2 w-full">
                 <h3 className="text-[24px] bg-gradient bg-clip-text text-transparent font-[500] text-center">Recent Questions</h3>
