@@ -15,7 +15,7 @@ const Footer = () => {
             </div>
             <div className='flex gap-2'>
               {footerItems.map((item) => (
-                <Link map={item.link} to={item.link}>
+                <Link map={item.link} to={item.link} key={item.title}>
                   <span className='text-sm font-[450] hover:text-fuchsia-700 hover:underline'>
                     {item.title}
                   </span>

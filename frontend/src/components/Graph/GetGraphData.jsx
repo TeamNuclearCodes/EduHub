@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "..";
 import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
+import { graphItems, graphItemColors, apiBase} from "../../constants";
+import { UserAuth } from "../../context/AuthContext";
 
 const GetGraphData = () => {
+  const {auth} = UserAuth()
+  const [graphData, setGraphData] = useState([])
   const [formData, setFormData] = useState([]);
   const [newData, setNewData] = useState({
-    subject: "",
+    subject: "LAC",
     marks: "",
     maxMarks: "",
-    date: null,
-    color: "#cf1f1f",
+    date: "",
+    color: "#1f72de",
   });
+
+  useEffect(() => {
+    fetch(`${apiBase}/api/graph`,{
+      headers:{
+        'authorization': JSON.stringify(auth)
+      }
+    }).then(res => res.json()).then(data => {
+      console.log(data)
+      setGraphData(data)
+    })
+  },[])
 
   let todayDate = new Date();
   todayDate = `${todayDate.getDate()}-${
@@ -90,13 +105,34 @@ const GetGraphData = () => {
       ...newData,
       [event.target.name]: event.target.value,
     });
+    if (event.target.name === 'subject') {
+      setNewData({
+        ...newData,
+        [event.target.name]: event.target.value,
+        color: graphItemColors[event.target.value],
+      });
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setNewData(
-      (newData["date"] = newData["date"].split("-").reverse().join("-"))
-    );
+    console.log(newData)
+    fetch(`${apiBase}/api/graph`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        user: auth._id,
+        subject: newData.subject,
+        date: newData["date"].split("-").reverse().join("-"),
+        marksObtained: newData.marks,
+        totalMarks: newData.maxMarks,
+        borderColor: newData.color
+      })
+    }).then(res => res.json()).then(
+      data => console.log(data)
+    )
     const temp = formData;
     temp.push(newData);
     setFormData(temp);
@@ -121,11 +157,9 @@ const GetGraphData = () => {
             value={newData.subject}
             onChange={handleChange}
           >
-            <option value="LAC">LAC</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Graphics">Graphics</option>
-            <option value="BME">BME</option>
-            <option value="BCE">BCE</option>
+            {graphItems.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
           </select>
           <input
             type="text"
@@ -160,6 +194,7 @@ const GetGraphData = () => {
             Colour
             <input
               type="color"
+              disabled
               name="color"
               className="bg-zinc-950 rounded-sm border-none outline-none"
               value={newData.color}

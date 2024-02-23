@@ -5,6 +5,7 @@ import { Chart as ChartJS, defaults } from "chart.js/auto";
 const Graph = ({ data }) => {
   return (
     <div className="bg-gradient p-[1px] rounded-lg">
+      <h4 className="text-xl mb-1 text-black text-center">Your Progress</h4>
       <div className="shadow-[2px_2px_4px_rgba(0,0,0,0.2)] bg-zinc-950 rounded-lg">
         <Line
           data={data}

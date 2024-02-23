@@ -49,7 +49,6 @@ const Dashboard = () => {
         <HrtLn/>
         <div className="flex justify-between w-full py-6 gap-4 max-md:flex-col max-md:px-2">
           <div className="w-8/12 max-md:w-full">
-            <h4 className="text-xl mb-2 text-transparent bg-gradient bg-clip-text">Your Progress</h4>
             <GetGraphData />
           </div>
           <div className="w-4/12 flex flex-col max-md:w-full gap-2">
