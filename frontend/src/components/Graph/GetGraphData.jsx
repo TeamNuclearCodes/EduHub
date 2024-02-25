@@ -129,7 +129,9 @@ const GetGraphData = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <Graph data={genData()} />
+      {graphData?.labels && (
+        <Graph data={graphData} />
+      )}
       <h5 className="text-md underline text-zinc-400 underline-offset-4">
         Add data
       </h5>
