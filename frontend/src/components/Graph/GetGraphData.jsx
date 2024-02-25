@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Button } from "..";
 import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
-import { graphItems, graphItemColors, apiBase} from "../../constants";
+import { graphItems, graphItemColors, apiBase } from "../../constants";
 import { UserAuth } from "../../context/AuthContext";
 
 const GetGraphData = () => {
-  const {auth} = UserAuth()
-  const [graphData, setGraphData] = useState([])
-  const [formData, setFormData] = useState([]);
+  const { auth } = UserAuth();
+  const [graphData, setGraphData] = useState({});
   const [newData, setNewData] = useState({
     subject: "LAC",
     marks: "",
@@ -18,47 +17,23 @@ const GetGraphData = () => {
   });
 
   useEffect(() => {
-    fetch(`${apiBase}/api/graph`,{
-      headers:{
-        'authorization': JSON.stringify(auth)
-      }
-    }).then(res => res.json()).then(data => {
-      console.log(data)
-      setGraphData(data)
-    })
-  },[])
+    getGraphData();
+  }, []);
 
-  let todayDate = new Date();
-  todayDate = `${todayDate.getDate()}-${
-    todayDate.getMonth + 1
-  }-${todayDate.getFullYear()}`;
+  // let todayDate = new Date();
+  // todayDate = `${todayDate.getDate()}-${
+  //   todayDate.getMonth + 1
+  // }-${todayDate.getFullYear()}`;
 
-  // const genData = (formData) => {
-  //   return {
-  //     labels: formData.map((data) => data["date"]),
-  //     datasets: [
-  //       {
-  //         label: "LAC",
-  //         data: formData.map(
-  //           (data) =>
-  //             data["subject"] === "LAC" && data["marks"] / data["maxMarks"]
-  //         ),
-  //         borderColor: "#1f72de",
-  //       },
-  //       {
-  //         label: "Chemistry",
-  //         data: formData?.map(
-  //           (data) =>
-  //             data["subject"] === "Chemistry" &&
-  //             data["marks"] / data["maxMarks"]
-  //         ),
-  //         borderColor: "#cf1f1f",
-  //       },
-  //     ],
-  //   };
+  const studentData = {
+    labels: [],
+  };
+
+  // const genData = () => {
+  //   return graphData;
   // };
 
-  const genData = (formData) => {
+  const genData = () => {
     return {
       labels: [
         "05-12-2023",
@@ -100,12 +75,27 @@ const GetGraphData = () => {
     };
   };
 
+  const getGraphData = () => {
+    fetch(`${apiBase}/api/graph`, {
+      headers: {
+        authorization: JSON.stringify(auth),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setGraphData(data);
+        console.log(data);
+        console.log("returned data above");
+      });
+  };
+
   const handleChange = (event) => {
     setNewData({
       ...newData,
       [event.target.name]: event.target.value,
     });
-    if (event.target.name === 'subject') {
+    if (event.target.name === "subject") {
       setNewData({
         ...newData,
         [event.target.name]: event.target.value,
@@ -116,11 +106,11 @@ const GetGraphData = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(newData)
-    fetch(`${apiBase}/api/graph`,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
+    console.log(newData);
+    fetch(`${apiBase}/api/graph`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         user: auth._id,
@@ -128,19 +118,18 @@ const GetGraphData = () => {
         date: newData["date"].split("-").reverse().join("-"),
         marksObtained: newData.marks,
         totalMarks: newData.maxMarks,
-        borderColor: newData.color
-      })
-    }).then(res => res.json()).then(
-      data => console.log(data)
-    )
-    const temp = formData;
-    temp.push(newData);
-    setFormData(temp);
+        borderColor: newData.color,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+    console.log("submitted");
+    getGraphData();
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <Graph data={genData(formData)} />
+      <Graph data={genData} />
       <h5 className="text-md underline text-zinc-400 underline-offset-4">
         Add data
       </h5>
@@ -164,6 +153,7 @@ const GetGraphData = () => {
           <input
             type="text"
             name="marks"
+            autoComplete="off"
             placeholder="Marks Obtained"
             className="inputdata bg-zinc-950"
             value={newData.marks}
@@ -174,6 +164,7 @@ const GetGraphData = () => {
           <input
             type="text"
             name="maxMarks"
+            autoComplete="off"
             placeholder="Maximum Marks"
             className="inputdata bg-zinc-950"
             value={newData.maxMarks}
@@ -183,7 +174,7 @@ const GetGraphData = () => {
             type="date"
             name="date"
             placeholder="Date of Assessment"
-            defaultValue={todayDate}
+            // defaultValue={todayDate}
             className="inputdata bg-zinc-950"
             value={newData.date}
             onChange={handleChange}

@@ -12,6 +12,16 @@ const Graph = ({ data }) => {
           options={{
             borderColor: "#fff",
             color: "#fff",
+            scales: {
+              y: {
+                beginAtZero: true,
+                min: 0,
+                max: 100,
+                ticks: {
+                  stepSize: 10,
+                },
+              },
+            },
           }}
         />
       </div>
