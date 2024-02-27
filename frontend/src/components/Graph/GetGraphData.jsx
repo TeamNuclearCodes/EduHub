@@ -25,13 +25,11 @@ const GetGraphData = () => {
   //   todayDate.getMonth + 1
   // }-${todayDate.getFullYear()}`;
 
-  const studentData = {
-    labels: [],
+  const recentDate = (newD, prevD) => {
+    const newDate = new Date(newD);
+    const prevDate = new Date(prevD.split("-").reverse().join("-"));
+    return newDate > prevDate;
   };
-
-  // const genData = () => {
-  //   return graphData;
-  // };
 
   const genData = () => {
     return {
@@ -104,34 +102,59 @@ const GetGraphData = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(newData);
-    fetch(`${apiBase}/api/graph`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: auth._id,
-        subject: newData.subject,
-        date: newData["date"].split("-").reverse().join("-"),
-        marksObtained: newData.marks,
-        totalMarks: newData.maxMarks,
-        borderColor: newData.color,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-    console.log("submitted");
-    getGraphData();
+  const handleSubmit = async (event) => {
+    if (recentDate(newData["date"], graphData.labels[-1])) {
+      event.preventDefault();
+      console.log(newData);
+      fetch(`${apiBase}/api/graph`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: auth._id,
+          subject: newData.subject,
+          date: newData["date"].split("-").reverse().join("-"),
+          marksObtained: newData.marks,
+          totalMarks: newData.maxMarks,
+          borderColor: newData.color,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+      console.log("submitted");
+      getGraphData();
+    } else if (graphData.labels.include(newData["date"])) {
+      const subjectToChange = graphData.datasets.filter(
+        (element) => element.subject == newData.subject
+      )[0];
+      const requestBody = JSON.stringify({
+        labels: graphData.labels,
+        datasets: [
+          ...graphData.datasets,
+          (subjectToChange.data[
+            graphData.labels.indexOf(
+              newData["date"].split("-").reverse().join("-")
+            )
+          ] = Math.floor(newData.marksObtained / newData.maxMarks)),
+        ],
+      });
+      await fetch(`${apiBase}/api/graph/${localStorage.auth._id}`, {
+        method: "PATCH",
+        headers: {
+          authorization: JSON.stringify(auth),
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      })
+        .then((res) => res.json())
+        .then((data) => getGraphData());
+    }
   };
 
   return (
     <div className="flex flex-col gap-2">
-      {graphData?.labels && (
-        <Graph data={graphData} />
-      )}
+      {graphData?.labels && <Graph data={graphData} />}
       <h5 className="text-md underline text-zinc-400 underline-offset-4">
         Add data
       </h5>

@@ -59,4 +59,17 @@ router.get('/', async(req,res) => {
     }
 })
 
+router.patch('/:user_id', async(req, res) => {
+    try {
+        const user = JSON.parse(req.headers.authorization)
+        const newGraphData = req.body
+        await Graph.findOneAndUpdate({
+            author: new ObjectId(user._id)
+        }, newGraphData)
+        return res.json({message: `Graph data of user with ID ${user._id} has been updated`}).status(200)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export default router
