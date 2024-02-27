@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
 import {ProtectedRoute, Button, HrtLn, Question} from "../../components"
 import {useNavigate} from 'react-router-dom'
-import getAuth from "../../utils/getAuth"
 import { apiBase } from "../../constants"
 import { MdOutlineLibraryAdd } from "react-icons/md";
+import { UserAuth } from "../../context/AuthContext"
 
 const Ask = () => {
+  const {auth} = UserAuth()
   const [question,setQuestion] = useState({question:""})
   const [questions,setQuestions] = useState([])
   const [userQuestions,setUserQuestions] = useState([])
-  const user = getAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -21,7 +21,7 @@ const Ask = () => {
       },
       body: JSON.stringify({
         question: question.question,
-        author: user._id
+        author: auth._id
       })
     }).then(res => res.json()).then(data => {
       navigate(`/question/${data.id}`)
@@ -31,7 +31,7 @@ const Ask = () => {
   useEffect(() => {
     fetch(`${apiBase}/api/questions/user`,{
       headers: {
-        'authorization': user._id
+        'authorization': auth._id
       }
     }).then(res => res.json()).then(data => setUserQuestions(data))
   })

@@ -7,5 +7,6 @@ import HrtLn from "./HrtLn";
 import Question from "./Question/Question";
 import Task from './ToDo/Task';
 import AlertCard from "./AlertCard";
+import ProfileNavbar from "./Profile/ProfileNavbar";
 
-export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task, AlertCard}
+export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task, AlertCard, ProfileNavbar}

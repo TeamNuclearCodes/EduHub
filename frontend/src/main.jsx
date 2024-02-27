@@ -3,8 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Ask, Question, Dashboard, Login, ToDo, Profile } from "./pages";
+import { Ask, Question, Dashboard, Login, ToDo, Home, Find, EditProfile } from "./pages";
 import Chat from "./pages/Chat/Chat.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,19 +14,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
       },
       {
         path: "todo",
-        element: <ToDo />,
+        element: <ProtectedRoute><ToDo /></ProtectedRoute>,
       },
       {
         path: "ask",
-        element: <Ask />,
+        element: <ProtectedRoute><Ask /></ProtectedRoute>,
       },
       {
         path: "question/:slug",
-        element: <Question />,
+        element: <ProtectedRoute><Question /></ProtectedRoute>,
       },
       {
         path: "login",
@@ -33,11 +34,20 @@ const router = createBrowserRouter([
       },
       {
         path: "chat",
-        element: <Chat />,
+        element: <ProtectedRoute><Chat /></ProtectedRoute>,
       },
       {
-        path:"profile",
-        element: <Profile/>
+        path:"",
+        element: <ProtectedRoute><Home/></ProtectedRoute>,
+        children: [
+          {
+            path:"",
+            element: <Find/>
+          },{
+            path:"profile",
+            element: <EditProfile/>
+          }
+        ]
       }
     ],
   },

@@ -5,6 +5,9 @@ const AuthContext = createContext()
 const initUser = {
     _id: "",
     username: "",
+    name:"",
+    college:"",
+    semester:"",
     chatgrps: [],
 }
 

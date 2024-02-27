@@ -5,6 +5,7 @@ import todoRouter from './routes/ToDo.js'
 import graphRouter from './routes/Graph.js'
 import msgRouter from './routes/Msg.js';
 import grpRouter from './routes/Grps.js';
+import userRouter from './routes/User.js'
 import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
@@ -22,6 +23,7 @@ app.use('/api/todo',todoRouter)
 app.use('/api/graph',graphRouter)
 app.use('/api/group',grpRouter);
 app.use('/api/chat',msgRouter);
+app.use('/api/user', userRouter)
 
 
 const server = http.createServer(app);

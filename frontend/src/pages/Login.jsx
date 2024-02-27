@@ -52,6 +52,7 @@ const Login = () => {
               value={user.username}
               onChange={(e) => setUser({ ...user, username: e.target.value })}
             />
+            <input type="password" className="form__input inputdata bg-zinc-900" placeholder="Password"/>
             <Button type="submit" text="Submit" variant="gradient" leftIcon={<PiSignInBold/>}/>
           </form>
         </div>
