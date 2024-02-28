@@ -11,6 +11,8 @@ import dotenv from 'dotenv'
 import { Server } from "socket.io";
 import connectToDB from "./utils/connectToDB.js";
 import http from 'http'
+import path from "path";
+
 dotenv.config()
 
 const app = express()
@@ -46,9 +48,18 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get('/',(req,res) => {
+app.get('/api',(req,res) => {
   return res.status(200).send('MECLABS EDUPROJECT API')
 });
+
+if (process.env.PRODUCTION === "true") {
+  console.log(process.env.PRODUCTION)
+  app.use(express.static('../frontend/dist'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve('../frontend/dist', 'index.html'));
+  });
+}
 
 server.listen(5000, async () => {
   await connectToDB()
