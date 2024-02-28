@@ -4,6 +4,7 @@ import Input from "../Input/Input";
 import axios from "axios";
 import { clctMsg } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
+import { MdVideocam } from "react-icons/md";
 
 export default function ChatSpace({ selectedGrp, user }) {
   const chatBoxRef = useRef(null)
@@ -50,7 +51,10 @@ export default function ChatSpace({ selectedGrp, user }) {
   }
   return (
     <div className="flex flex-col w-full bg-zinc-950 rounded-md h-[calc(100vh-19rem)] relative">
-      <div className="font-[600] text-xl bg-[#721da1] rounded-t-md px-4 py-2">{selectedGrp}</div>
+      <div className="font-[600] text-xl bg-[#721da1] rounded-t-md px-4 py-2 flex justify-between items-center">
+        {selectedGrp}
+        <MdVideocam/>
+      </div>
       <div className="flex flex-col w-full overflow-scroll px-4 py-2 gap-2 mb-20">
         {msg.map((msg, index) => (
           <div key={index} className={`flex flex-col ${msgUserType(msg)} min-w-[100px] max-w-[350px]`}>

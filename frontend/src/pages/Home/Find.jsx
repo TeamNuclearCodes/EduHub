@@ -18,8 +18,8 @@ const Find = () => {
         _id: auth._id
       })
     }).then(res => res.json()).then(data => {
-        console.log(data)
-        setData(data)
+      if (!data.message) setData(data)
+      else setData([])
     })
   },[])
 

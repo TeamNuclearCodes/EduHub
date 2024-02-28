@@ -26,9 +26,11 @@ const GetGraphData = () => {
   // }-${todayDate.getFullYear()}`;
 
   const recentDate = (newD, prevD) => {
-    const newDate = new Date(newD);
-    const prevDate = new Date(prevD.split("-").reverse().join("-"));
-    return newDate > prevDate;
+    if(prevD.lebels) {
+      const newDate = new Date(prevD.lebels[-1]);
+      const prevDate = new Date(prevD.split("-").reverse().join("-"));
+      return newDate > prevDate;
+    } else return true
   };
 
   const genData = () => {
@@ -103,7 +105,9 @@ const GetGraphData = () => {
   };
 
   const handleSubmit = async (event) => {
-    if (recentDate(newData["date"], graphData.labels[-1])) {
+    event.preventDefault()
+    console.log(graphData)
+    if (recentDate(newData["date"], graphData)) {
       event.preventDefault();
       console.log(newData);
       fetch(`${apiBase}/api/graph`, {
