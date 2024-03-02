@@ -53,7 +53,6 @@ app.get('/api',(req,res) => {
 });
 
 if (process.env.PRODUCTION === "true") {
-  console.log(process.env.PRODUCTION)
   app.use(express.static('../frontend/dist'));
 
   app.get('*', (req, res) => {
