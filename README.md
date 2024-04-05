@@ -66,7 +66,12 @@ npm start
 ## Team Members
 
 
-| <img src="https://avatars.githubusercontent.com/u/138325645" width="100"/> | <img src="https://avatars.githubusercontent.com/u/147746119" width="100"/> | ![](https://avatars.githubusercontent.com/u/96683120?s=100) | ![](https://avatars.githubusercontent.com/u/45532566?s=100) |
-:-:|:-:|:-:|:-:
-|Aaron George<br/>Abraham|Eshaan<br/>Abdulkalam|Midhun Unni|Vasanth R|
-|<a href="https://github.com/aaron-6960">@aaron-6960</a>|<a href="https://github.com/Eshaanmanath">@Eshaanmanath</a>|<a href="https://github.com/midhununni457">@midhununni457</a>|<a href="https://github.com/1337kid/">@1337kid</a>|
+| <img src="https://avatars.githubusercontent.com/u/138325645" width="100"/> | <img src="https://avatars.githubusercontent.com/u/147746119" width="100"/> |
+:-:|:-:
+|Aaron George<br/>Abraham|Eshaan<br/>Abdulkalam|
+|<a href="https://github.com/aaron-6960">@aaron-6960</a>|<a href="https://github.com/Eshaanmanath">@Eshaanmanath</a>|
+
+|![](https://avatars.githubusercontent.com/u/96683120?s=100) | ![](https://avatars.githubusercontent.com/u/45532566?s=100) |
+:-:|:-:
+|Midhun Unni|Vasanth R|
+|<a href="https://github.com/midhununni457">@midhununni457</a>|<a href="https://github.com/1337kid/">@1337kid</a>|
