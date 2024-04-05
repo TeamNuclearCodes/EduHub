@@ -65,7 +65,8 @@ npm start
 
 ## Team Members
 
-
+<div align="center">
+  
 | <img src="https://avatars.githubusercontent.com/u/138325645" width="100"/> | <img src="https://avatars.githubusercontent.com/u/147746119" width="100"/> |
 :-:|:-:
 |Aaron George<br/>Abraham|Eshaan<br/>Abdulkalam|
@@ -75,3 +76,5 @@ npm start
 :-:|:-:
 |Midhun Unni|Vasanth R|
 |<a href="https://github.com/midhununni457">@midhununni457</a>|<a href="https://github.com/1337kid/">@1337kid</a>|
+
+</div>
