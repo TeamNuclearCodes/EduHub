@@ -6,5 +6,6 @@ import ToDo from "./ToDo";
 import Home from "./Home/Home"
 import Find from "./Home/Find";
 import EditProfile from "./Home/EditProfile";
+import SignUp from "./SignUp"
 
-export {Ask, Question, Dashboard, Login, ToDo, Home, Find, EditProfile}
+export {Ask, Question, Dashboard, Login, ToDo, Home, Find, EditProfile, SignUp}

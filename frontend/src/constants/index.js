@@ -21,9 +21,9 @@ const graphItemColors = {
     Graphics: "#b51abd",
 }
 
-const profileColleges = ['--- Select A College ---','Govt. Model Engineering College','test','test2']
+const profileColleges = ['Govt. Model Engineering College','test','test2']
 
-const profileSemesters = ['--- Select A Semester ---','1','2','3','4','5','6','7','8']
+const profileSemesters = ['1','2','3','4','5','6','7','8']
 
 const apiBase = import.meta.env.VITE_API_URL
 

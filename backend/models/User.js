@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     type:String,
     unique:true
   },
+  password: String,
   chatgrps: {
     type: [String],
     required: false,
