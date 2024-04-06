@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiBase } from "../constants";
 import { Button, AlertCard } from "../components";
 import { PiSignInBold } from "react-icons/pi";
@@ -69,6 +69,7 @@ const Login = () => {
               value={user.password}
               onChange={handleChange}
             />
+            <span className="text-sm">New to EduHub? <Link to="/signup"><a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">Sign Up</a></Link></span>
             <Button type="submit" text="Login" variant="gradient" leftIcon={<PiSignInBold/>}/>
           </form>
         </div>

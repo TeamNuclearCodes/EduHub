@@ -4,6 +4,7 @@ import { profileSemesters, profileColleges, apiBase } from "../constants";
 import { Button, AlertCard } from "../components";
 import { PiSignInBold } from "react-icons/pi";
 import { UserAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Login = () => {
             className="flex justify-center items-center bg-zinc-950 rounded-md p-4 w-full flex-col gap-3"
           >
             <h3 className="text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent">
-              Signup
+              Sign Up
             </h3>
             {alertMsg?.msg && <AlertCard text={alertMsg.msg} type={alertMsg.type}/>}
             <input
@@ -114,7 +115,8 @@ const Login = () => {
                 <option key={item} value={item}>{item}</option>
               ))}
             </select>
-            <Button type="submit" text="SignUp" variant="gradient" leftIcon={<PiSignInBold/>}/>
+            <span className="text-sm">Already have an account? <Link to="/login"><a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">Login</a></Link></span>
+            <Button type="submit" text="Sign Up" variant="gradient" leftIcon={<PiSignInBold/>}/>
           </form>
         </div>
       </div>
