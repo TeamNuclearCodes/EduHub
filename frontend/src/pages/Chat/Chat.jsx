@@ -9,9 +9,11 @@ import { UserAuth } from "../../context/AuthContext";
 
 function Chat() {
   const navigate = useNavigate();
-  const [user, setUser] = useState('');
-  const {auth} = UserAuth()
+  const [user, setUser] = useState("");
+  const { auth } = UserAuth();
   const [chatgrps, setChatgrps] = useState([]);
+  const [frnds, setFrnds] = useState([]);
+
   const [selectedGrp, setSelectedGrps] = useState(undefined);
   const changeSelected = (grp) => {
     setSelectedGrps(grp);
@@ -22,6 +24,7 @@ function Chat() {
     } else {
       setUser(auth.username);
       setChatgrps(auth.chatgrps);
+      setFrnds(auth.frnds);
     }
   }, []);
   return (
@@ -29,6 +32,7 @@ function Chat() {
       <div className="container mt-4 px-2">
         <div className="flex justify-between w-full py-6 gap-4 max-md:flex-col max-md:px-2">
           <Groups
+            frnds={frnds}
             grps={chatgrps}
             handleSelect={changeSelected}
             selectedGrp={selectedGrp}
