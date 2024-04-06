@@ -30,7 +30,9 @@ cd ../frontend && npm i && touch .env
 #### ENV files
 - Backend
 ```env
-MONGO_URI=MONGO_DB_URI_HERE           # MONGO_URI=mongodb+srv://username:password@.mongodb.host/
+MONGO_URI=MONGO_DB_URI_HERE             # MONGO_URI=mongodb+srv://username:password@mongodb.host/
+DB_NAME=DATABASE_NAME                   # DB_NAME=eduproj
+JWT_SECRET=JWT_SECRET_KEY               # JWT_SECRET="#TRTQ&@bg2737ro23btDVFHWU8efqwequ7v781VERTY!^6R%#$#^i198"
 ```
 
 - Frontend
