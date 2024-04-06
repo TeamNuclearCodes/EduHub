@@ -9,7 +9,7 @@ const connectToDB = async () => {
             return
         }
         await mongoose.connect(`${process.env.MONGO_URI}`,{
-            dbName:'eduproj'
+            dbName:`${process.env.DB_NAME}`
         })
         isConnected = true
         console.log('Connected to DB')

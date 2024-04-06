@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { profileSemesters, profileColleges, apiBase } from "../constants";
-import { Button } from "../components";
+import { Button, AlertCard } from "../components";
 import { PiSignInBold } from "react-icons/pi";
 import { UserAuth } from "../context/AuthContext";
 
@@ -9,6 +9,7 @@ const Login = () => {
   const navigate = useNavigate();
   const {auth, setAuth} = UserAuth()
   const [user, setUser] = useState({ username: "",password: "", name: "", college:"", semester:"" });
+  const [alertMsg, setAlertMsg] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,17 +22,21 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("auth", JSON.stringify(data));
-        setAuth(data)
-        // navigate("/dashboard")
+        if (data.error) {
+          setAlertMsg({msg: data.error, type:'error'})
+        } else if(data.user) {
+          localStorage.setItem("auth", JSON.stringify(data.user));
+          setAuth(data.user)
+          navigate("/dashboard")
+        }
       });
   };
 
-  // useEffect(() => {
-  //   if (auth._id) {
-  //     navigate("/dashboard");
-  //   }
-  // },[])
+  useEffect(() => {
+    if (auth._id) {
+      navigate("/dashboard");
+    }
+  },[])
 
   const handleChange = (e) => {
     setUser({...user, 
@@ -50,6 +55,7 @@ const Login = () => {
             <h3 className="text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent">
               Signup
             </h3>
+            {alertMsg?.msg && <AlertCard text={alertMsg.msg} type={alertMsg.type}/>}
             <input
               type="username"
               name="username"
@@ -60,15 +66,6 @@ const Login = () => {
               onChange={handleChange}
             />
             <input
-              type="password"
-              name="password"
-              className="form__input inputdata bg-zinc-900"
-              placeholder="Password" 
-              required
-              value={user?.password}
-              onChange={handleChange}
-            />
-            <input
               type="text"
               name="name"
               autoComplete="off"
@@ -76,6 +73,15 @@ const Login = () => {
               required
               className="form__input inputdata bg-zinc-900"
               value={user?.name}
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="password"
+              className="form__input inputdata bg-zinc-900"
+              placeholder="Password" 
+              required
+              value={user?.password}
               onChange={handleChange}
             />
             <select

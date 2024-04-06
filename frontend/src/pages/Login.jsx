@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../constants";
-import { Button } from "../components";
+import { Button, AlertCard } from "../components";
 import { PiSignInBold } from "react-icons/pi";
-import getAuth from "../utils/getAuth";
 import { UserAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const {auth, setAuth} = UserAuth()
-  const [user, setUser] = useState({ username: "" });
+  const [user, setUser] = useState({ username: "", password: ""});
+  const [alertMsg, setAlertMsg] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +18,16 @@ const Login = () => {
       headers: {
         "content-Type": "application/json",
       },
-      body: JSON.stringify({ username: user.username }),
+      body: JSON.stringify(user),
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("auth", JSON.stringify(data));
-        setAuth(data)
-        navigate("/dashboard")
+        if (data.error) setAlertMsg({msg: data.error,type:'error'})
+        else if (data.user) {
+          localStorage.setItem("auth", JSON.stringify(data.user));
+          setAuth(data.user)
+          navigate("/dashboard")
+        }
       });
   };
 
@@ -33,6 +36,10 @@ const Login = () => {
       navigate("/dashboard");
     }
   },[])
+
+  const handleChange = (e) => {
+    setUser({...user, [e.target.name]: e.target.value})
+  }
 
   return (
     <div className="container p-4">
@@ -43,17 +50,26 @@ const Login = () => {
             className="flex justify-center items-center bg-zinc-950 rounded-md p-4 w-full flex-col gap-3"
           >
             <h3 className="text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent">
-              Login | Signup
+              Login
             </h3>
+            {alertMsg?.msg && <AlertCard text={alertMsg.msg} type={alertMsg.type}/>}
             <input
               type="username"
+              name="username"
               placeholder="Username"
               className="form__input inputdata bg-zinc-900"
               value={user.username}
-              onChange={(e) => setUser({ ...user, username: e.target.value })}
+              onChange={handleChange}
             />
-            <input type="password" className="form__input inputdata bg-zinc-900" placeholder="Password"/>
-            <Button type="submit" text="Submit" variant="gradient" leftIcon={<PiSignInBold/>}/>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              className="form__input inputdata bg-zinc-900"
+              value={user.password}
+              onChange={handleChange}
+            />
+            <Button type="submit" text="Login" variant="gradient" leftIcon={<PiSignInBold/>}/>
           </form>
         </div>
       </div>

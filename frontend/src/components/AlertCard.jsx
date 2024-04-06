@@ -1,5 +1,3 @@
-import React from 'react'
-
 const alertTypes = {
     error: 'bg-red-800', 
 }
