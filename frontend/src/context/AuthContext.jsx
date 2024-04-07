@@ -8,6 +8,7 @@ const initUser = {
     name:"",
     college:"",
     semester:"",
+    frnds:"",
     chatgrps: [],
 }
 

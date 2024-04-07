@@ -46,17 +46,10 @@ router.post('/signup', async(req,res) => {
             })
             user.save()
             const jwtoken = genToken(user)
+            delete user._doc.password
             res.json({
                 message: "SignUp Successful",
-                user: {
-                    _id: user._id,
-                    username: user.username,
-                    name: user.name,
-                    college: user.college,
-                    semester: user.semester,
-                    chatgrps: user.chatgrps,
-                    token: jwtoken
-                }
+                user: user
             }).status(201)
         }
     } catch (error) {
