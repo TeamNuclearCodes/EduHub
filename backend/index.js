@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 import connectToDB from "./utils/connectToDB.js";
 import http from 'http'
 import path from "path";
+import authHandler from "./middlewares/authHandler.js";
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use('/api/auth',authRouter)
+//app.use('/api/*', [authHandler])   uncomment after after modifying fetch requests in frontend
 app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)
 app.use('/api/graph',graphRouter)
