@@ -8,7 +8,7 @@ const router = express.Router()
 router.post('/login',async (req,res) => {
     try {
         const body = req.body
-        if (body.username){
+        if (body.username && body.password){
             let user = await User.findOne({username:body.username})
             if (!user) res.json({error:'Username doesn\'t exists'}).status(403)
             else {
@@ -22,10 +22,7 @@ router.post('/login',async (req,res) => {
 
                 })
             }
-        } else {
-            res.json({error: 'Invalid username'}).status(401)
-        }
- 
+        } else res.json({error:'username & password are required arguments'})
     } catch (err) {
         console.log(err)
     }
@@ -34,25 +31,28 @@ router.post('/login',async (req,res) => {
 router.post('/signup', async(req,res) => {
     try {
         const body = req.body
-        const user = await User.findOne({username: body.username})
-        if (user) res.json({error: 'Username is taken. Pick another one'}).status(409)
+        if (!(body.username && body.password)) res.json({error:'username & password are required arguments'})
         else {
-            const newUser = new User({
-                username: body.username,
-                password: bcrypt.hashSync(body.password, bcrypt.genSaltSync(10)),
-                name: body.name,
-                college: body.college,
-                semester: body.semester
-            })
-            newUser.save()
-            const jwtoken = genToken(newUser)
-            let returnobj = {...newUser._doc}
-            delete returnobj.password
-            returnobj.token = jwtoken
-            res.json({
-                message: "SignUp Successful",
-                user: returnobj
-            }).status(201)
+            const user = await User.findOne({username: body.username})
+            if (user) res.json({error: 'Username is taken. Pick another one'}).status(409)
+            else {
+                const newUser = new User({
+                    username: body.username,
+                    password: bcrypt.hashSync(body.password, bcrypt.genSaltSync(10)),
+                    name: body.name || '',
+                    college: body.college || '',
+                    semester: body.semester || ''
+                })
+                newUser.save()
+                const jwtoken = genToken(newUser)
+                let returnobj = {...newUser._doc}
+                delete returnobj.password
+                returnobj.token = jwtoken
+                res.json({
+                    message: "SignUp Successful",
+                    user: returnobj
+                }).status(201)
+            }
         }
     } catch (error) {
         console.log(error)
