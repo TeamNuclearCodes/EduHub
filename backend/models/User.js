@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   password: String,
+  email: String,
   chatgrps: {
     type: [String],
     required: false,
@@ -17,6 +18,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   college: String,
   semester: String,
+  profileImage: String
 });
 
 const User = mongoose.model("User",userSchema)

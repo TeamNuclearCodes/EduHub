@@ -12,6 +12,7 @@ const Login = () => {
   const [user, setUser] = useState({
     username: "",
     password: "",
+    email: "",
     name: "",
     college: "",
     semester: "",
@@ -76,6 +77,16 @@ const Login = () => {
               className="form__input inputdata bg-zinc-900"
               required
               value={user?.username}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="email"
+              autoComplete="off"
+              placeholder="Your E-Mail address"
+              required
+              className="form__input inputdata bg-zinc-900"
+              value={user?.email}
               onChange={handleChange}
             />
             <input

@@ -8,5 +8,6 @@ import Question from "./Question/Question";
 import Task from './ToDo/Task';
 import AlertCard from "./AlertCard";
 import ProfileNavbar from "./Profile/ProfileNavbar";
+import UserCard from "./Profile/UserCard";
 
-export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task, AlertCard, ProfileNavbar}
+export {Navbar ,Footer ,ProtectedRoute ,CommentCard ,Button, HrtLn, Question, Task, AlertCard, ProfileNavbar, UserCard}
