@@ -6,6 +6,7 @@ import graphRouter from './routes/Graph.js'
 import msgRouter from './routes/Msg.js';
 import grpRouter from './routes/Grps.js';
 import userRouter from './routes/User.js'
+import frndsRouter from './routes/Frnds.js'
 import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
@@ -26,6 +27,7 @@ app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)
 app.use('/api/graph',graphRouter)
 app.use('/api/group',grpRouter);
+app.use('/api/frnds',frndsRouter);
 app.use('/api/chat',msgRouter);
 app.use('/api/user', userRouter)
 
@@ -43,7 +45,7 @@ io.on("connection", (socket) => {
   console.log('User connected')
   socket.on("join", (room) => socket.join(room));
   socket.on("send-message", (message, grp, sender) => {
-    console.log(message);
+    console.log(message,grp,sender);
     socket
       .to(grp)
       .emit("receive-message", { content: message, sender: sender });

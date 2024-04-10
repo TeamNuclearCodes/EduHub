@@ -8,7 +8,7 @@ import HrtLn from "../HrtLn";
 import { IoMdAdd } from "react-icons/io";
 import { MdAddToPhotos } from "react-icons/md";
 
-function Groups({ frnds, grps, handleSelect, selectedGrp }) {
+function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
   const { auth, setAuth } = UserAuth();
 
   const [grpName, setGrpName] = useState("");
@@ -17,6 +17,7 @@ function Groups({ frnds, grps, handleSelect, selectedGrp }) {
 
   const setSelectGrp = (grp) => {
     handleSelect(grp);
+    changeRoom(grp);
   };
 
   const joinGrp = async (e) => {
@@ -56,7 +57,7 @@ function Groups({ frnds, grps, handleSelect, selectedGrp }) {
   }
 
   const selectedClass = (grp) => {
-    return selectedGrp === grp ? "selected" : "bg-zinc-800";
+    return room === grp ? "selected" : "bg-zinc-800";
   };
 
   return (
@@ -87,13 +88,13 @@ function Groups({ frnds, grps, handleSelect, selectedGrp }) {
       <HrtLn />
       <div className="flex gap-2 max-xl:flex-col">
         <Button
-          handleClick={() => setMode(grps)}
+          handleClick={() => setMode("grps")}
           text="Groups"
           variant="chatbtn"
           leftIcon={<IoMdAdd />}
         />
         <Button
-          handleClick={() => setMode(frnds)}
+          handleClick={() => setMode("frnds")}
           text="Private"
           variant="chatbtn"
           leftIcon={<MdAddToPhotos />}
@@ -114,16 +115,19 @@ function Groups({ frnds, grps, handleSelect, selectedGrp }) {
             );
           })
         : frnds.map((frnd, index) => {
-            console.log(12);
+            frnd = JSON.parse(frnd);
             return (
               <div
                 className={`p-2 rounded-md hover:cursor-pointer ${selectedClass(
-                  frnd
+                  Object.values(frnd)[0]
                 )}`}
                 key={index}
-                onClick={() => setSelectGrp(frnd)}
+                onClick={() => {
+                  setSelectGrp(Object.keys(frnd)[0]);
+                  changeRoom(Object.values(frnd)[0]);
+                }}
               >
-                <p className="text-left font-[500]">{frnd}</p>
+                <p className="text-left font-[500]">{Object.keys(frnd)[0]}</p>
               </div>
             );
           })}

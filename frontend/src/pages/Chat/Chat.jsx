@@ -13,10 +13,14 @@ function Chat() {
   const { auth } = UserAuth();
   const [chatgrps, setChatgrps] = useState([]);
   const [frnds, setFrnds] = useState([]);
+  const [room, setRoom] = useState(undefined);
 
   const [selectedGrp, setSelectedGrps] = useState(undefined);
   const changeSelected = (grp) => {
     setSelectedGrps(grp);
+  };
+  const changeRoom = (room) => {
+    setRoom(room);
   };
   useEffect(() => {
     if (!auth) {
@@ -36,13 +40,14 @@ function Chat() {
             grps={chatgrps}
             handleSelect={changeSelected}
             selectedGrp={selectedGrp}
-            uaer={user}
+            changeRoom={changeRoom}
+            room={room}
           ></Groups>
           <div className="flex w-9/12 justify-center">
             {selectedGrp === undefined ? (
               <Welcome />
             ) : (
-              <ChatSpace selectedGrp={selectedGrp} user={user} />
+              <ChatSpace selectedGrp={selectedGrp} user={user} room={room} />
             )}
           </div>
         </div>

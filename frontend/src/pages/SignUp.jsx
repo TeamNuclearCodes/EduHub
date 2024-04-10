@@ -8,9 +8,15 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const {auth, setAuth} = UserAuth()
-  const [user, setUser] = useState({ username: "",password: "", name: "", college:"", semester:"" });
-  const [alertMsg, setAlertMsg] = useState({})
+  const { auth, setAuth } = UserAuth();
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    name: "",
+    college: "",
+    semester: "",
+  });
+  const [alertMsg, setAlertMsg] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,11 +30,17 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          setAlertMsg({msg: data.error, type:'error'})
-        } else if(data.user) {
+          setAlertMsg({ msg: data.error, type: "error" });
+        } else if (data.user) {
           localStorage.setItem("auth", JSON.stringify(data.user));
-          setAuth(data.user)
-          navigate("/dashboard")
+          var frnds = data.user.frnds.map((frnd) => {
+            frnd = JSON.parse(frnd);
+            frnd = Object.values(frnd)[0];
+            return frnd.replace(data.user.username, "");
+          });
+          localStorage.setItem("frnds", JSON.stringify(frnds));
+          setAuth(data.user);
+          navigate("/dashboard");
         }
       });
   };
@@ -37,13 +49,11 @@ const Login = () => {
     if (auth._id) {
       navigate("/dashboard");
     }
-  },[])
+  }, []);
 
   const handleChange = (e) => {
-    setUser({...user, 
-      [e.target.name]: e.target.value
-    })
-  }
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="container p-4">
@@ -56,7 +66,9 @@ const Login = () => {
             <h3 className="text-3xl max-md:text-xl bg-gradient bg-clip-text text-transparent">
               Sign Up
             </h3>
-            {alertMsg?.msg && <AlertCard text={alertMsg.msg} type={alertMsg.type}/>}
+            {alertMsg?.msg && (
+              <AlertCard text={alertMsg.msg} type={alertMsg.type} />
+            )}
             <input
               type="username"
               name="username"
@@ -80,7 +92,7 @@ const Login = () => {
               type="password"
               name="password"
               className="form__input inputdata bg-zinc-900"
-              placeholder="Password" 
+              placeholder="Password"
               required
               value={user?.password}
               onChange={handleChange}
@@ -97,7 +109,9 @@ const Login = () => {
             >
               <option value="">--- Select A College ---</option>
               {profileColleges.map((item) => (
-                <option key={item} value={item}>{item}</option>
+                <option key={item} value={item}>
+                  {item}
+                </option>
               ))}
             </select>
             <select
@@ -112,11 +126,25 @@ const Login = () => {
             >
               <option value="">--- Select A Semester ---</option>
               {profileSemesters.map((item) => (
-                <option key={item} value={item}>{item}</option>
+                <option key={item} value={item}>
+                  {item}
+                </option>
               ))}
             </select>
-            <span className="text-sm">Already have an account? <Link to="/login"><a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">Login</a></Link></span>
-            <Button type="submit" text="Sign Up" variant="gradient" leftIcon={<PiSignInBold/>}/>
+            <span className="text-sm">
+              Already have an account?{" "}
+              <Link to="/login">
+                <a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">
+                  Login
+                </a>
+              </Link>
+            </span>
+            <Button
+              type="submit"
+              text="Sign Up"
+              variant="gradient"
+              leftIcon={<PiSignInBold />}
+            />
           </form>
         </div>
       </div>
