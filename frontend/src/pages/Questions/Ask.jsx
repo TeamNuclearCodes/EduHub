@@ -34,7 +34,7 @@ const Ask = () => {
 
   const handleTagSubmit = (e) => {
     e.preventDefault();
-    setTags([...tags, e.target.value]);
+    setTags([...tags, tag.tag]);
     setTag({ tag: "" });
     console.log(tags);
     console.log(tag);
