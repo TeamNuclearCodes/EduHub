@@ -11,10 +11,14 @@ const userSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
-  frnds: {
+  frnds: {          // keeping this as backup :)
     type: [String],
     required: false,
   },
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   name: String,
   college: String,
   semester: String,

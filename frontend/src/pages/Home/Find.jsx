@@ -3,34 +3,26 @@ import axios from "axios";
 import { UserAuth } from "../../context/AuthContext";
 import { apiBase } from "../../constants";
 import { UserCard } from "../../components";
-import { addFrnds } from "../../utils/APIRoutes";
 
 const Find = () => {
   const { auth } = UserAuth();
   const [data, setData] = useState([]);
-  const frnds = JSON.parse(localStorage.getItem("frnds"));
 
-  function addValueToList(value, frnd) {
-    let existingList = auth.frnds;
-    value = JSON.stringify(value);
-    existingList.push(value);
-    auth.frnds = existingList;
-    localStorage.setItem("auth", JSON.stringify(auth));
-    frnds.push(frnd);
-    localStorage.setItem("frnds", JSON.stringify(frnds));
-    location.reload();
-  }
-
-  const addFrnd = async (frnd) => {
-    console.log(frnd);
+  const addFrnd = async (friend) => {
     try {
-      console.log(addFrnds);
-      const res = await axios.post(addFrnds, {
-        frnd: frnd,
-        user: auth.username,
+      const newData = data.map(user => {
+        if (user.username === friend) {
+          let friends_ = [...user.friends];
+          friends_.push(auth._id);
+          return {...user, friends: friends_};
+        } else return user;
+      })
+      setData(newData);
+
+      await axios.post(`${apiBase}/api/user/addFriend`, {
+        friend: friend,
+        username: auth.username,
       });
-      console.log(res.data);
-      addValueToList(res.data, frnd);
     } catch (err) {
       console.log(err);
     }
@@ -64,7 +56,7 @@ const Find = () => {
         <UserCard
           item={item}
           addFrnd={addFrnd}
-          frnds={frnds}
+          userID={auth._id}
         />
       ))}
       </div>
