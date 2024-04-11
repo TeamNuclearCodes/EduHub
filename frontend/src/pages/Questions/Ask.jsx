@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ProtectedRoute, Button, HrtLn, Question } from "../../components";
+import { ProtectedRoute, Button, HrtLn, Question, Tag } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../constants";
 import { MdOutlineLibraryAdd } from "react-icons/md";
@@ -23,6 +23,7 @@ const Ask = () => {
       },
       body: JSON.stringify({
         question: question.question,
+        tags: tags,
         author: auth._id,
       }),
     })
@@ -34,10 +35,18 @@ const Ask = () => {
 
   const handleTagSubmit = (e) => {
     e.preventDefault();
-    setTags([...tags, tag.tag]);
-    setTag({ tag: "" });
-    console.log(tags);
-    console.log(tag);
+    if (tag.tag) {
+      setTags([...tags, tag.tag.toLowerCase()]);
+      setTag({ tag: "" });
+    }
+  };
+
+  const handleTagDelete = (index) => {
+    setTags((ogTags) => {
+      const newTags = [...ogTags];
+      newTags.splice(index, 1);
+      return newTags;
+    });
   };
 
   useEffect(() => {
@@ -76,8 +85,8 @@ const Ask = () => {
                 setQuestion({ ...question, question: e.target.value })
               }
             />
-            {tags.map((tag) => (
-              <p>{tag}</p>
+            {tags.map((tag, index) => (
+              <Tag tag={tag} index={index} handleDelete={handleTagDelete}></Tag>
             ))}
 
             <div>
