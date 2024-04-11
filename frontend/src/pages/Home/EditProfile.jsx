@@ -3,10 +3,12 @@ import { UserAuth } from "../../context/AuthContext"
 import { Button } from '../../components'
 import { MdEditDocument } from "react-icons/md";
 import { profileSemesters, profileColleges, apiBase } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
   const {auth,setAuth} = UserAuth()
   const [user,setUser] = useState(auth)
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUser({...user, 
@@ -27,11 +29,29 @@ const EditProfile = () => {
     localStorage.setItem('auth', JSON.stringify(user))
   }
 
+  const deleteAccount = () => {
+    fetch(`${apiBase}/api/user/deleteAccount`, {
+      headers: {
+        authorization: auth._id
+      }
+    }).then(() => {
+      localStorage.removeItem('auth')
+      setAuth({
+        _id: "",
+        username: "",
+        chatgrps: [],
+      })
+      navigate('/')
+    })
+  }
+
   return (
-    <div className="flex w-full flex-col py-1">
-      <h3 className="text-2xl underline underline-offset-4">Edit Profile</h3>
+    <div className="flex w-full flex-col p-2">
+      <h3 className="text-2xl">Public profile</h3>
+      <hr className="mt-2 border-zinc-600"/>
       <form className='flex gap-2 py-1' onSubmit={handleSubmit}>
         <div className="flex flex-col w-full gap-2">
+          <label className="text-sm font-[500]">Your name</label>
           <input
             type="text"
             name="name"
@@ -41,6 +61,7 @@ const EditProfile = () => {
             value={user.name}
             onChange={handleChange}
           />
+          <label className="text-sm font-[500]">College</label>
           <select
             type="text"
             name="college"
@@ -56,6 +77,7 @@ const EditProfile = () => {
           </select>
         </div>
         <div className="flex w-full flex-col gap-2">
+          <label className="text-sm font-[500]">Current Semester</label>
           <select
             type="text"
             name="semester"
@@ -72,6 +94,10 @@ const EditProfile = () => {
           <Button text="Update Profile" variant="gradient" rightIcon={<MdEditDocument/>}/>
         </div>
       </form>
+      <hr className="mt-2 border-zinc-600 my-2"/>
+      <h3 className="text-2xl text-red-600">Delete account</h3>
+      <p className="text-sm text-zinc-300 mb-2">Deleting your account will result in complete removal of your data. We won't be able to recover the lost data.</p>
+      <Button text="Delete my account" variant="danger" extraClasses="text-2xl" handleClick={() => deleteAccount()}/>
     </div>
   )
 }

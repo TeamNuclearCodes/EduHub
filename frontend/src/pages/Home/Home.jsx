@@ -17,8 +17,8 @@ const Profile = () => {
         <h2 className="text-4xl mb-2 bg-clip-text bg-gradient text-transparent max-xl:w-full font-[500]">Welcome {genName(auth?.name)}</h2>
         <HrtLn/> 
         <div className="flex gap-2">
-          <div className="w-3/12"><ProfileNavbar/></div>
-          <div className="w-9/12">
+          <div className="w-2/12 max-lg:hidden"><ProfileNavbar/></div>
+          <div className="w-10/12 max-lg:w-full">
             <Outlet />
           </div>
         </div>

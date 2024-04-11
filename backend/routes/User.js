@@ -1,4 +1,9 @@
 import User from '../models/User.js';
+import Graph from '../models/Graph.js';
+import Question from '../models/Question.js';
+import messageSchema from '../models/messageSchema.js';
+import TodoList from  '../models/TodoList.js'
+
 import express from 'express';
 import { ObjectId } from 'mongodb'
 
@@ -51,6 +56,21 @@ router.post('/addFriend', async(req,res) => {
         }
     } catch (error) {
         console.log(error);
+    }
+})
+
+router.get('/deleteAccount', async(req,res) => {
+    try {
+        const id = req.headers.authorization;
+        const user = await User.findById(new ObjectId(id));
+        await Graph.deleteMany({author: new ObjectId(id)});      // remove collections in graph
+        await Question.deleteMany({author: new ObjectId(id)});
+        await messageSchema.deleteMany({sender: user.username});
+        await TodoList.deleteMany({author: new ObjectId(id)});
+        await User.findOneAndDelete({username: user.username});
+        res.json({message:"Account deleted succesfully"}).status(202);
+    } catch (error) {
+        console.log(error)
     }
 })
 

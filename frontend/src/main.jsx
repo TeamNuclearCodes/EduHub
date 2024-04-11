@@ -41,17 +41,20 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><Chat /></ProtectedRoute>,
       },
       {
-        path:"",
+        path:"/profile",
         element: <ProtectedRoute><Home/></ProtectedRoute>,
         children: [
           {
             path:"",
-            element: <Find/>
-          },{
-            path:"profile",
             element: <EditProfile/>
+          },{
+            path:"find",
+            element: <Find/>
           }
         ]
+      },
+      {
+        path:"p/:userID"
       }
     ],
   },
