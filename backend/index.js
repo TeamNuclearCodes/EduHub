@@ -5,8 +5,9 @@ import todoRouter from './routes/ToDo.js'
 import graphRouter from './routes/Graph.js'
 import msgRouter from './routes/Msg.js';
 import grpRouter from './routes/Grps.js';
-import userRouter from './routes/User.js'
-import frndsRouter from './routes/Frnds.js'
+import userRouter from './routes/User.js';
+import frndsRouter from './routes/Frnds.js';
+import publicRouter from './routes/Public/index.js';
 import cors from 'cors';
 import dotenv from 'dotenv'
 import { Server } from "socket.io";
@@ -22,6 +23,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use('/api/auth',authRouter)
+app.use('/api/public',publicRouter)
 //app.use('/api/*', [authHandler])   uncomment after after modifying fetch requests in frontend
 app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)

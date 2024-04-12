@@ -7,7 +7,7 @@ const Question = ({question}) => {
         <p className="underline underline-offset-2">{question.question}</p>
       </Link>
       <div className="flex justify-between">
-        <span className="text-sm">Asked by : <span className="font-[700]">{question?.author?.name}</span></span>
+        <span className="text-sm">Asked by : <Link to={`/p/${question?.author.username}`}><span className="font-[700]">{question?.author?.name}</span></Link></span>
         <span className="text-sm"><span className="font-[700]">{question?.commentsCount}</span> comment(s)</span>
       </div>
     </div>

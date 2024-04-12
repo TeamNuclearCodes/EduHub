@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
         "comments":0
       }}
     ]).limit(2).then((questions) => {
-        Question.populate(questions,{path: 'author', select: 'name'})
+        Question.populate(questions,{path: 'author', select: 'name username'})
         .then((response) =>  res.json(response).status(200));
     });
 

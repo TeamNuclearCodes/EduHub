@@ -68,7 +68,7 @@ const Question = () => {
           </div>
           <span className="text-sm">
             Asked by :{" "}
-            <Link>
+            <Link to={`/p/${question?.author.username}`}>
               <span className="font-[700]">{question?.author?.name}</span>
             </Link>
           </span>

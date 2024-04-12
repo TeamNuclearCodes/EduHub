@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Ask, Question, Dashboard, Login, ToDo, Home, Find, EditProfile, SignUp } from "./pages";
+import { Ask, Question, Dashboard, Login, ToDo, Home, Find, EditProfile, SignUp, Profile } from "./pages";
 import Chat from "./pages/Chat/Chat.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -54,7 +54,8 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path:"p/:userID"
+        path:"p/:username",
+        element: <Profile/>
       }
     ],
   },
