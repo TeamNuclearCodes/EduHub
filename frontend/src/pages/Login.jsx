@@ -80,9 +80,9 @@ const Login = () => {
             <span className="text-sm">
               New to EduHub?{" "}
               <Link to="/signup">
-                <a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">
+                <span className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">
                   Sign Up
-                </a>
+                </span>
               </Link>
             </span>
             <Button

@@ -15,9 +15,12 @@ router.post('/getUsersByCollege', async (req,res) => {
             const data = await User.find({
                 college: req.body.college,
                 _id: {$ne: req.body._id}
-            }).select('username name college semester frnds friends profileImage')
-            .populate('friends.list');
-            res.status(200).json(data);
+            }).select('username name college semester profileImage')
+            const userFriends = await User.findOne({_id: req.body._id}).select("friends")
+            res.status(200).json({
+                data: data,
+                friends: userFriends.friends
+            });
         } else {
             res.status(404).json({message:"no data"});
         }
@@ -63,12 +66,13 @@ router.get('/deleteAccount', async(req,res) => {
     try {
         const id = req.headers.authorization;
         const user = await User.findById(new ObjectId(id));
-        await Graph.deleteMany({author: new ObjectId(id)});      // remove collections in graph
-        await Question.deleteMany({author: new ObjectId(id)});
-        await messageSchema.deleteMany({sender: user.username});
-        await TodoList.deleteMany({author: new ObjectId(id)});
-        await User.findOneAndDelete({username: user.username});
-        res.json({message:"Account deleted succesfully"}).status(202);
+        await Graph.deleteMany({author: new ObjectId(id)});                 // remove collections in graph
+        await Question.deleteMany({author: new ObjectId(id)});              // remove all the questions the user has created
+        await Question.deleteMany({'comments.author': new ObjectId(id)})    // remove all the comments created by the user
+        await messageSchema.deleteMany({sender: user.username});            // remove all the messaged the user has sent
+        await TodoList.deleteMany({author: new ObjectId(id)});              // remove all todos the user has created
+        await User.findOneAndDelete({username: user.username});             // remove user collection
+        res.json({message:"Account deleted successfully"}).status(202);
     } catch (error) {
         console.log(error)
     }

@@ -15,7 +15,6 @@ router.post('/', async (req,res) => {
             author: new ObjectId(user._id)
         })
         await task.save()
-
         return res.json(task)
     } catch (err) {
         console.log(err)
@@ -36,7 +35,7 @@ router.get('/', async(req,res) => {
                 $gte: currentDate,
                 $lt: dueDate
             }
-        }).populate('author')
+        }).select("taskName taskDesc deadline completed")
         return res.json(tasks)
     } catch (e) {
         console.log(e)
@@ -46,7 +45,8 @@ router.get('/', async(req,res) => {
 router.get('/all', async(req,res) => {
     try {
         const user = JSON.parse(req.headers.authorization)
-        const tasks = await TodoList.find({author: new ObjectId(user._id)}).populate('author')
+        const tasks = await TodoList.find({author: new ObjectId(user._id)})
+        .select("taskName taskDesc deadline completed")
         return res.json(tasks)
     } catch (error) {
         console.log(error)

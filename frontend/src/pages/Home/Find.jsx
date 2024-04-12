@@ -6,21 +6,15 @@ import { UserCard } from "../../components";
 
 const Find = () => {
   const { auth } = UserAuth();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({data: [], friends: []});
 
   const addFrnd = async (friend) => {
     try {
-      const newData = data.map(user => {
-        if (user.username === friend) {
-          let friends_ = [...user.friends];
-          friends_.push(auth._id);
-          return {...user, friends: friends_};
-        } else return user;
-      })
-      setData(newData);
-
+      let friends_ = [...data.friends];
+      friends_.push(friend._id);
+      setData({...data, friends: friends_});
       await axios.post(`${apiBase}/api/user/addFriend`, {
-        friend: friend,
+        friend: friend.username,
         username: auth.username,
       });
     } catch (err) {
@@ -52,12 +46,13 @@ const Find = () => {
         Students in {auth.college}
       </h3>
       <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-8 mt-4 mx-auto">
-      {data?.map((item) => (
+      {data?.data?.map((item) => (
         <UserCard
           item={item}
           key={item._id}
           addFrnd={addFrnd}
           userID={auth._id}
+          friends={data.friends}
         />
       ))}
       </div>

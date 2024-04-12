@@ -41,7 +41,8 @@ const Ask = () => {
     }
   };
 
-  const handleTagDelete = (index) => {
+  const handleTagDelete = (index,e) => {
+    e.preventDefault()
     setTags((ogTags) => {
       const newTags = [...ogTags];
       newTags.splice(index, 1);
@@ -57,7 +58,7 @@ const Ask = () => {
     })
       .then((res) => res.json())
       .then((data) => setUserQuestions(data));
-  });
+  },[]);
 
   useEffect(() => {
     fetch(`${apiBase}/api/questions`)
@@ -71,7 +72,7 @@ const Ask = () => {
         <div className="flex flex-col w-8/12">
           <form
             className="flex flex-col justify-center gap-2 pb-2"
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
           >
             <h2 className="text-3xl mb-2 bg-clip-text bg-gradient text-transparent max-xl:w-full font-[500] w-4/12">
               Ask a Question

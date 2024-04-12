@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import Question from "../models/Question.js";
 import { ObjectId } from "mongodb";
 
@@ -6,13 +6,19 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    await Question.find({})
-      .limit(10)
-      .sort({ _id: -1 })
-      .populate("author")
-      .then((questions) => {
-        res.json(questions).status(200);
-      });
+    await Question.aggregate([
+      {$sort: {_id: -1}},
+      {$addFields: {
+        commentsCount: {$size: "$comments"},
+      }},
+      {$project: {
+        "comments":0
+      }}
+    ]).limit(2).then((questions) => {
+        Question.populate(questions,{path: 'author', select: 'name'})
+        .then((response) =>  res.json(response).status(200));
+    });
+
   } catch (err) {
     console.log(err);
   }
@@ -21,12 +27,20 @@ router.get("/", async (req, res) => {
 router.get("/user", async (req, res) => {
   try {
     const _id = req.headers.authorization;
-    await Question.find({ author: new ObjectId(_id) })
-      .sort({ _id: -1 })
-      .populate("author")
-      .then((questions) => {
-        res.json(questions).status(200);
-      });
+    const id = new ObjectId(_id);
+    await Question.aggregate([
+      {$match: {author: id}},
+      {$sort: {_id: -1}},
+      {$addFields: {
+        commentsCount: {$size: "$comments"},
+      }},
+      {$project: {
+        "comments":0
+      }}
+    ]).then((questions) => {
+      Question.populate(questions, {path: 'author', select: 'name'})
+      .then((response) => res.json(response).status(200));
+    })
   } catch (error) {
     console.log(error);
   }
@@ -51,9 +65,15 @@ router.post("/new", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const question = await Question.findById(id).populate("author").populate({
+    const question = await Question.findById(id)
+    .populate({
+      path:"author",
+      select: "username name profileImage"
+    })
+    .populate({
       path: "comments.author",
       model: "User",
+      select: "username name profileImage"
     });
     if (question) {
       res.json(question).status(200);
@@ -75,14 +95,18 @@ router.patch("/:id", async (req, res) => {
     });
     await question.save();
     await Question.findOne({ _id: id })
-      .populate("author")
-      .populate({
-        path: "comments.author",
-        model: "User",
-      })
-      .then((question) => {
+    .populate({
+      path:"author",
+      select: "username name profileImage"
+    })
+    .populate({
+      path: "comments.author",
+      model: "User",
+      select: "username name profileImage"
+    })
+    .then((question) => {
         res.json(question);
-      });
+    });
   } catch (err) {
     console.log(err);
   }

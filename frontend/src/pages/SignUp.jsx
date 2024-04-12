@@ -145,9 +145,9 @@ const Login = () => {
             <span className="text-sm">
               Already have an account?{" "}
               <Link to="/login">
-                <a className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">
+                <span className="text-fuchsia-600 underline underline-offset-3 hover:text-fuchsia-800">
                   Login
-                </a>
+                </span>
               </Link>
             </span>
             <Button
