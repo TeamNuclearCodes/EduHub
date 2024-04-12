@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import getAuth from "../../utils/getAuth";
 import { apiBase } from "../../constants";
 import { MdOutlineLibraryAdd } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const Question = () => {
   const [question, setQuestion] = useState({
@@ -58,12 +59,18 @@ const Question = () => {
               {question.question}
             </p>
           </div>
-          {question.tags.map((tag) => (
-            <p>{tag}</p>
-          ))}
+          <div className="flex gap-1">
+            {question.tags.map((tag) => (
+              <span className="text-sm bg-zinc-600 rounded-lg px-1.5 py-0.5 font-[500]">
+                #{tag}
+              </span>
+            ))}
+          </div>
           <span className="text-sm">
             Asked by :{" "}
-            <span className="font-[700]">{question?.author?.username}</span>
+            <Link>
+              <span className="font-[700]">{question?.author?.name}</span>
+            </Link>
           </span>
         </div>
         <form className="flex py-4 flex-col gap-3" onSubmit={handleSubmit}>

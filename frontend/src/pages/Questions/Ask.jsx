@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ProtectedRoute, Button, HrtLn, Question, Tag } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../constants";
-import { MdOutlineLibraryAdd } from "react-icons/md";
+import { MdOutlineLibraryAdd, MdAdd } from "react-icons/md";
 import { UserAuth } from "../../context/AuthContext";
 
 const Ask = () => {
@@ -85,18 +85,22 @@ const Ask = () => {
                 setQuestion({ ...question, question: e.target.value })
               }
             />
-            {tags.map((tag, index) => (
-              <Tag tag={tag} index={index} handleDelete={handleTagDelete}></Tag>
-            ))}
-
-            <div>
+            <div className="flex gap-2">
+              {tags.length > 0 ? tags.map((tag, index) => (
+                  <Tag tag={tag} index={index} handleDelete={handleTagDelete}></Tag>
+              )): (
+                <span className="text-sm text-zinc-400">No tags added</span>
+              )}
+            </div>
+            <div className="flex gap-2 w-4/12">
               <input
                 type="text"
                 placeholder="Tags"
+                className="inputdata bg-zinc-950"
                 value={tag.tag}
                 onChange={(e) => setTag({ tag: e.target.value })}
               />
-              <button onClick={handleTagSubmit}>Add Tag</button>
+              <button className="w-5/12 flex justify-center items-center bg-zinc-600 rounded-md px-2 hover:bg-zinc-700" onClick={handleTagSubmit}><MdAdd/>Add Tag</button>
             </div>
 
             <Button
