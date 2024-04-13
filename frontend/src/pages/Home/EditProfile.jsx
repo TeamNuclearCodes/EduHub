@@ -4,6 +4,7 @@ import { Button } from '../../components'
 import { MdEditDocument } from "react-icons/md";
 import { profileSemesters, profileColleges, apiBase } from "../../constants";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const EditProfile = () => {
   const {auth,setAuth} = UserAuth()
@@ -16,21 +17,23 @@ const EditProfile = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    fetch(`${apiBase}/api/user/update`,{
-      method:'PATCH',
+    await axios.patch(`${apiBase}/api/user/update`, {
+      name: user.name,
+      college: user.college,
+      semester: user.semester
+    } ,{
       headers: {
-        "Content-Type":"application/json",
-      },
-      body: JSON.stringify(user)
+        authorization: auth.token
+      }
     })
     setAuth({...auth, user})
     localStorage.setItem('auth', JSON.stringify(user))
   }
 
-  const deleteAccount = () => {
-    fetch(`${apiBase}/api/user/deleteAccount`, {
+  const deleteAccount = async () => {
+    await axios.get(`${apiBase}/api/user/deleteAccount`, {
       headers: {
         authorization: auth._id
       }

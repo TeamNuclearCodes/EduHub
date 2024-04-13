@@ -4,6 +4,7 @@ import Graph from "./Graph";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import { graphItems, graphItemColors, apiBase } from "../../constants";
 import { UserAuth } from "../../context/AuthContext";
+import axios from "axios";
 
 const GetGraphData = () => {
   const { auth } = UserAuth();
@@ -75,18 +76,13 @@ const GetGraphData = () => {
     };
   };
 
-  const getGraphData = () => {
-    fetch(`${apiBase}/api/graph`, {
+  const getGraphData = async () => {
+    await axios(`${apiBase}/api/graph`, {
       headers: {
-        authorization: JSON.stringify(auth),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setGraphData(data);
-        console.log(data);
-        console.log("returned data above");
+        authorization: auth.token
+      }
+    }).then((res) => {
+        setGraphData(res.data);
       });
   };
 
@@ -110,29 +106,27 @@ const GetGraphData = () => {
     if (recentDate(newData["date"], graphData)) {
       event.preventDefault();
       console.log(newData);
-      fetch(`${apiBase}/api/graph`, {
-        method: "POST",
+
+      const requestBody = {
+        subject: newData.subject,
+        date: newData["date"].split("-").reverse().join("-"),
+        marksObtained: newData.marks,
+        totalMarks: newData.maxMarks,
+        borderColor: newData.color,
+      };
+
+      await axios.post(`${apiBase}/api/graph`, requestBody, {
         headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: auth._id,
-          subject: newData.subject,
-          date: newData["date"].split("-").reverse().join("-"),
-          marksObtained: newData.marks,
-          totalMarks: newData.maxMarks,
-          borderColor: newData.color,
-        }),
+          authorization: auth.token
+        }
       })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
       console.log("submitted");
       getGraphData();
     } else if (graphData.labels.include(newData["date"])) {
       const subjectToChange = graphData.datasets.filter(
         (element) => element.subject == newData.subject
       )[0];
-      const requestBody = JSON.stringify({
+      const requestBody = {
         labels: graphData.labels,
         datasets: [
           ...graphData.datasets,
@@ -142,17 +136,13 @@ const GetGraphData = () => {
             )
           ] = Math.floor(newData.marksObtained / newData.maxMarks)),
         ],
-      });
-      await fetch(`${apiBase}/api/graph/${localStorage.auth._id}`, {
-        method: "PATCH",
+      };
+
+      await axios.patch(`${apiBase}/api/graph/${auth._id}`, requestBody , {
         headers: {
-          authorization: JSON.stringify(auth),
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      })
-        .then((res) => res.json())
-        .then((data) => getGraphData());
+          authorization: auth.token
+        }
+      }).then(() => getGraphData());
     }
   };
 

@@ -5,6 +5,7 @@ import { IoIosInformationCircle } from "react-icons/io";
 import { BiSolidInstitution } from "react-icons/bi";
 import { MdOutlineDateRange } from "react-icons/md";
 import { UserAuth } from "../../context/AuthContext";
+import axios from "axios";
 
 /*
   TODO
@@ -18,20 +19,14 @@ const Profile = () => {
   const {auth} = UserAuth();
   const navigate = useNavigate();
 
-  const addFriend = () => {
+  const addFriend = async () => {
     if(auth.username) {
-      fetch(`${apiBase}/api/user/addFriend`, {
-        method: "POST",
+      await axios.post(`${apiBase}/api/user/addFriend`, {friend: username}, {
         headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          friend: username,
-          username: auth.username
-        })
-      }).then(res => res.json())
-      .then(data => {
-        if (data.message) setUser({...user, isFriend: true});
+          authorization: auth.token
+        }
+      }).then(res => {
+        if (res.data.message) setUser({...user, isFriend: true});
       });
     }
     else navigate(`/login?to=/p/${username}`);

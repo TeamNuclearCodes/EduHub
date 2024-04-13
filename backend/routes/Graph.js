@@ -7,9 +7,10 @@ const router = express.Router()
 router.post('/', async(req,res) => {
     try {
         const body = req.body
+        const id = req.tokenData._id;
         const percentage = String(Math.round(body.marksObtained/body.totalMarks*100))
         const graph = await Graph.findOne({
-            author: new ObjectId(body.user),
+            author: new ObjectId(id),
             subject: body.subject
         })
         if (graph) {
@@ -20,7 +21,7 @@ router.post('/', async(req,res) => {
         } else {
             const newGraph = Graph({
                 subject: body.subject,
-                author: new ObjectId(body.user),
+                author: new ObjectId(id),
                 date: [body.date],
                 percentage: [percentage],
                 borderColor: body.borderColor
@@ -35,8 +36,8 @@ router.post('/', async(req,res) => {
 
 router.get('/', async(req,res) => {
     try {
-        const user = JSON.parse(req.headers.authorization)
-        const graphData = await Graph.find({author: new ObjectId(user._id)})
+        const id = req.tokenData._id;
+        const graphData = await Graph.find({author: new ObjectId(id)})
         if (graphData && graphData.length > 0) {
             let response={
                 labels:[],
@@ -61,12 +62,12 @@ router.get('/', async(req,res) => {
 
 router.patch('/:user_id', async(req, res) => {
     try {
-        const user = JSON.parse(req.headers.authorization)
+        const id = req.tokenData._id;
         const newGraphData = req.body
         await Graph.findOneAndUpdate({
-            author: new ObjectId(user._id)
+            author: new ObjectId(id)
         }, newGraphData)
-        return res.json({message: `Graph data of user with ID ${user._id} has been updated`}).status(200)
+        return res.json({message: `Graph data of user with ID ${id} has been updated`}).status(200)
     } catch (error) {
         console.log(error)
     }

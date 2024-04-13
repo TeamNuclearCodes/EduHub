@@ -11,12 +11,13 @@ const router = express.Router();
 
 router.post('/getUsersByCollege', async (req,res) => {
     try {
+        const userID = req.tokenData._id;
         if (req.body.college) {
             const data = await User.find({
                 college: req.body.college,
-                _id: {$ne: req.body._id}
+                _id: {$ne: userID}
             }).select('username name college semester profileImage')
-            const userFriends = await User.findOne({_id: req.body._id}).select("friends")
+            const userFriends = await User.findOne({_id: userID}).select("friends")
             res.status(200).json({
                 data: data,
                 friends: userFriends.friends
@@ -32,7 +33,7 @@ router.post('/getUsersByCollege', async (req,res) => {
 router.patch('/update', async (req,res) => {
     try {
         const newData = req.body;
-        await User.findByIdAndUpdate(newData._id, newData);
+        await User.findByIdAndUpdate(req.tokenData._id ,newData);
         res.json({"message":"Updated successfully"}).status(200);
     } catch (error) {
         console.log(error);
@@ -42,10 +43,9 @@ router.patch('/update', async (req,res) => {
 
 router.post('/addFriend', async(req,res) => {
     try {
-        const { friend, username } = req.body;
-        console.log(req.body)
-        if (username && friend) {
-            const userData = await User.findOne({username: username});
+        const friend = req.body.friend;
+        if (friend) {
+            const userData = await User.findOne({username: req.tokenData.username});
             const friendData = await User.findOne({username: friend});
             if (friendData) {
                 userData.friends.push(new ObjectId(friendData._id));
@@ -56,7 +56,7 @@ router.post('/addFriend', async(req,res) => {
             }
             else res.json({error:`user ${friend} doesn't exists`}).status(404);
         } else {
-            res.json({error:"username & friend are required fields"}).status(409);
+            res.json({error:"friend are required fields"}).status(409);
         }
     } catch (error) {
         console.log(error);
@@ -65,7 +65,7 @@ router.post('/addFriend', async(req,res) => {
 
 router.get('/deleteAccount', async(req,res) => {
     try {
-        const id = req.headers.authorization;
+        const id = req.tokenData._id;
         const user = await User.findById(new ObjectId(id));
         await Graph.deleteMany({author: new ObjectId(id)});                 // remove collections in graph
         await Question.deleteMany({author: new ObjectId(id)});              // remove all the questions the user has created

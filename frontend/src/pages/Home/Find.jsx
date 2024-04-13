@@ -14,8 +14,11 @@ const Find = () => {
       friends_.push(friend._id);
       setData({...data, friends: friends_});
       await axios.post(`${apiBase}/api/user/addFriend`, {
-        friend: friend.username,
-        username: auth.username,
+        friend: friend.username
+      }, {
+        headers: {
+          authorization: auth.token
+        }
       });
     } catch (err) {
       console.log(err);
@@ -23,21 +26,17 @@ const Find = () => {
   };
 
   useEffect(() => {
-    fetch(`${apiBase}/api/user/getUsersByCollege`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        college: auth.college,
-        _id: auth._id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.message) setData(data);
-        else setData([]);
+    const fetchFriends = async () => {
+      await axios.post(`${apiBase}/api/user/getUsersByCollege`, { college: auth.college }, {
+        headers: {
+          authorization: auth.token
+        }
+      }).then((res) => {
+          if (!res.data.message) setData(res.data);
+          else setData([]);
       });
+    }
+    fetchFriends();
   }, []);
 
   return (

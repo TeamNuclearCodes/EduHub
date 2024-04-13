@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/', async (req,res) => {
     try{
-        const user = JSON.parse(req.headers.authorization)
+        const user = req.tokenData;
         const {taskDesc, taskName, deadline} = req.body;
         const task = new TodoList({
             taskDesc:taskDesc,
@@ -23,7 +23,7 @@ router.post('/', async (req,res) => {
 
 router.get('/', async(req,res) => {
     try{
-        const user = JSON.parse(req.headers.authorization)
+        const user = req.tokenData;
         const currentDate = new Date()
         var dueDate = new Date()
         dueDate.setDate(dueDate.getDate() + 3)
@@ -35,7 +35,7 @@ router.get('/', async(req,res) => {
                 $gte: currentDate,
                 $lt: dueDate
             }
-        }).select("taskName taskDesc deadline completed")
+        }).select("taskName taskDesc deadline completed").limit(5)
         return res.json(tasks)
     } catch (e) {
         console.log(e)
@@ -44,7 +44,7 @@ router.get('/', async(req,res) => {
 
 router.get('/all', async(req,res) => {
     try {
-        const user = JSON.parse(req.headers.authorization)
+        const user = req.tokenData;
         const tasks = await TodoList.find({author: new ObjectId(user._id)})
         .select("taskName taskDesc deadline completed")
         return res.json(tasks)
@@ -55,7 +55,7 @@ router.get('/all', async(req,res) => {
 
 router.patch('/:id',async(req,res) => {
     try {
-        const user = JSON.parse(req.headers.authorization)
+        const user = req.tokenData;
         const taskId = req.params.id
         const newTodo = req.body
         await TodoList.findOneAndUpdate({
@@ -70,7 +70,7 @@ router.patch('/:id',async(req,res) => {
 
 router.delete('/:id',async(req,res) => {
     try {
-        const user = JSON.parse(req.headers.authorization)
+        const user = req.tokenData;
         const taskId = req.params.id
         await TodoList.findOneAndDelete({
             author: new ObjectId(user._id),

@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
       {$project: {
         "comments":0
       }}
-    ]).limit(2).then((questions) => {
+    ]).then((questions) => {
         Question.populate(questions,{path: 'author', select: 'name username'})
         .then((response) =>  res.json(response).status(200));
     });
@@ -26,8 +26,7 @@ router.get("/", async (req, res) => {
 
 router.get("/user", async (req, res) => {
   try {
-    const _id = req.headers.authorization;
-    const id = new ObjectId(_id);
+    const id = new ObjectId(req.tokenData._id);
     await Question.aggregate([
       {$match: {author: id}},
       {$sort: {_id: -1}},
@@ -51,7 +50,7 @@ router.post("/new", async (req, res) => {
   try {
     const question = new Question({
       question: reqBody.question,
-      author: new ObjectId(reqBody.author),
+      author: new ObjectId(req.tokenData._id),
       tags: reqBody.tags,
       comments: [],
     });
@@ -91,7 +90,7 @@ router.patch("/:id", async (req, res) => {
     let question = await Question.findById(id);
     question.comments.push({
       comment: req.body.comment,
-      author: new ObjectId(req.body.author),
+      author: new ObjectId(req.tokenData._id),
     });
     await question.save();
     await Question.findOne({ _id: id })

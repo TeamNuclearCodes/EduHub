@@ -24,7 +24,7 @@ app.use(express.json())
 app.use(cors())
 app.use('/api/auth',authRouter)
 app.use('/api/public',publicRouter)
-//app.use('/api/*', [authHandler])   uncomment after after modifying fetch requests in frontend
+app.use('/api/*', [authHandler])
 app.use('/api/questions',questionsRouter)
 app.use('/api/todo',todoRouter)
 app.use('/api/graph',graphRouter)
