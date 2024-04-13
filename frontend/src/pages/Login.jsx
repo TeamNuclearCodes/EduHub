@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { apiBase } from "../constants";
 import { Button, AlertCard } from "../components";
 import { PiSignInBold } from "react-icons/pi";
@@ -10,9 +10,12 @@ const Login = () => {
   const { auth, setAuth } = UserAuth();
   const [user, setUser] = useState({ username: "", password: "" });
   const [alertMsg, setAlertMsg] = useState({});
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const redirectTo = searchParams.get('to');
+
     await fetch(`${apiBase}/api/auth/login`, {
       method: "POST",
       headers: {
@@ -32,7 +35,8 @@ const Login = () => {
           });
           localStorage.setItem("frnds", JSON.stringify(frnds));
           setAuth(data.user);
-          navigate("/dashboard");
+          if (redirectTo) navigate(redirectTo);
+          else navigate("/dashboard");
         }
       });
   };

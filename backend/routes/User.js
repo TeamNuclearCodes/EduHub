@@ -42,15 +42,16 @@ router.patch('/update', async (req,res) => {
 
 router.post('/addFriend', async(req,res) => {
     try {
-        const { username, friend } = req.body;
+        const { friend, username } = req.body;
+        console.log(req.body)
         if (username && friend) {
             const userData = await User.findOne({username: username});
             const friendData = await User.findOne({username: friend});
             if (friendData) {
                 userData.friends.push(new ObjectId(friendData._id));
                 friendData.friends.push(new ObjectId(userData._id));
-                userData.save();
-                friendData.save();
+                await userData.save();
+                await friendData.save();
                 res.json({message: `You are now friends with ${friend}`}).status(201);
             }
             else res.json({error:`user ${friend} doesn't exists`}).status(404);
