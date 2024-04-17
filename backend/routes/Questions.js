@@ -7,18 +7,23 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     await Question.aggregate([
-      {$sort: {_id: -1}},
-      {$addFields: {
-        commentsCount: {$size: "$comments"},
-      }},
-      {$project: {
-        "comments":0
-      }}
+      { $sort: { _id: -1 } },
+      {
+        $addFields: {
+          commentsCount: { $size: "$comments" },
+        },
+      },
+      {
+        $project: {
+          comments: 0,
+        },
+      },
     ]).then((questions) => {
-        Question.populate(questions,{path: 'author', select: 'name username'})
-        .then((response) =>  res.json(response).status(200));
+      Question.populate(questions, {
+        path: "author",
+        select: "name username",
+      }).then((response) => res.json(response).status(200));
     });
-
   } catch (err) {
     console.log(err);
   }
@@ -28,18 +33,23 @@ router.get("/user", async (req, res) => {
   try {
     const id = new ObjectId(req.tokenData._id);
     await Question.aggregate([
-      {$match: {author: id}},
-      {$sort: {_id: -1}},
-      {$addFields: {
-        commentsCount: {$size: "$comments"},
-      }},
-      {$project: {
-        "comments":0
-      }}
+      { $match: { author: id } },
+      { $sort: { _id: -1 } },
+      {
+        $addFields: {
+          commentsCount: { $size: "$comments" },
+        },
+      },
+      {
+        $project: {
+          comments: 0,
+        },
+      },
     ]).then((questions) => {
-      Question.populate(questions, {path: 'author', select: 'name'})
-      .then((response) => res.json(response).status(200));
-    })
+      Question.populate(questions, { path: "author", select: "name" }).then(
+        (response) => res.json(response).status(200)
+      );
+    });
   } catch (error) {
     console.log(error);
   }
@@ -61,19 +71,27 @@ router.post("/new", async (req, res) => {
   }
 });
 
+router.get("/search", async (req, res) => {
+  const searchQuery = req.query.q;
+  try {
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const question = await Question.findById(id)
-    .populate({
-      path:"author",
-      select: "username name profileImage"
-    })
-    .populate({
-      path: "comments.author",
-      model: "User",
-      select: "username name profileImage"
-    });
+      .populate({
+        path: "author",
+        select: "username name profileImage",
+      })
+      .populate({
+        path: "comments.author",
+        model: "User",
+        select: "username name profileImage",
+      });
     if (question) {
       res.json(question).status(200);
     } else {
@@ -94,18 +112,18 @@ router.patch("/:id", async (req, res) => {
     });
     await question.save();
     await Question.findOne({ _id: id })
-    .populate({
-      path:"author",
-      select: "username name profileImage"
-    })
-    .populate({
-      path: "comments.author",
-      model: "User",
-      select: "username name profileImage"
-    })
-    .then((question) => {
+      .populate({
+        path: "author",
+        select: "username name profileImage",
+      })
+      .populate({
+        path: "comments.author",
+        model: "User",
+        select: "username name profileImage",
+      })
+      .then((question) => {
         res.json(question);
-    });
+      });
   } catch (err) {
     console.log(err);
   }
