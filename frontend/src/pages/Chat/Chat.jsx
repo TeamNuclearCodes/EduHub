@@ -6,6 +6,8 @@ import Groups from "../../components/Groups/Groups";
 import Welcome from "../../components/Welcome/Welcome";
 import ChatSpace from "../../components/ChatSpace/ChatSpace";
 import { UserAuth } from "../../context/AuthContext";
+import axios from "axios";
+import { getFrnds } from "../../utils/APIRoutes";
 
 function Chat() {
   const navigate = useNavigate();
@@ -30,6 +32,25 @@ function Chat() {
       setChatgrps(auth.chatgrps);
       setFrnds(auth.frnds);
     }
+    const getData = async () => {
+      try {
+        console.log(getFrnds);
+        const res = await axios.post(
+          getFrnds,
+          {
+            userid: auth._id,
+          },
+          {
+            headers: {
+              authorization: auth.token,
+            },
+          }
+        );
+        console.log(res);
+        setFrnds(res.data);
+      } catch (err) {}
+    };
+    getData();
   }, []);
   return (
     <ProtectedRoute>

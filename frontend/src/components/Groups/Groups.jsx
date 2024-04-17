@@ -115,19 +115,18 @@ function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
             );
           })
         : frnds.map((frnd, index) => {
-            frnd = JSON.parse(frnd);
             return (
               <div
                 className={`p-2 rounded-md hover:cursor-pointer ${selectedClass(
-                  Object.values(frnd)[0]
+                  frnd.username
                 )}`}
                 key={index}
                 onClick={() => {
-                  setSelectGrp(Object.keys(frnd)[0]);
-                  changeRoom(Object.values(frnd)[0]);
+                  setSelectGrp(frnd.name);
+                  changeRoom(frnd.username); //add room id
                 }}
               >
-                <p className="text-left font-[500]">{Object.keys(frnd)[0]}</p>
+                <p className="text-left font-[500]">{frnd.name}</p>
               </div>
             );
           })}
