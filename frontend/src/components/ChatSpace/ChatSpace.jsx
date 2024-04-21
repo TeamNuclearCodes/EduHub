@@ -5,8 +5,11 @@ import axios from "axios";
 import { clctMsg } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
 import { MdVideocam } from "react-icons/md";
+import { UserAuth } from "../../context/AuthContext";
 
 export default function ChatSpace({ selectedGrp, user, room }) {
+  const { auth, setAuth } = UserAuth();
+
   const chatBoxRef = useRef(null);
 
   const scrollDown = () => {
@@ -28,9 +31,17 @@ export default function ChatSpace({ selectedGrp, user, room }) {
     const fetchData = async () => {
       try {
         socket.emit("join", room);
-        const response = await axios.post(clctMsg, {
-          grp: room,
-        });
+        const response = await axios.post(
+          clctMsg,
+          {
+            grp: room,
+          },
+          {
+            headers: {
+              authorization: auth.token,
+            },
+          }
+        );
         setMsg(response.data);
       } catch (error) {
         console.error("Error fetching messages:", error);

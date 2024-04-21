@@ -15,7 +15,7 @@ function Chat() {
   const { auth } = UserAuth();
   const [chatgrps, setChatgrps] = useState([]);
   const [frnds, setFrnds] = useState([]);
-  const [room, setRoom] = useState(undefined);
+  const [room, setRoom] = useState("");
 
   const [selectedGrp, setSelectedGrps] = useState(undefined);
   const changeSelected = (grp) => {
