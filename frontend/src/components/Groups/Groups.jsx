@@ -24,10 +24,18 @@ function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
     e.preventDefault();
     try {
       console.log(joinGroup);
-      const res = await axios.post(joinGroup, {
-        grp: grpName,
-        user: auth.username,
-      });
+      const res = await axios.post(
+        joinGroup,
+        {
+          grp: grpName,
+          user: auth.username,
+        },
+        {
+          headers: {
+            authorization: auth.token,
+          },
+        }
+      );
       addValueToList(grpName);
     } catch (err) {
       console.log(err);
@@ -38,10 +46,18 @@ function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
     e.preventDefault();
     if (grpName === "") return;
     try {
-      const res = await axios.post(createGrp, {
-        grp: grpName,
-        user: auth.username,
-      });
+      const res = await axios.post(
+        createGrp,
+        {
+          grp: grpName,
+          user: auth.username,
+        },
+        {
+          headers: {
+            authorization: auth.token,
+          },
+        }
+      );
       addValueToList(grpName);
     } catch (err) {
       console.log(err);
@@ -57,7 +73,7 @@ function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
   }
 
   const selectedClass = (grp) => {
-    return room === grp ? "selected" : "bg-zinc-800";
+    return room.split("+").includes(grp) ? "selected" : "bg-zinc-800";
   };
 
   return (
@@ -123,7 +139,11 @@ function Groups({ frnds, grps, handleSelect, selectedGrp, changeRoom, room }) {
                 key={index}
                 onClick={() => {
                   setSelectGrp(frnd.name);
-                  changeRoom(frnd.username); //add room id
+                  if (auth.username > frnd.username) {
+                    changeRoom(frnd.username + "+" + auth.username);
+                  } else {
+                    changeRoom(auth.username + "+" + frnd.username);
+                  }
                 }}
               >
                 <p className="text-left font-[500]">{frnd.name}</p>

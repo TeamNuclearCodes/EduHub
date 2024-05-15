@@ -5,9 +5,12 @@ import { chat } from "../../utils/APIRoutes";
 import { io } from "socket.io-client";
 import Button from "../Button";
 import { IoIosSend } from "react-icons/io";
+import { UserAuth } from "../../context/AuthContext";
 
-function Input({ currentGrp, user}) {
+function Input({ currentGrp, user }) {
   const socket = io(import.meta.env.VITE_API_URL);
+  const { auth, setAuth } = UserAuth();
+
   const [msg, setMsg] = useState("");
   const sendMsg = async (e) => {
     e.preventDefault();
@@ -19,11 +22,19 @@ function Input({ currentGrp, user}) {
         console.log("sender connected");
       });
       socket.emit("send-message", msg, currentGrp, user);
-      const res = await axios.post(chat, {
-        grp: currentGrp,
-        msg: msg,
-        from: user,
-      });
+      const res = await axios.post(
+        chat,
+        {
+          grp: currentGrp,
+          msg: msg,
+          from: user,
+        },
+        {
+          headers: {
+            authorization: auth.token,
+          },
+        }
+      );
       console.log(res);
     } catch (err) {
       console.log(err);
